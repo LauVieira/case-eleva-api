@@ -1,9 +1,9 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require('../utils/database');
 
-class Sector extends Sequelize.Model { }
+class School extends Sequelize.Model { }
 
-Sector.init(
+School.init(
   {
     id: {
       type: Sequelize.INTEGER,
@@ -11,17 +11,24 @@ Sector.init(
       allowNull: false,
       primaryKey: true,
     },
+    sectorId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
-    code: {
+    address: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
     },
-    color: {
+    headteacher: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    phone: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -32,4 +39,4 @@ Sector.init(
   }
 );
 
-module.exports = Sector;
+module.exports = School;
