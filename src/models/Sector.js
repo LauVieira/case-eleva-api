@@ -11,7 +11,12 @@ User.init(
       allowNull: false,
       primaryKey: true,
     },
-    sector: {
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    code: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true
