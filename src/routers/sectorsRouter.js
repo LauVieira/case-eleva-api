@@ -7,4 +7,11 @@ router.get('/', async (req, res) => {
   res.status(200).send(sectors);
 });
 
+router.get('/:id/schools', async (req, res) => {
+  const { id } = req.params;
+
+  const sectorSchools = await SectorController.getSchoolsBySector(id);
+  res.status(200).send(sectorSchools);
+});
+
 module.exports = router;

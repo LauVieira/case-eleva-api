@@ -35,7 +35,7 @@ School.init(
   }, 
   {
     sequelize,
-    modelName: 'sector',
+    modelName: 'school',
   }
 );
 
