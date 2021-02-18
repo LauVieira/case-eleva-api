@@ -1,6 +1,6 @@
 require('express-async-errors');
 require('dotenv').config();
-// require('./utils/loadRelationships');
+require('./utils/loadRelationships');
 
 const express = require('express');
 const cors = require('cors');
