@@ -16,4 +16,11 @@ router.get('/:id/classes', async (req, res) => {
   res.status(200).send(classesList);
 });
 
+router.post('/', async (req, res) => {
+  const schoolData = req.body;
+
+  const classesList = await SchoolController.getClassesBySchool(id);
+  res.status(200).send(classesList);
+});
+
 module.exports = router;
