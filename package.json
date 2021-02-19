@@ -13,7 +13,8 @@
     "start": "node src/server.js",
     "seeds": "npx sequelize-cli db:seed:all",
     "eslint": "npx eslint --fix src",
-    "eslint-tests": "npx eslint --fix tests"
+    "eslint-tests": "npx eslint --fix tests",
+    "build": "npm run migrations && npm run seeds"
   },
   "keywords": [],
   "author": "",
