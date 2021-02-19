@@ -1,15 +1,21 @@
 const School = require('../models/School');
 const Class = require('../models/Class');
 const schoolSchema = require('../schemas/schoolSchema');
-const { ConflictError, InvalidDataError } = require('../errors');
+const { ConflictError, InvalidDataError, NotFoundError } = require('../errors');
 const { sanitiseObj } = require('../utils/generalFunctions');
 
 class SchoolController {
-  getSchoolById (id) {
-    return School.findByPk(id);
+  async getSchoolById (id) {
+    const schoolExists = School.findByPk(id);
+    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+
+    return schoolExists;
   }
 
-  getClassesBySchool (id) {
+  async getClassesBySchool (id) {
+    const schoolExists = School.findByPk(id);
+    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+    
     return Class.findAll({
       where: { schoolId: id },
       order: [['name']]

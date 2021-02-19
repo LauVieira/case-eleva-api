@@ -1,5 +1,6 @@
 const Sector = require('../models/Sector');
 const School = require('../models/School');
+const { NotFoundError } = require('../errors');
 
 class SectorController {
   getAll () {
@@ -8,7 +9,10 @@ class SectorController {
     });
   }
 
-  getSchoolsBySector (id) {
+  async getSchoolsBySector (id) {
+    const sectorExists = Sector.findByPk(id);
+    if (!sectorExists) throw new NotFoundError('Setor não encontrado');
+
     return School.findAll({
       where: { sectorId: id },
       order: [['name']]
