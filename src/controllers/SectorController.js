@@ -10,7 +10,7 @@ class SectorController {
   }
 
   async getSchoolsBySector (id) {
-    const sectorExists = Sector.findByPk(id);
+    const sectorExists = await Sector.findByPk(id);
     if (!sectorExists) throw new NotFoundError('Setor não encontrado');
 
     return School.findAll({
