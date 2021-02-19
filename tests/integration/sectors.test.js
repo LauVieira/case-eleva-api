@@ -29,7 +29,7 @@ afterAll(async () => {
   await db.end();
 });
 
-describe('GET /courses/suggestions', () => {
+describe('GET /sectors', () => {
   it('should return 200 and an array of sectors', async () => {
     const sector = await insertSector();
     const response = await agent.get('/sectors');
@@ -43,7 +43,7 @@ describe('GET /courses/suggestions', () => {
   });
 });
 
-describe('GET /courses/suggestions', () => {
+describe('GET /sectors/:id/schools', () => {
   it('should return 200 and an array of sectors', async () => {
     const sector = await insertSector();
     const school = await insertSchool();
@@ -58,7 +58,7 @@ describe('GET /courses/suggestions', () => {
     );
   });
 
-  it('should return 404 when called with an unexisting secotId', async () => {
+  it('should return 404 when called with an unexisting sectorId', async () => {
     const response = await agent.get(`/sectors/-1/schools`);
 
     expect(response.status).toBe(404);

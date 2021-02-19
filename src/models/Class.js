@@ -32,7 +32,7 @@ Class.init(
       allowNull: false,
     },
     status: {
-      type: Sequelize.ENUM('actual', 'completed'),
+      type: Sequelize.ENUM('current', 'completed'),
       allowNull: false,
     },
     maxOccupancy: {

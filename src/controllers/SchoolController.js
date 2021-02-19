@@ -6,14 +6,14 @@ const { sanitiseObj } = require('../utils/generalFunctions');
 
 class SchoolController {
   async getSchoolById (id) {
-    const schoolExists = School.findByPk(id);
+    const schoolExists = await School.findByPk(id);
     if (!schoolExists) throw new NotFoundError('Escola não encontrada');
 
     return schoolExists;
   }
 
   async getClassesBySchool (id) {
-    const schoolExists = School.findByPk(id);
+    const schoolExists = await School.findByPk(id);
     if (!schoolExists) throw new NotFoundError('Escola não encontrada');
     
     return Class.findAll({
