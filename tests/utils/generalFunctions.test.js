@@ -54,10 +54,62 @@ describe('sanitiseObj - function created to use the lib strip-html with any know
     expect(expected).toEqual(expectedArray);
   });
 
-  it('should return undefined when function is called with a non-object parameter', () => {
+  it('should return null when function is called with a non-object parameter', () => {
     const parameter = 'not object';
 
     const expected = generalFunctions.sanitiseObj(parameter);
     expect(expected).toBe(null);
+  });
+
+  it.each([null, undefined, 42, true])('returns null for unsupported input %s', (input) => {
+    expect(generalFunctions.sanitiseObj(input)).toBe(null);
+  });
+
+  it('sanitises nested objects and arrays without mutating the input', () => {
+    const input = {
+      name: '<h1>School &amp; Co</h1>',
+      nested: {
+        values: ['<b>Alpha</b>', { name: '<i>Beta</i>', missing: null }, 2, false],
+      },
+      missing: null,
+      optional: undefined,
+      count: 0,
+    };
+    const original = {
+      name: '<h1>School &amp; Co</h1>',
+      nested: {
+        values: ['<b>Alpha</b>', { name: '<i>Beta</i>', missing: null }, 2, false],
+      },
+      missing: null,
+      optional: undefined,
+      count: 0,
+    };
+
+    const result = generalFunctions.sanitiseObj(input);
+
+    expect(result).toEqual({
+      name: 'School & Co',
+      nested: { values: ['Alpha', { name: 'Beta', missing: null }, 2, false] },
+      missing: null,
+      optional: undefined,
+      count: 0,
+    });
+    expect(input).toEqual(original);
+    expect(result).not.toBe(input);
+    expect(result.nested).not.toBe(input.nested);
+    expect(result.nested.values).not.toBe(input.nested.values);
+    expect(result.nested.values[1]).not.toBe(input.nested.values[1]);
+  });
+
+  it('trims surrounding spaces, preserves internal spaces and removes empty tags', () => {
+    expect(generalFunctions.sanitiseObj({
+      name: '  Escola   Central  ', empty: '<b></b>', spaces: '   ',
+    })).toEqual({ name: 'Escola   Central', empty: '', spaces: '' });
+  });
+
+  it.each([{}, []])('returns a new empty container for %p', (input) => {
+    const result = generalFunctions.sanitiseObj(input);
+    expect(result).toEqual(input);
+    expect(result).not.toBe(input);
   });
 });
