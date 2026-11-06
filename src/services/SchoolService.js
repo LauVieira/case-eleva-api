@@ -1,4 +1,5 @@
 const SchoolRepository = require('../repositories/SchoolRepository');
+const ClassRepository = require('../repositories/ClassRepository');
 const schoolSchema = require('../schemas/schoolSchema');
 const { ConflictError, InvalidDataError, NotFoundError } = require('../errors');
 const { sanitiseObj } = require('../utils/generalFunctions');
@@ -9,6 +10,13 @@ class SchoolService {
     if (!schoolExists) throw new NotFoundError('Escola não encontrada');
 
     return schoolExists;
+  }
+
+  async getClassesBySchool (id) {
+    const schoolExists = await SchoolRepository.findById(id);
+    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+
+    return ClassRepository.findBySchoolId(id);
   }
 
   async createSchool (schoolData) {

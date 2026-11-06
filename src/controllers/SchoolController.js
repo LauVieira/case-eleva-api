@@ -1,6 +1,3 @@
-const School = require('../models/School');
-const Class = require('../models/Class');
-const { NotFoundError } = require('../errors');
 const SchoolService = require('../services/SchoolService');
 
 class SchoolController {
@@ -10,14 +7,10 @@ class SchoolController {
     res.status(200).send(schoolData);
   }
 
-  async getClassesBySchool (id) {
-    const schoolExists = await School.findByPk(id);
-    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
-    
-    return Class.findAll({
-      where: { schoolId: id },
-      order: [['name']]
-    });
+  async getClassesBySchool (req, res) {
+    const { id } = req.params;
+    const classesList = await SchoolService.getClassesBySchool(id);
+    res.status(200).send(classesList);
   }
 
   async createSchool (req, res) {
