@@ -1,8 +1,7 @@
 const School = require('../models/School');
 const Class = require('../models/Class');
-const schoolSchema = require('../schemas/schoolSchema');
-const { ConflictError, InvalidDataError, NotFoundError } = require('../errors');
-const { sanitiseObj } = require('../utils/generalFunctions');
+const { NotFoundError } = require('../errors');
+const SchoolService = require('../services/SchoolService');
 
 class SchoolController {
   async getSchoolById (id) {
@@ -22,19 +21,9 @@ class SchoolController {
     });
   }
 
-  async createSchool (schoolData) {
-    const { error } = schoolSchema.post.validate(schoolData);
-    if (error) throw new InvalidDataError('Não foi possível processar o formato dos dados');
-
-    const schoolExists = await School.findOne({
-      where: { name: schoolData.name }
-    });
-    if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');
-
-    const sanitisedData = sanitiseObj(schoolData);
-    const newSchool = await School.create(sanitisedData);
-    
-    return newSchool;
+  async createSchool (req, res) {
+    const newSchool = await SchoolService.createSchool(req.body);
+    res.status(201).send(newSchool);
   }
 }
 

@@ -16,11 +16,6 @@ router.get('/:id/classes', async (req, res) => {
   res.status(200).send(classesList);
 });
 
-router.post('/', async (req, res) => {
-  const schoolData = req.body;
-
-  const newSchool = await SchoolController.createSchool(schoolData);
-  res.status(201).send(newSchool);
-});
+router.post('/', SchoolController.createSchool);
 
 module.exports = router;

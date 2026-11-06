@@ -1,0 +1,21 @@
+const SchoolRepository = require('../repositories/SchoolRepository');
+const schoolSchema = require('../schemas/schoolSchema');
+const { ConflictError, InvalidDataError } = require('../errors');
+const { sanitiseObj } = require('../utils/generalFunctions');
+
+class SchoolService {
+  async createSchool (schoolData) {
+    const { error } = schoolSchema.post.validate(schoolData);
+    if (error) throw new InvalidDataError('Não foi possível processar o formato dos dados');
+
+    const schoolExists = await SchoolRepository.findByName(schoolData.name);
+    if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');
+
+    const sanitisedData = sanitiseObj(schoolData);
+    const newSchool = await SchoolRepository.create(sanitisedData);
+
+    return newSchool;
+  }
+}
+
+module.exports = new SchoolService();
