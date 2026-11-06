@@ -1,6 +1,10 @@
 const School = require('../models/School');
 
 class SchoolRepository {
+  findById (id) {
+    return School.findByPk(id);
+  }
+
   findByName (name) {
     return School.findOne({
       where: { name },

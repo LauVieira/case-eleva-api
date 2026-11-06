@@ -1,9 +1,16 @@
 const SchoolRepository = require('../repositories/SchoolRepository');
 const schoolSchema = require('../schemas/schoolSchema');
-const { ConflictError, InvalidDataError } = require('../errors');
+const { ConflictError, InvalidDataError, NotFoundError } = require('../errors');
 const { sanitiseObj } = require('../utils/generalFunctions');
 
 class SchoolService {
+  async getSchoolById (id) {
+    const schoolExists = await SchoolRepository.findById(id);
+    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+
+    return schoolExists;
+  }
+
   async createSchool (schoolData) {
     const { error } = schoolSchema.post.validate(schoolData);
     if (error) throw new InvalidDataError('Não foi possível processar o formato dos dados');

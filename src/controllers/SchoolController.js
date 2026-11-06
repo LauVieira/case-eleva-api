@@ -4,11 +4,10 @@ const { NotFoundError } = require('../errors');
 const SchoolService = require('../services/SchoolService');
 
 class SchoolController {
-  async getSchoolById (id) {
-    const schoolExists = await School.findByPk(id);
-    if (!schoolExists) throw new NotFoundError('Escola não encontrada');
-
-    return schoolExists;
+  async getSchoolById (req, res) {
+    const { id } = req.params;
+    const schoolData = await SchoolService.getSchoolById(id);
+    res.status(200).send(schoolData);
   }
 
   async getClassesBySchool (id) {
