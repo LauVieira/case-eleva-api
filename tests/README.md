@@ -15,6 +15,7 @@ não descrevem integralmente o comportamento original.
 | --- | --- |
 | Setores | Listagem completa e ordenada; escolas somente do setor consultado; vazio, ausência e identificador inválido. |
 | Cadastro de escola | Campos obrigatórios/opcionais, limites, telefone canônico, setor existente, rejeição de campos extras e de IDs/datas enviados pelo cliente; nenhuma gravação após rejeição. |
+| Edição de escola | PATCH parcial; preservação de campos omitidos e createdAt; renovação de updatedAt; validação do estado completo; troca de setor sem mudar turmas; conflitos globais e no setor informado, inclusive concorrentes. |
 | Nomes de escola | Sanitização antes da validação; espaços internos e minúsculas; acentos preservados; unicidade global e conflito em criações concorrentes. |
 | Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
 | Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
@@ -35,6 +36,22 @@ Os testes HTTP exercitam o app Express pelas rotas, usando Supertest e PostgreSQ
 real. Um teste sincroniza as consultas de duplicidade para provocar duas inserções
 concorrentes. Outro provoca uma falha de repository para conferir o erro inesperado.
 Esses controles pontuais não simulam as restrições do banco.
+
+## Edição parcial de escola
+
+PATCH /schools/:id aceita um ou mais campos entre sectorId, name, address,
+headteacher e phone. Os campos omitidos mantêm seus valores; o estado resultante
+completo é validado antes de salvar. headteacher vazio vira null; phone só pode
+ser texto canônico ou null. Corpo vazio, campos extras, IDs e datas no corpo são
+rejeitados. A resposta 200 contém a escola persistida, sem totalCapacity, como no
+cadastro; createdAt é preservado e updatedAt reflete a edição.
+
+Quando sectorId é enviado, uma função separada valida o destino e verifica o
+nome resultante nele. Conflito no setor informado retorna 409 com a mensagem
+“Já existe uma escola com este nome neste setor”. A unicidade global continua
+valendo para os outros setores, com a mensagem geral de nome duplicado.
+Setor inexistente e dados inválidos retornam 422; escola inexistente, 404.
+JSON malformado ou primitivo é rejeitado pelo parser existente com 400.
 
 ## Execução
 
@@ -68,7 +85,7 @@ antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
 código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
 implementação é esperada; o resultado posterior utiliza a suíte completa.
 
-Não são cobertas rotas ausentes de edição, exclusão ou escrita de turmas. A mudança
+Não são cobertas rotas ausentes de exclusão de escola ou de escrita de turmas. A mudança
 de situação no teste da capacidade é preparação direta no banco; não representa
 uma rota de edição. Não se verificam frontend, foco, leitor de tela, SSL de produção,
 falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.

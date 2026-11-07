@@ -17,6 +17,11 @@ class SchoolController {
     const newSchool = await SchoolService.createSchool(req.body);
     res.status(201).send(newSchool);
   }
+
+  async updateSchool (req, res) {
+    const school = await SchoolService.updateSchool(req.params.id, req.body);
+    res.status(200).send(school);
+  }
 }
 
 module.exports = new SchoolController();

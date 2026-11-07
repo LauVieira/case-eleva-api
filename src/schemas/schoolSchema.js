@@ -9,6 +9,12 @@ const post = Joi.object({
   phone: Joi.string().pattern(/^\+55\d{10,11}$/).allow(null).strict(),
 }).messages(validationMessages);
 
+const patch = post.fork(['sectorId', 'name', 'address'], (field) => field.optional())
+  .min(1).required().messages({
+    'object.min': 'Informe pelo menos um campo da escola para atualizar.',
+  });
+
 module.exports = {
-  post
+  post,
+  patch,
 };

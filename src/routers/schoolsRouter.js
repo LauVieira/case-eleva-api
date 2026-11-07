@@ -8,4 +8,6 @@ router.get('/:id/classes', SchoolController.getClassesBySchool);
 
 router.post('/', SchoolController.createSchool);
 
+router.patch('/:id', SchoolController.updateSchool);
+
 module.exports = router;

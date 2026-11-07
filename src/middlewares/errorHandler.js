@@ -12,6 +12,11 @@ function errorHandler (error, req, res, next) {
   if (error instanceof Err.InvalidDataError) return res.status(422).send({ message });
   if (error instanceof Err.ConflictError) return res.status(409).send({ message });
 
+  if (error instanceof Err.UpdateError) {
+    console.error(error);
+    return res.status(500).send({ message });
+  }
+
   res.status(500).send({ message: 'Erro interno no servidor. Tente novamente mais tarde.' });
   console.error(error);
 }
