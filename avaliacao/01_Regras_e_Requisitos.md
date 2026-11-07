@@ -226,3 +226,69 @@ Organizar services e repositories por entidade, conforme as responsabilidades re
 Registrar na rodada a versão deste documento utilizada. Mudanças de requisito precisam de decisão da autora, data e motivo. As conclusões devem corresponder ao requisito e à versão efetivamente examinados.
 
 Referências: ABNT NBR 17225:2025; WCAG 2.2 (https://www.w3.org/TR/WCAG22/); heurísticas de Nielsen (https://www.nngroup.com/articles/ten-usability-heuristics/). Os códigos Axx são verificações operacionais do estudo; as referências ABNT indicam localização, sem equivalência integral automática entre normas.
+
+## 7. Implementações futuras
+
+### 7.1 Tratamento de requisições concorrentes
+
+Decisão da autora em 07/11/2026: adiar a implementação da proteção de edições
+concorrentes da mesma turma. Motivo do registro: foi identificado que duas
+requisições podem validar separadamente dados compatíveis com o estado inicial
+e, juntas, persistir um estado final inválido. Esta pendência se relaciona a
+CT01, CT04 e R08; seu registro não significa que o problema esteja corrigido.
+
+Exemplo confirmado: uma turma em Ensino Fundamental / 1º ano recebe, ao mesmo
+tempo, uma edição apenas de segment para Ensino Médio e outra apenas de grade
+para 9º ano. As duas podem retornar sucesso e deixar Ensino Médio / 9º ano no
+banco, combinação incompatível com o contrato.
+
+Na implementação futura, proteger a leitura, a validação do estado resultante
+completo e a gravação contra alterações concorrentes da mesma turma. A abordagem
+proposta é executar essas etapas na mesma transação, adquirindo bloqueio do
+registro na leitura (SELECT ... FOR UPDATE). A segunda edição deve aguardar a
+primeira e validar sobre o estado atualizado. Preservar AR01: o service coordena
+as regras e o repository concentra a transação, o bloqueio e o acesso ao banco.
+
+Acrescentar teste automatizado com requisições concorrentes e PostgreSQL real
+que reproduza o exemplo. Após a correção, uma edição deve ter sucesso e a outra
+deve receber 422 com orientação sobre a combinação inválida, preservando o
+estado válido salvo pela primeira. Conferir também edições concorrentes
+compatíveis, sem perda de campos omitidos, e liberação do bloqueio após erro.
+
+As validações de requisições isoladas continuam obrigatórias e já bloqueiam
+alterar somente o segmento quando o ano mantido fica incompatível. As proteções
+existentes por chaves estrangeiras e índices únicos, inclusive para nomes de
+turmas ativas, permanecem no escopo atual. O adiamento se refere à proteção
+adicional contra edições simultâneas do mesmo registro descrita nesta seção.
+
+### 7.2 Busca de escolas por nome
+
+Proposta da autora registrada em 07/11/2026 para implementação futura: permitir
+localizar e acessar uma escola pelo nome, sem precisar saber ou selecionar
+previamente o setor ao qual ela pertence.
+
+Motivação: exigir que uma pessoa que já conhece o nome da escola também saiba
+seu setor pode impor uma necessidade de memorização e passos adicionais na
+navegação. A proposta se relaciona principalmente a H06 — Reconhecimento, por
+reduzir a dependência de conhecimento prévio do setor, e a H07 — Eficiência,
+por oferecer um caminho direto até a escola. A confirmação dessa dificuldade
+como achado depende da avaliação do percurso no frontend.
+
+No backend, prever busca entre escolas de todos os setores, aceitando parte do
+nome, sem exigir correspondência exata. Uma possibilidade é consultar com LIKE
+do SQL, usando parâmetro de consulta e o padrão de correspondência parcial
+%termo%, sem concatenar a entrada diretamente ao comando SQL. Normalizar o
+termo de forma compatível com os nomes persistidos e preservar a distinção de
+acentos do contrato atual. Manter a direção arquitetural AR01.
+
+No frontend, prever uma barra de busca por nome de escola. Apresentar os
+resultados com o nome da escola e seu setor como contexto e permitir abrir
+diretamente a escola escolhida. Informar quando não houver resultados e
+permitir corrigir ou limpar o termo e realizar outra busca. A busca complementa
+o percurso existente de navegação por setores.
+
+Na implementação, testar correspondência parcial, resultados em setores
+diferentes, ausência de resultados e acesso à escola selecionada. Verificar
+também rótulo acessível, operação por teclado e anúncio dos resultados na
+interface. Esta proposta permanece como evolução futura; não cria uma exigência
+retroativa de busca no recorte atual de H07.
