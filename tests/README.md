@@ -20,8 +20,10 @@ não descrevem integralmente o comportamento original.
 | Nomes de escola | Sanitização antes da validação; espaços internos e minúsculas; acentos preservados; unicidade global e conflito em criações concorrentes. |
 | Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
 | Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
+| Detalhes de turma | Consulta individual de ativa ou encerrada; todos os campos e datas; escola vinculada por ID e nome; reflexo de edições; validação de ID e mensagens de ausência/falha; nenhuma mutação na consulta. |
 | Cadastro de turma | Escola da URL; campos e situação obrigatórios; normalização do nome; opções de segmento/grupo/ano e turno; capacidade zero e limite técnico; unicidade de ativas por escola e conflito concorrente; mensagens de erro e ausência de gravação após rejeição. |
 | Edição de turma | PATCH parcial; vínculo imutável; campos omitidos e data de criação preservados; estado completo e combinação segmento/ano validados; encerramento e reativação; conflitos de nome, inclusive concorrentes; reflexos nos filtros e na capacidade da escola. |
+| Exclusão de turma | Ativas e encerradas; preservação da escola, setor e outras turmas; reflexos nos filtros e capacidade; exclusão da escola após remover a última turma; mensagens de erro e ausência de mutação após rejeição. |
 | Persistência | Colunas opcionais, tamanhos, status textual sem padrão, índice único parcial, capacidade não negativa, limites do inteiro e chaves estrangeiras sem exclusão em cascata. |
 | Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
 | Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
@@ -71,6 +73,20 @@ cascata. ID inválido retorna 422; escola inexistente na consulta inicial, 404;
 falha na exclusão retorna 500 com mensagem de tentativa novamente, sem detalhes
 internos. A confirmação identificando a escola e a possibilidade de cancelar
 pertencem à interface e não são verificadas por estes testes da API.
+
+## Consulta de detalhes de turma
+
+GET /classes/:id retorna 200 com id, schoolId, name, grade, segment, shift,
+status, maxOccupancy, createdAt e updatedAt. Inclui school: { id, name } para
+permitir apresentar o vínculo pelo nome da escola. Os nomes permanecem no
+formato canônico persistido; a formatação de apresentação pertence ao frontend.
+
+A consulta usa ClassController, ClassService e ClassRepository, que busca a
+turma e a escola associada. Turmas ativas e encerradas podem ser consultadas
+diretamente. ID inválido retorna 422; turma inexistente ou já excluída retorna
+404 com “Turma não encontrada”; falha inesperada retorna 500 sem detalhes
+internos. A consulta não altera registros nem datas. Os testes conferem os
+dados completos, as mensagens de erro e o reflexo de edições da turma e da escola.
 
 ## Cadastro de turma
 
@@ -135,6 +151,20 @@ edição em updatedAt. Erros retornam mensagens em JSON: 422 para dados inválid
 Tente novamente.” Os testes verificam as mensagens completas e os dados
 preservados após rejeição.
 
+## Exclusão de turma
+
+DELETE /classes/:id usa ClassController e ClassService e retorna 204 sem corpo
+ao excluir a turma. Tanto current quanto completed podem ser excluídas, inclusive
+com capacidade zero. A operação preserva a escola, o setor e as demais turmas.
+A capacidade total é recalculada pelas consultas existentes, considerando apenas
+as turmas ativas restantes. Após remover todas as turmas, a escola pode ser excluída.
+
+ID inválido retorna 422; turma inexistente na consulta inicial, 404 com
+“Turma não encontrada”; falha na exclusão, 500 com “Não foi possível excluir
+a turma. Tente novamente.” Os testes conferem as mensagens completas e a
+preservação dos registros em erros. Confirmação identificando a turma e opção
+de cancelar pertencem à interface, fora destes testes da API.
+
 ## Execução
 
 Instale as dependências e disponibilize PostgreSQL. TEST_DATABASE_URL seleciona
@@ -167,8 +197,7 @@ antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
 código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
 implementação é esperada; o resultado posterior utiliza a suíte completa.
 
-Não são cobertas rotas ausentes de exclusão ou detalhes de turma. Os testes
-específicos de capacidade também preparam situações diretamente no banco; os
+Os testes específicos de capacidade também preparam situações diretamente no banco; os
 testes de PATCH exercitam a mudança pela API. Não se verificam frontend, foco,
 leitor de tela, SSL de produção,
 falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.

@@ -1,10 +1,17 @@
 const Class = require('../models/Class');
+const School = require('../models/School');
 const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
 const { ConflictError, NotFoundError } = require('../errors');
 
 class ClassRepository {
   findById (id) {
     return Class.findByPk(id);
+  }
+
+  findDetailsById (id) {
+    return Class.findByPk(id, {
+      include: [{ model: School, attributes: ['id', 'name'] }],
+    });
   }
 
   delete (id) {

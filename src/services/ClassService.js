@@ -8,6 +8,13 @@ const normaliseName = require('../utils/normaliseName');
 const validateId = require('../utils/validateId');
 
 class ClassService {
+  async getClassById (id) {
+    id = validateId(id);
+    const classRecord = await ClassRepository.findDetailsById(id);
+    if (!classRecord) throw new NotFoundError('Turma não encontrada');
+    return classRecord;
+  }
+
   validateGrade (segment, grade) {
     const grades = GRADES_BY_SEGMENT[segment];
     if (!grades.includes(grade)) {
