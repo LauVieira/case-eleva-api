@@ -22,7 +22,7 @@ class SchoolService {
   async createSchool (schoolData) {
     const sanitisedData = sanitiseObj(schoolData);
     const { error } = schoolSchema.post.validate(sanitisedData);
-    if (error) throw new InvalidDataError('Não foi possível processar o formato dos dados');
+    if (error) throw new InvalidDataError(error.details[0].message);
 
     const schoolExists = await SchoolRepository.findByName(sanitisedData.name);
     if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');

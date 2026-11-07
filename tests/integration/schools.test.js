@@ -84,7 +84,7 @@ describe('POST /schools', () => {
     
     const response = await agent.post('/schools').send(body)
       .expect('Content-Type', /json/).expect(422);
-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+    expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
     
     await expectNoSchools();
   });
@@ -98,7 +98,7 @@ describe('POST /schools', () => {
       const sector = await insertSector();
       const response = await agent.post('/schools').send(schoolBody(sector.id, { [field]: value }))
         .expect('Content-Type', /json/).expect(422);
-      expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+      expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
       await expectNoSchools();
     },
   );
@@ -108,7 +108,7 @@ describe('POST /schools', () => {
       const sector = await insertSector();
       const response = await agent.post('/schools').send(schoolBody(sector.id, { [field]: 1 }))
         .expect('Content-Type', /json/).expect(422);
-      expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+      expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
       
       await expectNoSchools();
     },
@@ -121,7 +121,7 @@ describe('POST /schools', () => {
     const response = await agent.post('/schools').send(schoolBody(sector.id, {
       name: school.name, phone: null,
     })).expect(422);
-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+    expect(response.body).toEqual({ message: expect.stringContaining('"phone"') });
     
     const stored = await db.query('SELECT * FROM schools');
     expect(JSON.parse(JSON.stringify(stored.rows))).toEqual([school]);
@@ -187,7 +187,7 @@ describe('POST /schools', () => {
 
     const response = await agent.post('/schools').send(schoolBody(sector.id, { name: '   ' }))
       .expect('Content-Type', /json/).expect(422);
-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+    expect(response.body).toEqual({ message: expect.stringContaining('"name"') });
     await expectNoSchools();
   });
 

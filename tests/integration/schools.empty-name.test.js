@@ -14,7 +14,6 @@ describe('POST /schools', () => {
     const response = await agent.post('/schools').send(body);
     const stored = await db.query('SELECT id, name FROM schools');
 
-    // Check both outcomes together so a wrong status does not hide a database write.
     expect({
       status: response.status,
       persistedSchools: stored.rows,
