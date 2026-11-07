@@ -2,7 +2,7 @@ const SchoolRepository = require('../repositories/SchoolRepository');
 const SectorRepository = require('../repositories/SectorRepository');
 const ClassRepository = require('../repositories/ClassRepository');
 const schoolSchema = require('../schemas/schoolSchema');
-const { ConflictError, InvalidDataError, NotFoundError, UpdateError } = require('../errors');
+const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
 const { sanitiseObj } = require('../utils/generalFunctions');
 const validateId = require('../utils/validateId');
 const normaliseName = require('../utils/normaliseName');
@@ -108,6 +108,30 @@ class SchoolService {
     }
     if (!updated) throw new UpdateError('Não foi possível atualizar a escola. Tente novamente.');
     return updated;
+  }
+
+  async validateSchoolDeletion (id) {
+    const hasClasses = await ClassRepository.existsBySchoolId(id);
+    if (hasClasses) {
+      throw new ConflictError('Não é possível excluir esta escola porque existem turmas vinculadas a ela. Exclua primeiro as turmas e tente novamente.');
+    }
+  }
+
+  async deleteSchool (id) {
+    id = validateId(id);
+    const school = await SchoolRepository.findById(id);
+    if (!school) throw new NotFoundError('Escola não encontrada');
+
+    await this.validateSchoolDeletion(id);
+
+    let deleted;
+    try {
+      deleted = await SchoolRepository.delete(id);
+    } catch (error) {
+      if (error instanceof ConflictError) throw error;
+      throw new DeleteError('Não foi possível excluir a escola. Tente novamente.', error);
+    }
+    if (!deleted) throw new DeleteError('Não foi possível excluir a escola. Tente novamente.');
   }
 }
 

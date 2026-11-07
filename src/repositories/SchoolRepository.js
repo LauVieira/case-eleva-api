@@ -1,5 +1,5 @@
 const School = require('../models/School');
-const { UniqueConstraintError } = require('sequelize');
+const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
 const { ConflictError } = require('../errors');
 
 class SchoolRepository {
@@ -42,6 +42,17 @@ class SchoolRepository {
     } catch (error) {
       if (error instanceof UniqueConstraintError && error.parent.constraint === 'schools_name_key') {
         throw new ConflictError('Já existe uma escola com este nome');
+      }
+      throw error;
+    }
+  }
+
+  async delete (id) {
+    try {
+      return await School.destroy({ where: { id } });
+    } catch (error) {
+      if (error instanceof ForeignKeyConstraintError && error.parent.constraint === 'classes_schoolId_fkey') {
+        throw new ConflictError('Não é possível excluir esta escola porque existem turmas vinculadas a ela. Exclua primeiro as turmas e tente novamente.');
       }
       throw error;
     }

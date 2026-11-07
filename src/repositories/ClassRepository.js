@@ -1,6 +1,11 @@
 const Class = require('../models/Class');
 
 class ClassRepository {
+  async existsBySchoolId (schoolId) {
+    const existing = await Class.findOne({ where: { schoolId }, attributes: ['id'], raw: true });
+    return !!existing;
+  }
+
   async sumCurrentCapacity (schoolId) {
     const total = await Class.sum('maxOccupancy', { where: { schoolId, status: 'current' } });
     return Number(total || 0);

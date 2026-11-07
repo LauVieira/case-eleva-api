@@ -12,7 +12,7 @@ function errorHandler (error, req, res, next) {
   if (error instanceof Err.InvalidDataError) return res.status(422).send({ message });
   if (error instanceof Err.ConflictError) return res.status(409).send({ message });
 
-  if (error instanceof Err.UpdateError) {
+  if (error instanceof Err.UpdateError || error instanceof Err.DeleteError) {
     console.error(error);
     return res.status(500).send({ message });
   }

@@ -22,6 +22,11 @@ class SchoolController {
     const school = await SchoolService.updateSchool(req.params.id, req.body);
     res.status(200).send(school);
   }
+
+  async deleteSchool (req, res) {
+    await SchoolService.deleteSchool(req.params.id);
+    res.status(204).send();
+  }
 }
 
 module.exports = new SchoolController();

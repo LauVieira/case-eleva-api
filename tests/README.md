@@ -16,6 +16,7 @@ não descrevem integralmente o comportamento original.
 | Setores | Listagem completa e ordenada; escolas somente do setor consultado; vazio, ausência e identificador inválido. |
 | Cadastro de escola | Campos obrigatórios/opcionais, limites, telefone canônico, setor existente, rejeição de campos extras e de IDs/datas enviados pelo cliente; nenhuma gravação após rejeição. |
 | Edição de escola | PATCH parcial; preservação de campos omitidos e createdAt; renovação de updatedAt; validação do estado completo; troca de setor sem mudar turmas; conflitos globais e no setor informado, inclusive concorrentes. |
+| Exclusão de escola | DELETE sem turmas; bloqueio por qualquer turma, inclusive encerrada ou de capacidade zero; integridade sem cascata e proteção contra inserção de turma entre checagem e exclusão. |
 | Nomes de escola | Sanitização antes da validação; espaços internos e minúsculas; acentos preservados; unicidade global e conflito em criações concorrentes. |
 | Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
 | Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
@@ -53,6 +54,22 @@ valendo para os outros setores, com a mensagem geral de nome duplicado.
 Setor inexistente e dados inválidos retornam 422; escola inexistente, 404.
 JSON malformado ou primitivo é rejeitado pelo parser existente com 400.
 
+## Exclusão de escola
+
+DELETE /schools/:id retorna 204 sem corpo ao excluir uma escola sem turmas.
+Uma função separada no service verifica a existência de qualquer turma vinculada,
+sem filtro por situação. Se houver, retorna 409 com o motivo e a orientação:
+“Não é possível excluir esta escola porque existem turmas vinculadas a ela.
+Exclua primeiro as turmas e tente novamente.” Turmas encerradas também bloqueiam
+a exclusão; o filtro Encerradas ou Todas permite localizá-las.
+
+A chave estrangeira protege a exclusão mesmo se uma turma for inserida depois
+da checagem; esse conflito também retorna 409. Nenhum dependente é excluído em
+cascata. ID inválido retorna 422; escola inexistente na consulta inicial, 404;
+falha na exclusão retorna 500 com mensagem de tentativa novamente, sem detalhes
+internos. A confirmação identificando a escola e a possibilidade de cancelar
+pertencem à interface e não são verificadas por estes testes da API.
+
 ## Execução
 
 Instale as dependências e disponibilize PostgreSQL. TEST_DATABASE_URL seleciona
@@ -85,7 +102,7 @@ antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
 código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
 implementação é esperada; o resultado posterior utiliza a suíte completa.
 
-Não são cobertas rotas ausentes de exclusão de escola ou de escrita de turmas. A mudança
+Não são cobertas rotas ausentes de escrita de turmas. A mudança
 de situação no teste da capacidade é preparação direta no banco; não representa
 uma rota de edição. Não se verificam frontend, foco, leitor de tela, SSL de produção,
 falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.

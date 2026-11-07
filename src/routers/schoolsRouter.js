@@ -10,4 +10,6 @@ router.post('/', SchoolController.createSchool);
 
 router.patch('/:id', SchoolController.updateSchool);
 
+router.delete('/:id', SchoolController.deleteSchool);
+
 module.exports = router;
