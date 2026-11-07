@@ -1,4 +1,5 @@
 const SchoolService = require('../services/SchoolService');
+const ClassService = require('../services/ClassService');
 
 class SchoolController {
   async getSchoolById (req, res) {
@@ -16,6 +17,11 @@ class SchoolController {
   async createSchool (req, res) {
     const newSchool = await SchoolService.createSchool(req.body);
     res.status(201).send(newSchool);
+  }
+
+  async createClass (req, res) {
+    const created = await ClassService.createClass(req.params.id, req.body);
+    res.status(201).send(created);
   }
 
   async updateSchool (req, res) {

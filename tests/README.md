@@ -20,6 +20,7 @@ não descrevem integralmente o comportamento original.
 | Nomes de escola | Sanitização antes da validação; espaços internos e minúsculas; acentos preservados; unicidade global e conflito em criações concorrentes. |
 | Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
 | Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
+| Cadastro de turma | Escola da URL; campos e situação obrigatórios; normalização do nome; opções de segmento/grupo/ano e turno; capacidade zero e limite técnico; unicidade de ativas por escola e conflito concorrente; mensagens de erro e ausência de gravação após rejeição. |
 | Persistência | Colunas opcionais, tamanhos, status textual sem padrão, índice único parcial, capacidade não negativa, limites do inteiro e chaves estrangeiras sem exclusão em cascata. |
 | Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
 | Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
@@ -70,6 +71,41 @@ falha na exclusão retorna 500 com mensagem de tentativa novamente, sem detalhes
 internos. A confirmação identificando a escola e a possibilidade de cancelar
 pertencem à interface e não são verificadas por estes testes da API.
 
+## Cadastro de turma
+
+POST /schools/:id/classes cria uma turma na escola identificada pela URL.
+O schoolsRouter encaminha ao SchoolController; as regras ficam no ClassService,
+que consulta SchoolRepository e ClassRepository. O corpo contém name, segment,
+grade, shift, status e maxOccupancy, todos obrigatórios. schoolId, IDs, datas e
+campos desconhecidos no corpo são rejeitados; a escola é definida pela URL.
+
+Exemplo de corpo:
+
+~~~json
+{
+  "name": "Turma A",
+  "segment": "Ensino Fundamental",
+  "grade": "1º ano",
+  "shift": "Matutino",
+  "status": "current",
+  "maxOccupancy": 20
+}
+~~~
+
+O nome é sanitizado e normalizado antes de validar o limite de 50 caracteres.
+grade precisa pertencer ao segmento selecionado; turnos e situações seguem as
+constantes existentes. status deve ser enviado como current ou completed, sem
+padrão no backend. maxOccupancy aceita zero até 2147483647, sem teto adicional
+de negócio. Joi converte texto numérico em capacidade inteira quando válido.
+
+A resposta 201 contém a turma persistida com schoolId, id, createdAt e updatedAt.
+Turmas current só podem repetir nome em escolas diferentes; encerradas podem
+repetir nomes. Conflitos de ativas retornam 409 com “Já existe uma turma ativa
+com este nome nesta escola. Informe outro nome.” O índice parcial garante essa
+regra em criações concorrentes. Escola inexistente retorna 404; dados inválidos,
+422; JSON malformado ou primitivo, 400; falhas inesperadas, 500 sem detalhes
+internos. Os testes verificam também as mensagens de erro completas.
+
 ## Execução
 
 Instale as dependências e disponibilize PostgreSQL. TEST_DATABASE_URL seleciona
@@ -102,7 +138,7 @@ antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
 código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
 implementação é esperada; o resultado posterior utiliza a suíte completa.
 
-Não são cobertas rotas ausentes de escrita de turmas. A mudança
+Não são cobertas rotas ausentes de edição, exclusão ou detalhes de turma. A mudança
 de situação no teste da capacidade é preparação direta no banco; não representa
 uma rota de edição. Não se verificam frontend, foco, leitor de tela, SSL de produção,
 falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.
