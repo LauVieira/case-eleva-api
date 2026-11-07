@@ -28,7 +28,7 @@ não descrevem integralmente o comportamento original.
 | Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
 | Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
 | Erros | JSON; campo, causa e orientação em português; JSON malformado em 400, validação em 422, ausência em 404, conflito em 409 e falha inesperada em 500 sem detalhes internos. |
-| Sanitização | Objetos/arrays aninhados, tipos diversos, HTML, entidades e espaços; sem modificar a entrada. |
+| Sanitização | Objetos/arrays aninhados, tipos diversos, HTML, entidades e espaços; preservação de chaves próprias como `__proto__`, sem herdar seus campos nem modificar a entrada; rejeição pela API sem gravação indevida. |
 
 O Joi valida e converte strings numéricas dos IDs; os serviços utilizam o valor
 retornado pela validação. Também aceita notação decimal ou exponencial quando o

@@ -1,0 +1,63 @@
+diff --git a/src/utils/generalFunctions.js b/src/utils/generalFunctions.js
+index 43923c3..c7d5b42 100644
+--- a/src/utils/generalFunctions.js
++++ b/src/utils/generalFunctions.js
+@@ -2,7 +2,7 @@ const { stripHtml } = require('string-strip-html');
+ 
+ function sanitiseObj (obj) {
+   if (obj === null || typeof (obj) !== 'object') return null;
+-  const newObj = Array.isArray(obj) ? [] : {};
++  const newObj = Array.isArray(obj) ? [] : Object.create(null);
+ 
+   const objEntries = Object.entries(obj);
+   objEntries.forEach((entry) => {
+diff --git a/tests/README.md b/tests/README.md
+index f27bb44..8b47354 100644
+--- a/tests/README.md
++++ b/tests/README.md
+@@ -28,7 +28,7 @@ não descrevem integralmente o comportamento original.
+ | Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
+ | Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
+ | Erros | JSON; campo, causa e orientação em português; JSON malformado em 400, validação em 422, ausência em 404, conflito em 409 e falha inesperada em 500 sem detalhes internos. |
+-| Sanitização | Objetos/arrays aninhados, tipos diversos, HTML, entidades e espaços; sem modificar a entrada. |
++| Sanitização | Objetos/arrays aninhados, tipos diversos, HTML, entidades e espaços; preservação de chaves próprias como `__proto__`, sem herdar seus campos nem modificar a entrada; rejeição pela API sem gravação indevida. |
+ 
+ O Joi valida e converte strings numéricas dos IDs; os serviços utilizam o valor
+ retornado pela validação. Também aceita notação decimal ou exponencial quando o
+diff --git a/tests/utils/generalFunctions.test.js b/tests/utils/generalFunctions.test.js
+index 4c5f33e..e7723d0 100644
+--- a/tests/utils/generalFunctions.test.js
++++ b/tests/utils/generalFunctions.test.js
+@@ -112,4 +112,32 @@ describe('sanitiseObj - function created to use the lib strip-html with any know
+     expect(result).toEqual(input);
+     expect(result).not.toBe(input);
+   });
++
++  it.each([
++    [{ status: '<b>completed</b>' }, { status: 'completed' }],
++    [null, null],
++    ['<b>texto</b>', 'texto'],
++  ])('preserves __proto__ as an own data property without inheriting its fields: %p', (value, sanitised) => {
++    const input = JSON.parse(JSON.stringify({ ['__proto__']: value }));
++    const result = generalFunctions.sanitiseObj(input);
++
++    expect(Object.prototype.hasOwnProperty.call(result, '__proto__')).toBe(true);
++    expect(result.__proto__).toEqual(sanitised);
++    expect(result.status).toBeUndefined();
++    expect(JSON.stringify(result)).toBe(JSON.stringify({ ['__proto__']: sanitised }));
++    expect(input.__proto__).toEqual(value);
++  });
++
++  it('preserves special keys in objects nested inside arrays and keeps sanitising their text', () => {
++    const input = JSON.parse('{"items":[{"__proto__":{"status":"<b>completed</b>"},"name":"<i>Turma A</i>"}]}');
++    const result = generalFunctions.sanitiseObj(input);
++
++    expect(Array.isArray(result.items)).toBe(true);
++    expect(Object.keys(result.items[0])).toEqual(['__proto__', 'name']);
++    expect(result.items[0].status).toBeUndefined();
++    expect(result.items[0].__proto__).toEqual({ status: 'completed' });
++    expect(result.items[0].name).toBe('Turma A');
++    expect(input.items[0].__proto__.status).toBe('<b>completed</b>');
++    expect(input.items[0].name).toBe('<i>Turma A</i>');
++  });
+ });

@@ -112,4 +112,32 @@ describe('sanitiseObj - function created to use the lib strip-html with any know
     expect(result).toEqual(input);
     expect(result).not.toBe(input);
   });
+
+  it.each([
+    [{ status: '<b>completed</b>' }, { status: 'completed' }],
+    [null, null],
+    ['<b>texto</b>', 'texto'],
+  ])('preserves __proto__ as an own data property without inheriting its fields: %p', (value, sanitised) => {
+    const input = JSON.parse(JSON.stringify({ ['__proto__']: value }));
+    const result = generalFunctions.sanitiseObj(input);
+
+    expect(Object.prototype.hasOwnProperty.call(result, '__proto__')).toBe(true);
+    expect(result.__proto__).toEqual(sanitised);
+    expect(result.status).toBeUndefined();
+    expect(JSON.stringify(result)).toBe(JSON.stringify({ ['__proto__']: sanitised }));
+    expect(input.__proto__).toEqual(value);
+  });
+
+  it('preserves special keys in objects nested inside arrays and keeps sanitising their text', () => {
+    const input = JSON.parse('{"items":[{"__proto__":{"status":"<b>completed</b>"},"name":"<i>Turma A</i>"}]}');
+    const result = generalFunctions.sanitiseObj(input);
+
+    expect(Array.isArray(result.items)).toBe(true);
+    expect(Object.keys(result.items[0])).toEqual(['__proto__', 'name']);
+    expect(result.items[0].status).toBeUndefined();
+    expect(result.items[0].__proto__).toEqual({ status: 'completed' });
+    expect(result.items[0].name).toBe('Turma A');
+    expect(input.items[0].__proto__.status).toBe('<b>completed</b>');
+    expect(input.items[0].name).toBe('<i>Turma A</i>');
+  });
 });

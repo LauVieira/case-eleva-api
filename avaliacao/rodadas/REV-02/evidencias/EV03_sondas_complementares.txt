@@ -1,0 +1,217 @@
+Rodada REV-02, execução r01; data de referência da autora: 2026-11-07.
+Commit: 88999fc422b6fce8a562f0adb9d88868f84f6e74
+Estado de referência e hashes: EV01_manifesto_antes.json.
+Escopo de inspeção: somente as seis operações da seção 3 do HANDOVER.md.
+A suíte completa é verificação de regressão; não amplia o escopo da inspeção.
+Ambiente: PostgreSQL real, schemas exclusivos por suíte, sem limpeza ou migration de public.
+Node: v24.16.0; Jest: 26.6.3
+Comando: node node_modules/jest/bin/jest.js --runInBand --roots avaliacao/rodadas/REV-02/evidencias --coverage=false --detectOpenHandles --verbose --runTestsByPath avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js
+Início UTC do sistema: 2026-11-07T22:52:12.039Z
+Fim UTC do sistema: 2026-11-07T22:52:15.924Z
+Código de saída: 1; sinal: null
+
+  console.log
+    AMBIENTE_ISOLADO {"banco":"case_eleva","schema":"eleva_test_14964_658897a374904","versao":"PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"}
+
+      at Object.<anonymous> (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:12:11)
+
+  console.log
+    OBSERVACAO {"id":"S06-controle","input":{"unexpected":{"status":"completed","maxOccupancy":0}},"expected":{"status":422,"sem_mutacao":true},"observed":{"status":422,"body":{"message":"\"unexpected\" não é permitido. Remova este campo da requisição."},"stored":{"id":22,"schoolId":32,"name":"class 3","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"current","maxOccupancy":20,"createdAt":null,"updatedAt":null}}}
+
+      at record (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:22:11)
+
+  console.log
+    OBSERVACAO {"id":"S06-escola","input":{"address":"Rua alterada pela sonda","__proto__":{"sectorId":35}},"expected":{"status":422,"stored":{"id":33,"sectorId":34,"name":"school 3","address":"Avenida Amaral Peixoto 555","headteacher":"Ada Luiz","phone":"+5522981310329","createdAt":null,"updatedAt":null}},"observed":{"status":200,"body":{"id":33,"sectorId":35,"name":"school 3","address":"Rua alterada pela sonda","headteacher":"Ada Luiz","phone":"+5522981310329","createdAt":null,"updatedAt":"2026-11-07T22:52:15.696Z"},"stored":{"id":33,"sectorId":35,"name":"school 3","address":"Rua alterada pela sonda","headteacher":"Ada Luiz","phone":"+5522981310329","createdAt":null,"updatedAt":"2026-11-07T22:52:15.696Z"}}}
+
+      at record (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:22:11)
+
+  console.log
+    OBSERVACAO {"id":"S06-cadastro","input":{"__proto__":{"name":"turma de sonda","segment":"Ensino Fundamental","grade":"1º ano","shift":"Matutino","status":"current","maxOccupancy":20}},"expected":{"status":422,"stored":[]},"observed":{"status":201,"body":{"id":23,"name":"turma de sonda","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"current","maxOccupancy":20,"schoolId":34,"updatedAt":"2026-11-07T22:52:15.708Z","createdAt":"2026-11-07T22:52:15.708Z"},"stored":[{"id":23,"schoolId":34,"name":"turma de sonda","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"current","maxOccupancy":20,"createdAt":"2026-11-07T22:52:15.708Z","updatedAt":"2026-11-07T22:52:15.708Z"}]}}
+
+      at record (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:22:11)
+
+  console.log
+    OBSERVACAO {"id":"S06-turma","input":{"__proto__":{"status":"completed","maxOccupancy":0}},"expected":{"status":422,"stored":{"id":24,"schoolId":35,"name":"class 3","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"current","maxOccupancy":20,"createdAt":null,"updatedAt":null}},"observed":{"status":200,"body":{"id":24,"schoolId":35,"name":"class 3","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"completed","maxOccupancy":0,"createdAt":null,"updatedAt":"2026-11-07T22:52:15.723Z"},"stored":{"id":24,"schoolId":35,"name":"class 3","grade":"1º ano","segment":"Ensino Fundamental","shift":"Matutino","status":"completed","maxOccupancy":0,"createdAt":null,"updatedAt":"2026-11-07T22:52:15.723Z"}}}
+
+      at record (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:22:11)
+
+FAIL avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js
+  REV-02 — complementos do contrato das operações do handover
+    √ S01: PATCH de escola aceita o limite/formato exato de name: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (54 ms)
+    √ S01: PATCH de escola aceita o limite/formato exato de address: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (15 ms)
+    √ S01: PATCH de escola aceita o limite/formato exato de headteacher: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (12 ms)
+    √ S01: PATCH de escola aceita o limite/formato exato de phone: "+552223456789" (13 ms)
+    √ S01: PATCH de escola aceita o limite/formato exato de phone: "+5522998765432" (18 ms)
+    √ S02: PATCH de escola rejeita tipo inválido de name sem gravar: false (10 ms)
+    √ S02: PATCH de escola rejeita tipo inválido de address sem gravar: {} (9 ms)
+    √ S02: PATCH de escola rejeita tipo inválido de headteacher sem gravar: [] (10 ms)
+    √ S02: PATCH de escola rejeita tipo inválido de phone sem gravar: false (9 ms)
+    √ S02: PATCH de escola rejeita tipo inválido de sectorId sem gravar: "12abc" (10 ms)
+    √ S03: cadastro de turma converte capacidade textual 0 para 0 (16 ms)
+    √ S03: cadastro de turma converte capacidade textual 2.0 para 2 (21 ms)
+    √ S03: cadastro de turma converte capacidade textual 2e1 para 20 (13 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Educação Infantil — Creche / Berçário (17 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Educação Infantil — Creche / Maternal I (11 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Educação Infantil — Creche / Maternal II (17 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Educação Infantil — Pré-escola / Jardim I (14 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Educação Infantil — Pré-escola / Jardim II (12 ms)
+    × S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 1º ano (27 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 2º ano (16 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 3º ano (11 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 4º ano (11 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 5º ano (12 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 6º ano (11 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 7º ano (14 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 8º ano (12 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 9º ano (13 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Médio / 1º ano (12 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Médio / 2º ano (13 ms)
+    √ S04: PATCH de turma aceita a combinação aprovada Ensino Médio / 3º ano (12 ms)
+    √ S05: detalhes refletem a mudança de setor da escola sem alterar vínculo nem datas da turma (28 ms)
+  REV-02 — rejeição de campos desconhecidos antes da sanitização
+    √ S06-controle: campo desconhecido comum é rejeitado no PATCH sem alterar a turma (10 ms)
+    × S06-escola: __proto__ deve ser rejeitado sem aplicar o sectorId aninhado (15 ms)
+    × S06-cadastro: __proto__ não substitui os seis campos obrigatórios do cadastro de turma (13 ms)
+    × S06-turma: __proto__ deve ser rejeitado sem aplicar status e capacidade aninhados (15 ms)
+
+  ● REV-02 — complementos do contrato das operações do handover › S04: PATCH de turma aceita a combinação aprovada Ensino Fundamental / 1º ano
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+    @@ -6,7 +6,7 @@
+        "name": "class 3",
+        "schoolId": 19,
+        "segment": "Ensino Fundamental",
+        "shift": "Matutino",
+        "status": "completed",
+    -   "updatedAt": Any<String>,
+    +   "updatedAt": null,
+      }
+
+      77 |     const stored = asJson((await db.query('SELECT * FROM classes WHERE id = $1', [current.id])).rows[0]);
+      78 |     expect(response.status).toBe(200);
+    > 79 |     expect(response.body).toEqual({ ...current, segment, grade, updatedAt: expect.any(String) });
+         |                           ^
+      80 |     expect(stored).toEqual(response.body);
+      81 |   });
+      82 | 
+
+      at avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:79:27
+
+  ● REV-02 — rejeição de campos desconhecidos antes da sanitização › S06-escola: __proto__ deve ser rejeitado sem aplicar o sectorId aninhado
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 4
+    + Received  + 4
+
+      Object {
+    -   "status": 422,
+    +   "status": 200,
+        "stored": Object {
+    -     "address": "Avenida Amaral Peixoto 555",
+    +     "address": "Rua alterada pela sonda",
+          "createdAt": null,
+          "headteacher": "Ada Luiz",
+          "id": 33,
+          "name": "school 3",
+          "phone": "+5522981310329",
+    -     "sectorId": 34,
+    -     "updatedAt": null,
+    +     "sectorId": 35,
+    +     "updatedAt": "2026-11-07T22:52:15.696Z",
+        },
+      }
+
+      117 |     const stored = asJson((await db.query('SELECT * FROM schools WHERE id = $1', [school.id])).rows[0]);
+      118 |     record('S06-escola', JSON.parse(raw), { status: 422, stored: school }, { status: response.status, body: response.body, stored });
+    > 119 |     expect({ status: response.status, stored }).toEqual({ status: 422, stored: school });
+          |                                                 ^
+      120 |   });
+      121 | 
+      122 |   it('S06-cadastro: __proto__ não substitui os seis campos obrigatórios do cadastro de turma', async () => {
+
+      at Object.<anonymous> (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:119:49)
+
+  ● REV-02 — rejeição de campos desconhecidos antes da sanitização › S06-cadastro: __proto__ não substitui os seis campos obrigatórios do cadastro de turma
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  2
+    + Received  + 15
+
+      Object {
+    -   "status": 422,
+    -   "stored": Array [],
+    +   "status": 201,
+    +   "stored": Array [
+    +     Object {
+    +       "createdAt": "2026-11-07T22:52:15.708Z",
+    +       "grade": "1º ano",
+    +       "id": 23,
+    +       "maxOccupancy": 20,
+    +       "name": "turma de sonda",
+    +       "schoolId": 34,
+    +       "segment": "Ensino Fundamental",
+    +       "shift": "Matutino",
+    +       "status": "current",
+    +       "updatedAt": "2026-11-07T22:52:15.708Z",
+    +     },
+    +   ],
+      }
+
+      128 |     const stored = asJson((await db.query('SELECT * FROM classes ORDER BY id')).rows);
+      129 |     record('S06-cadastro', JSON.parse(raw), { status: 422, stored: [] }, { status: response.status, body: response.body, stored });
+    > 130 |     expect({ status: response.status, stored }).toEqual({ status: 422, stored: [] });
+          |                                                 ^
+      131 |   });
+      132 | 
+      133 |   it('S06-turma: __proto__ deve ser rejeitado sem aplicar status e capacidade aninhados', async () => {
+
+      at Object.<anonymous> (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:130:49)
+
+  ● REV-02 — rejeição de campos desconhecidos antes da sanitização › S06-turma: __proto__ deve ser rejeitado sem aplicar status e capacidade aninhados
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 4
+    + Received  + 4
+
+      Object {
+    -   "status": 422,
+    +   "status": 200,
+        "stored": Object {
+          "createdAt": null,
+          "grade": "1º ano",
+          "id": 24,
+    -     "maxOccupancy": 20,
+    +     "maxOccupancy": 0,
+          "name": "class 3",
+          "schoolId": 35,
+          "segment": "Ensino Fundamental",
+          "shift": "Matutino",
+    -     "status": "current",
+    -     "updatedAt": null,
+    +     "status": "completed",
+    +     "updatedAt": "2026-11-07T22:52:15.723Z",
+        },
+      }
+
+      140 |     const stored = asJson((await db.query('SELECT * FROM classes WHERE id = $1', [current.id])).rows[0]);
+      141 |     record('S06-turma', JSON.parse(raw), { status: 422, stored: current }, { status: response.status, body: response.body, stored });
+    > 142 |     expect({ status: response.status, stored }).toEqual({ status: 422, stored: current });
+          |                                                 ^
+      143 |   });
+      144 | });
+      145 | 
+
+      at Object.<anonymous> (avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js:142:49)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 31 passed, 35 total
+Snapshots:   0 total
+Time:        2.819 s
+Ran all test suites within paths "avaliacao/rodadas/REV-02/evidencias/sondas-handover.test.js".

@@ -1,0 +1,842 @@
+REV-02 / r01; data de referencia da autora: 2026-11-07.
+Commit: 88999fc422b6fce8a562f0adb9d88868f84f6e74
+Inspecao limitada aos fluxos e dependencias das seis operacoes da secao 3 do handover.
+Comando de estilo (sem autofix): node node_modules/eslint/bin/eslint.js src/app.js src/controllers/SchoolController.js src/controllers/ClassController.js src/services/SchoolService.js src/services/ClassService.js src/repositories/SchoolRepository.js src/repositories/ClassRepository.js src/routers/schoolsRouter.js src/routers/classesRouter.js src/schemas/schoolSchema.js src/schemas/classSchema.js src/schemas/validationMessages.js src/models/School.js src/models/Class.js src/models/associations.js src/constants/classOptions.js src/middlewares/errorHandler.js src/errors/UpdateError.js src/errors/DeleteError.js src/errors/index.js src/utils/normaliseName.js src/utils/validateId.js src/utils/generalFunctions.js tests/integration/schools.patch.test.js tests/integration/schools.delete.test.js tests/integration/classes.create.test.js tests/integration/classes.patch.test.js tests/integration/classes.delete.test.js tests/integration/classes.details.test.js
+Codigo de saida ESLint: 0
+
+
+Trechos numerados preservados para localizar a inspecao; fonte exata completa em EV01_codigo_e_instrumentos.snapshot.json.
+FILE: src/app.js
+   1: require('express-async-errors');
+   2: require('dotenv').config();
+   3: require('./models/associations');
+   4: 
+   5: const express = require('express');
+   6: const cors = require('cors');
+   7: const sectorsRouter = require('./routers/sectorsRouter');
+   8: const schoolsRouter = require('./routers/schoolsRouter');
+   9: const classesRouter = require('./routers/classesRouter');
+  10: const errorHandler = require('./middlewares/errorHandler');
+  11: 
+  12: const app = express();
+  13: 
+  14: app.use(cors());
+  15: app.use(express.json());
+  16: 
+  17: app.use('/sectors', sectorsRouter);
+  18: app.use('/schools', schoolsRouter);
+  19: app.use('/classes', classesRouter);
+  20: 
+  21: app.use(errorHandler);
+  22: 
+  23: module.exports = app;
+  24: 
+
+FILE: src/controllers/SchoolController.js
+   1: const SchoolService = require('../services/SchoolService');
+   2: const ClassService = require('../services/ClassService');
+   3: 
+   4: class SchoolController {
+   5:   async getSchoolById (req, res) {
+   6:     const { id } = req.params;
+   7:     const schoolData = await SchoolService.getSchoolById(id);
+   8:     res.status(200).send(schoolData);
+   9:   }
+  10: 
+  11:   async getClassesBySchool (req, res) {
+  12:     const { id } = req.params;
+  13:     const classesList = await SchoolService.getClassesBySchool(id, req.query.status);
+  14:     res.status(200).send(classesList);
+  15:   }
+  16: 
+  17:   async createSchool (req, res) {
+  18:     const newSchool = await SchoolService.createSchool(req.body);
+  19:     res.status(201).send(newSchool);
+  20:   }
+  21: 
+  22:   async createClass (req, res) {
+  23:     const created = await ClassService.createClass(req.params.id, req.body);
+  24:     res.status(201).send(created);
+  25:   }
+  26: 
+  27:   async updateSchool (req, res) {
+  28:     const school = await SchoolService.updateSchool(req.params.id, req.body);
+  29:     res.status(200).send(school);
+  30:   }
+  31: 
+  32:   async deleteSchool (req, res) {
+  33:     await SchoolService.deleteSchool(req.params.id);
+  34:     res.status(204).send();
+  35:   }
+  36: }
+  37: 
+  38: module.exports = new SchoolController();
+  39: 
+
+FILE: src/controllers/ClassController.js
+   1: const ClassService = require('../services/ClassService');
+   2: 
+   3: class ClassController {
+   4:   async getClassById (req, res) {
+   5:     const classRecord = await ClassService.getClassById(req.params.id);
+   6:     res.status(200).send(classRecord);
+   7:   }
+   8: 
+   9:   async updateClass (req, res) {
+  10:     const updated = await ClassService.updateClass(req.params.id, req.body);
+  11:     res.status(200).send(updated);
+  12:   }
+  13: 
+  14:   async deleteClass (req, res) {
+  15:     await ClassService.deleteClass(req.params.id);
+  16:     res.status(204).send();
+  17:   }
+  18: }
+  19: 
+  20: module.exports = new ClassController();
+  21: 
+
+FILE: src/services/SchoolService.js
+   1: const SchoolRepository = require('../repositories/SchoolRepository');
+   2: const SectorRepository = require('../repositories/SectorRepository');
+   3: const ClassRepository = require('../repositories/ClassRepository');
+   4: const schoolSchema = require('../schemas/schoolSchema');
+   5: const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
+   6: const { sanitiseObj } = require('../utils/generalFunctions');
+   7: const validateId = require('../utils/validateId');
+   8: const normaliseName = require('../utils/normaliseName');
+   9: const classListSchema = require('../schemas/classListSchema');
+  10: 
+  11: class SchoolService {
+  12:   async getSchoolById (id) {
+  13:     id = validateId(id);
+  14:     const schoolExists = await SchoolRepository.findDetailsById(id);
+  15:     if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+  16: 
+  17:     const totalCapacity = await ClassRepository.sumCurrentCapacity(id);
+  18:     return { ...schoolExists, totalCapacity };
+  19:   }
+  20: 
+  21:   async getClassesBySchool (id, status = 'current') {
+  22:     id = validateId(id);
+  23:     const { error } = classListSchema.validate({ status });
+  24:     if (error) throw new InvalidDataError(error.details[0].message);
+  25:     const schoolExists = await SchoolRepository.findById(id);
+  26:     if (!schoolExists) throw new NotFoundError('Escola não encontrada');
+  27: 
+  28:     return ClassRepository.findBySchoolId(id, status);
+  29:   }
+  30: 
+  31:   async createSchool (schoolData) {
+  32:     const sanitisedData = sanitiseObj(schoolData);
+  33:     if (sanitisedData && !Array.isArray(sanitisedData)) {
+  34:       sanitisedData.name = normaliseName(sanitisedData.name);
+  35:       if (sanitisedData.headteacher === undefined || sanitisedData.headteacher === '') sanitisedData.headteacher = null;
+  36:       if (sanitisedData.phone === undefined) sanitisedData.phone = null;
+  37:     }
+  38:     const { error, value: validatedData } = schoolSchema.post.validate(sanitisedData);
+  39:     if (error) throw new InvalidDataError(error.details[0].message);
+  40: 
+  41:     const schoolExists = await SchoolRepository.findByName(validatedData.name);
+  42:     if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');
+  43: 
+  44:     const sectorExists = await SectorRepository.findById(validatedData.sectorId);
+  45:     if (!sectorExists) {
+  46:       throw new InvalidDataError('sectorId: setor não encontrado. Informe um setor existente.');
+  47:     }
+  48: 
+  49:     const newSchool = await SchoolRepository.create(validatedData);
+  50: 
+  51:     return newSchool;
+  52:   }
+  53: 
+  54:   async validateSectorChange (sectorId, name, schoolId) {
+  55:     const sector = await SectorRepository.findById(sectorId);
+  56:     if (!sector) {
+  57:       throw new InvalidDataError('sectorId: setor não encontrado. Informe um setor existente.');
+  58:     }
+  59: 
+  60:     const duplicate = await SchoolRepository.findByName(name);
+  61:     if (duplicate && duplicate.id !== schoolId && duplicate.sectorId === sectorId) {
+  62:       throw new ConflictError('Já existe uma escola com este nome neste setor');
+  63:     }
+  64:   }
+  65: 
+  66:   async updateSchool (id, schoolData) {
+  67:     id = validateId(id);
+  68:     const sanitisedData = sanitiseObj(schoolData);
+  69:     if (sanitisedData && !Array.isArray(sanitisedData)) {
+  70:       if (sanitisedData.name !== undefined) sanitisedData.name = normaliseName(sanitisedData.name);
+  71:       if (sanitisedData.headteacher === '') sanitisedData.headteacher = null;
+  72:     }
+  73:     const { error, value: changes } = schoolSchema.patch.validate(sanitisedData);
+  74:     if (error) throw new InvalidDataError(error.details[0].message);
+  75: 
+  76:     const school = await SchoolRepository.findById(id);
+  77:     if (!school) throw new NotFoundError('Escola não encontrada');
+  78: 
+  79:     const current = {
+  80:       sectorId: school.sectorId,
+  81:       name: school.name,
+  82:       address: school.address,
+  83:       headteacher: school.headteacher,
+  84:       phone: school.phone,
+  85:     };
+  86:     const { error: stateError, value: result } = schoolSchema.post.validate({ ...current, ...changes });
+  87:     if (stateError) throw new InvalidDataError(stateError.details[0].message);
+  88: 
+  89:     if (changes.sectorId !== undefined) {
+  90:       await this.validateSectorChange(result.sectorId, result.name, id);
+  91:     }
+  92:     if (changes.name !== undefined) {
+  93:       const duplicate = await SchoolRepository.findByName(result.name);
+  94:       if (duplicate && duplicate.id !== id) throw new ConflictError('Já existe uma escola com este nome');
+  95:     }
+  96: 
+  97:     let updated;
+  98:     try {
+  99:       updated = await SchoolRepository.update(id, changes);
+ 100:     } catch (updateError) {
+ 101:       if (updateError instanceof ConflictError) {
+ 102:         if (changes.sectorId !== undefined) {
+ 103:           await this.validateSectorChange(result.sectorId, result.name, id);
+ 104:         }
+ 105:         throw updateError;
+ 106:       }
+ 107:       throw new UpdateError('Não foi possível atualizar a escola. Tente novamente.', updateError);
+ 108:     }
+ 109:     if (!updated) throw new UpdateError('Não foi possível atualizar a escola. Tente novamente.');
+ 110:     return updated;
+ 111:   }
+ 112: 
+ 113:   async validateSchoolDeletion (id) {
+ 114:     const hasClasses = await ClassRepository.existsBySchoolId(id);
+ 115:     if (hasClasses) {
+ 116:       throw new ConflictError('Não é possível excluir esta escola porque existem turmas vinculadas a ela. Exclua primeiro as turmas e tente novamente.');
+ 117:     }
+ 118:   }
+ 119: 
+ 120:   async deleteSchool (id) {
+ 121:     id = validateId(id);
+ 122:     const school = await SchoolRepository.findById(id);
+ 123:     if (!school) throw new NotFoundError('Escola não encontrada');
+ 124: 
+ 125:     await this.validateSchoolDeletion(id);
+ 126: 
+ 127:     let deleted;
+ 128:     try {
+ 129:       deleted = await SchoolRepository.delete(id);
+ 130:     } catch (error) {
+ 131:       if (error instanceof ConflictError) throw error;
+ 132:       throw new DeleteError('Não foi possível excluir a escola. Tente novamente.', error);
+ 133:     }
+ 134:     if (!deleted) throw new DeleteError('Não foi possível excluir a escola. Tente novamente.');
+ 135:   }
+ 136: }
+ 137: 
+ 138: module.exports = new SchoolService();
+ 139: 
+
+FILE: src/services/ClassService.js
+   1: const ClassRepository = require('../repositories/ClassRepository');
+   2: const SchoolRepository = require('../repositories/SchoolRepository');
+   3: const classSchema = require('../schemas/classSchema');
+   4: const { GRADES_BY_SEGMENT } = require('../constants/classOptions');
+   5: const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
+   6: const { sanitiseObj } = require('../utils/generalFunctions');
+   7: const normaliseName = require('../utils/normaliseName');
+   8: const validateId = require('../utils/validateId');
+   9: 
+  10: class ClassService {
+  11:   async getClassById (id) {
+  12:     id = validateId(id);
+  13:     const classRecord = await ClassRepository.findDetailsById(id);
+  14:     if (!classRecord) throw new NotFoundError('Turma não encontrada');
+  15:     return classRecord;
+  16:   }
+  17: 
+  18:   validateGrade (segment, grade) {
+  19:     const grades = GRADES_BY_SEGMENT[segment];
+  20:     if (!grades.includes(grade)) {
+  21:       throw new InvalidDataError(`"grade" deve pertencer ao segmento "${segment}". Informe uma das opções: ${grades.join(', ')}.`);
+  22:     }
+  23:   }
+  24: 
+  25:   async createClass (schoolId, classData) {
+  26:     schoolId = validateId(schoolId);
+  27:     const sanitised = sanitiseObj(classData);
+  28:     if (sanitised && !Array.isArray(sanitised)) sanitised.name = normaliseName(sanitised.name);
+  29: 
+  30:     const { error, value: data } = classSchema.post.validate(sanitised);
+  31:     if (error) throw new InvalidDataError(error.details[0].message);
+  32: 
+  33:     this.validateGrade(data.segment, data.grade);
+  34: 
+  35:     const school = await SchoolRepository.findById(schoolId);
+  36:     if (!school) throw new NotFoundError('Escola não encontrada');
+  37: 
+  38:     if (data.status === 'current') {
+  39:       const duplicate = await ClassRepository.findCurrentByName(schoolId, data.name);
+  40:       if (duplicate) throw new ConflictError('Já existe uma turma ativa com este nome nesta escola. Informe outro nome.');
+  41:     }
+  42: 
+  43:     return ClassRepository.create({ ...data, schoolId });
+  44:   }
+  45: 
+  46:   async updateClass (id, classData) {
+  47:     id = validateId(id);
+  48:     const sanitised = sanitiseObj(classData);
+  49:     if (sanitised && !Array.isArray(sanitised) && sanitised.name !== undefined) {
+  50:       sanitised.name = normaliseName(sanitised.name);
+  51:     }
+  52:     const { error, value: changes } = classSchema.patch.validate(sanitised);
+  53:     if (error) throw new InvalidDataError(error.details[0].message);
+  54: 
+  55:     const classRecord = await ClassRepository.findById(id);
+  56:     if (!classRecord) throw new NotFoundError('Turma não encontrada');
+  57: 
+  58:     const current = {
+  59:       name: classRecord.name,
+  60:       grade: classRecord.grade,
+  61:       segment: classRecord.segment,
+  62:       shift: classRecord.shift,
+  63:       status: classRecord.status,
+  64:       maxOccupancy: classRecord.maxOccupancy,
+  65:     };
+  66:     const { error: stateError, value: result } = classSchema.post.validate({ ...current, ...changes });
+  67:     if (stateError) throw new InvalidDataError(stateError.details[0].message);
+  68:     this.validateGrade(result.segment, result.grade);
+  69: 
+  70:     if (result.status === 'current') {
+  71:       const duplicate = await ClassRepository.findCurrentByName(classRecord.schoolId, result.name);
+  72:       if (duplicate && duplicate.id !== id) {
+  73:         throw new ConflictError('Já existe uma turma ativa com este nome nesta escola. Informe outro nome.');
+  74:       }
+  75:     }
+  76: 
+  77:     let updated;
+  78:     try {
+  79:       updated = await ClassRepository.update(classRecord, changes);
+  80:     } catch (updateError) {
+  81:       if (updateError instanceof ConflictError) throw updateError;
+  82:       throw new UpdateError('Não foi possível atualizar a turma. Tente novamente.', updateError);
+  83:     }
+  84:     if (!updated) throw new UpdateError('Não foi possível atualizar a turma. Tente novamente.');
+  85:     return updated;
+  86:   }
+  87: 
+  88:   async deleteClass (id) {
+  89:     id = validateId(id);
+  90:     const classRecord = await ClassRepository.findById(id);
+  91:     if (!classRecord) throw new NotFoundError('Turma não encontrada');
+  92: 
+  93:     let deleted;
+  94:     try {
+  95:       deleted = await ClassRepository.delete(id);
+  96:     } catch (error) {
+  97:       throw new DeleteError('Não foi possível excluir a turma. Tente novamente.', error);
+  98:     }
+  99:     if (!deleted) throw new DeleteError('Não foi possível excluir a turma. Tente novamente.');
+ 100:   }
+ 101: }
+ 102: 
+ 103: module.exports = new ClassService();
+ 104: 
+
+FILE: src/repositories/SchoolRepository.js
+   1: const School = require('../models/School');
+   2: const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
+   3: const { ConflictError } = require('../errors');
+   4: 
+   5: class SchoolRepository {
+   6:   findById (id) {
+   7:     return School.findByPk(id);
+   8:   }
+   9: 
+  10:   findDetailsById (id) {
+  11:     return School.findByPk(id, { raw: true });
+  12:   }
+  13: 
+  14:   findByName (name) {
+  15:     return School.findOne({
+  16:       where: { name },
+  17:     });
+  18:   }
+  19: 
+  20:   findBySectorId (sectorId) {
+  21:     return School.findAll({
+  22:       where: { sectorId },
+  23:       order: [['name']],
+  24:     });
+  25:   }
+  26: 
+  27:   async create (schoolData) {
+  28:     try {
+  29:       return await School.create(schoolData);
+  30:     } catch (error) {
+  31:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'schools_name_key') {
+  32:         throw new ConflictError('Já existe uma escola com este nome');
+  33:       }
+  34:       throw error;
+  35:     }
+  36:   }
+  37: 
+  38:   async update (id, schoolData) {
+  39:     try {
+  40:       const [, schools] = await School.update(schoolData, { where: { id }, returning: true });
+  41:       return schools[0] || null;
+  42:     } catch (error) {
+  43:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'schools_name_key') {
+  44:         throw new ConflictError('Já existe uma escola com este nome');
+  45:       }
+  46:       throw error;
+  47:     }
+  48:   }
+  49: 
+  50:   async delete (id) {
+  51:     try {
+  52:       return await School.destroy({ where: { id } });
+  53:     } catch (error) {
+  54:       if (error instanceof ForeignKeyConstraintError && error.parent.constraint === 'classes_schoolId_fkey') {
+  55:         throw new ConflictError('Não é possível excluir esta escola porque existem turmas vinculadas a ela. Exclua primeiro as turmas e tente novamente.');
+  56:       }
+  57:       throw error;
+  58:     }
+  59:   }
+  60: }
+  61: 
+  62: module.exports = new SchoolRepository();
+  63: 
+
+FILE: src/repositories/ClassRepository.js
+   1: const Class = require('../models/Class');
+   2: const School = require('../models/School');
+   3: const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
+   4: const { ConflictError, NotFoundError } = require('../errors');
+   5: 
+   6: class ClassRepository {
+   7:   findById (id) {
+   8:     return Class.findByPk(id);
+   9:   }
+  10: 
+  11:   findDetailsById (id) {
+  12:     return Class.findByPk(id, {
+  13:       include: [{ model: School, attributes: ['id', 'name'] }],
+  14:     });
+  15:   }
+  16: 
+  17:   delete (id) {
+  18:     return Class.destroy({ where: { id } });
+  19:   }
+  20: 
+  21:   async update (classRecord, changes) {
+  22:     try {
+  23:       return await classRecord.update(changes, { returning: true });
+  24:     } catch (error) {
+  25:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'classes_current_name_unique') {
+  26:         throw new ConflictError('Já existe uma turma ativa com este nome nesta escola. Informe outro nome.');
+  27:       }
+  28:       throw error;
+  29:     }
+  30:   }
+  31: 
+  32:   findCurrentByName (schoolId, name) {
+  33:     return Class.findOne({ where: { schoolId, name, status: 'current' } });
+  34:   }
+  35: 
+  36:   async create (classData) {
+  37:     try {
+  38:       return await Class.create(classData);
+  39:     } catch (error) {
+  40:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'classes_current_name_unique') {
+  41:         throw new ConflictError('Já existe uma turma ativa com este nome nesta escola. Informe outro nome.');
+  42:       }
+  43:       if (error instanceof ForeignKeyConstraintError && error.parent.constraint === 'classes_schoolId_fkey') {
+  44:         throw new NotFoundError('Escola não encontrada');
+  45:       }
+  46:       throw error;
+  47:     }
+  48:   }
+  49: 
+  50:   async existsBySchoolId (schoolId) {
+  51:     const existing = await Class.findOne({ where: { schoolId }, attributes: ['id'], raw: true });
+  52:     return !!existing;
+  53:   }
+  54: 
+  55:   async sumCurrentCapacity (schoolId) {
+  56:     const total = await Class.sum('maxOccupancy', { where: { schoolId, status: 'current' } });
+  57:     return Number(total || 0);
+  58:   }
+  59: 
+  60:   findBySchoolId (schoolId, status = 'current') {
+  61:     const where = { schoolId };
+  62:     if (status !== 'all') where.status = status;
+  63:     return Class.findAll({
+  64:       where,
+  65:       order: [['name']],
+  66:     });
+  67:   }
+  68: }
+  69: 
+  70: module.exports = new ClassRepository();
+  71: 
+
+FILE: src/routers/schoolsRouter.js
+   1: const router = require('express').Router();
+   2: 
+   3: const SchoolController = require('../controllers/SchoolController');
+   4: 
+   5: router.get('/:id', SchoolController.getSchoolById);
+   6: 
+   7: router.get('/:id/classes', SchoolController.getClassesBySchool);
+   8: 
+   9: router.post('/:id/classes', SchoolController.createClass);
+  10: 
+  11: router.post('/', SchoolController.createSchool);
+  12: 
+  13: router.patch('/:id', SchoolController.updateSchool);
+  14: 
+  15: router.delete('/:id', SchoolController.deleteSchool);
+  16: 
+  17: module.exports = router;
+  18: 
+
+FILE: src/routers/classesRouter.js
+   1: const router = require('express').Router();
+   2: const ClassController = require('../controllers/ClassController');
+   3: 
+   4: router.get('/:id', ClassController.getClassById);
+   5: 
+   6: router.patch('/:id', ClassController.updateClass);
+   7: 
+   8: router.delete('/:id', ClassController.deleteClass);
+   9: 
+  10: module.exports = router;
+  11: 
+
+FILE: src/schemas/schoolSchema.js
+   1: const Joi = require('joi');
+   2: const validationMessages = require('./validationMessages');
+   3: 
+   4: const post = Joi.object({
+   5:   sectorId: Joi.number().integer().positive().max(2147483647).required(),
+   6:   name: Joi.string().max(100).required(),
+   7:   address: Joi.string().max(255).required(),
+   8:   headteacher: Joi.string().max(150).allow(null),
+   9:   phone: Joi.string().pattern(/^\+55\d{10,11}$/).allow(null).strict(),
+  10: }).messages(validationMessages);
+  11: 
+  12: const patch = post.fork(['sectorId', 'name', 'address'], (field) => field.optional())
+  13:   .min(1).required().messages({
+  14:     'object.min': 'Informe pelo menos um campo da escola para atualizar.',
+  15:   });
+  16: 
+  17: module.exports = {
+  18:   post,
+  19:   patch,
+  20: };
+  21: 
+
+FILE: src/schemas/classSchema.js
+   1: const Joi = require('joi');
+   2: const { GRADES_BY_SEGMENT, SHIFTS, STATUSES } = require('../constants/classOptions');
+   3: const validationMessages = require('./validationMessages');
+   4: 
+   5: const post = Joi.object({
+   6:   name: Joi.string().max(50).required(),
+   7:   grade: Joi.string().required(),
+   8:   segment: Joi.string().valid(...Object.keys(GRADES_BY_SEGMENT)).required(),
+   9:   shift: Joi.string().valid(...SHIFTS).required(),
+  10:   status: Joi.string().valid(...STATUSES).required(),
+  11:   maxOccupancy: Joi.number().integer().min(0).max(2147483647).required(),
+  12: }).required().messages({
+  13:   ...validationMessages,
+  14:   'object.base': 'O corpo da requisição deve ser um objeto com os campos da turma.',
+  15:   'number.base': '{{#label}} deve ser um número inteiro maior ou igual a zero.',
+  16:   'number.min': '{{#label}} deve ser um inteiro maior ou igual a zero.',
+  17: });
+  18: 
+  19: const patch = post.fork(['name', 'grade', 'segment', 'shift', 'status', 'maxOccupancy'], (field) => field.optional())
+  20:   .min(1).messages({
+  21:     'object.min': 'Informe pelo menos um campo da turma para atualizar.',
+  22:   });
+  23: 
+  24: module.exports = { post, patch };
+  25: 
+
+FILE: src/schemas/validationMessages.js
+   1: module.exports = {
+   2:   'any.required': '{{#label}} é obrigatório. Informe um valor.',
+   3:   'any.only': '{{#label}} deve ser uma das opções: {{#valids}}.',
+   4:   'string.base': '{{#label}} deve ser informado como texto.',
+   5:   'string.empty': '{{#label}} não pode ficar vazio. Informe um texto.',
+   6:   'string.max': '{{#label}} deve ter no máximo {{#limit}} caracteres.',
+   7:   'string.pattern.base': '{{#label}} deve conter +55, DDD e número, sem máscara ou espaços. Exemplo: +552223456789.',
+   8:   'number.base': '{{#label}} deve ser um número inteiro positivo.',
+   9:   'number.integer': '{{#label}} deve ser um número inteiro, sem casas decimais.',
+  10:   'number.positive': '{{#label}} deve ser um inteiro maior que zero.',
+  11:   'number.max': '{{#label}} deve ser no máximo {{#limit}}.',
+  12:   'number.unsafe': '{{#label}} excede o limite numérico permitido. Informe um inteiro até 2147483647.',
+  13:   'number.infinity': '{{#label}} deve ser um inteiro até 2147483647.',
+  14:   'object.base': 'O corpo da requisição deve ser um objeto com os campos da escola.',
+  15:   'object.unknown': '{{#label}} não é permitido. Remova este campo da requisição.',
+  16: };
+  17: 
+
+FILE: src/models/School.js
+   1: const { Sequelize } = require('sequelize');
+   2: const sequelize = require('../utils/database');
+   3: 
+   4: class School extends Sequelize.Model { }
+   5: 
+   6: School.init(
+   7:   {
+   8:     id: {
+   9:       type: Sequelize.INTEGER,
+  10:       autoIncrement: true,
+  11:       allowNull: false,
+  12:       primaryKey: true,
+  13:     },
+  14:     sectorId: {
+  15:       type: Sequelize.INTEGER,
+  16:       allowNull: false,
+  17:     },
+  18:     name: {
+  19:       type: Sequelize.STRING(100),
+  20:       allowNull: false,
+  21:       unique: true,
+  22:     },
+  23:     address: {
+  24:       type: Sequelize.STRING,
+  25:       allowNull: false,
+  26:     },
+  27:     headteacher: {
+  28:       type: Sequelize.STRING(150),
+  29:       allowNull: true,
+  30:     },
+  31:     phone: {
+  32:       type: Sequelize.STRING(14),
+  33:       allowNull: true,
+  34:     },
+  35:   }, 
+  36:   {
+  37:     sequelize,
+  38:     modelName: 'school',
+  39:   }
+  40: );
+  41: 
+  42: module.exports = School;
+  43: 
+
+FILE: src/models/Class.js
+   1: const { Sequelize } = require('sequelize');
+   2: const sequelize = require('../utils/database');
+   3: const { GRADES_BY_SEGMENT, SHIFTS, STATUSES } = require('../constants/classOptions');
+   4: const normaliseName = require('../utils/normaliseName');
+   5: 
+   6: class Class extends Sequelize.Model { }
+   7: 
+   8: Class.init(
+   9:   {
+  10:     id: {
+  11:       type: Sequelize.INTEGER,
+  12:       autoIncrement: true,
+  13:       allowNull: false,
+  14:       primaryKey: true,
+  15:     },
+  16:     schoolId: {
+  17:       type: Sequelize.INTEGER,
+  18:       allowNull: false,
+  19:     },
+  20:     name: {
+  21:       type: Sequelize.STRING(50),
+  22:       allowNull: false,
+  23:       validate: {
+  24:         len: [1, 50],
+  25:         canonical (value) {
+  26:           if (value !== normaliseName(value)) throw new Error('name deve estar normalizado');
+  27:         },
+  28:       },
+  29:     },
+  30:     grade: {
+  31:       type: Sequelize.STRING,
+  32:       allowNull: false,
+  33:     },
+  34:     segment: {
+  35:       type: Sequelize.STRING,
+  36:       allowNull: false,
+  37:       validate: { isIn: [Object.keys(GRADES_BY_SEGMENT)] },
+  38:     },
+  39:     shift: {
+  40:       type: Sequelize.STRING,
+  41:       allowNull: false,
+  42:       validate: { isIn: [SHIFTS] },
+  43:     },
+  44:     status: {
+  45:       type: Sequelize.STRING(20),
+  46:       allowNull: false,
+  47:       validate: { isIn: [STATUSES] },
+  48:     },
+  49:     maxOccupancy: {
+  50:       type: Sequelize.INTEGER,
+  51:       allowNull: false,
+  52:       validate: { isInt: true, min: 0, max: 2147483647 },
+  53:     },
+  54:   }, 
+  55:   {
+  56:     sequelize,
+  57:     modelName: 'class',
+  58:     validate: {
+  59:       gradeBelongsToSegment () {
+  60:         const grades = GRADES_BY_SEGMENT[this.segment];
+  61:         if (!grades || !grades.includes(this.grade)) throw new Error('grade incompatível com segment');
+  62:       },
+  63:     },
+  64:   }
+  65: );
+  66: 
+  67: module.exports = Class;
+  68: 
+
+FILE: src/models/associations.js
+   1: const Class = require('./Class');
+   2: const School = require('./School');
+   3: const Sector = require('./Sector');
+   4: 
+   5: School.belongsTo(Sector);
+   6: Sector.hasMany(School);
+   7: Class.belongsTo(School);
+   8: School.hasMany(Class);
+   9: 
+
+FILE: src/constants/classOptions.js
+   1: const GRADES_BY_SEGMENT = Object.freeze({
+   2:   'Educação Infantil — Creche': Object.freeze(['Berçário', 'Maternal I', 'Maternal II']),
+   3:   'Educação Infantil — Pré-escola': Object.freeze(['Jardim I', 'Jardim II']),
+   4:   'Ensino Fundamental': Object.freeze(Array.from({ length: 9 }, (_, index) => `${index + 1}º ano`)),
+   5:   'Ensino Médio': Object.freeze(['1º ano', '2º ano', '3º ano']),
+   6: });
+   7: const SHIFTS = Object.freeze(['Matutino', 'Vespertino', 'Noturno', 'Integral']);
+   8: const STATUSES = Object.freeze(['current', 'completed']);
+   9: 
+  10: module.exports = { GRADES_BY_SEGMENT, SHIFTS, STATUSES };
+  11: 
+
+FILE: src/middlewares/errorHandler.js
+   1: const Err = require('../errors');
+   2: 
+   3: /* eslint-disable-next-line no-unused-vars */
+   4: function errorHandler (error, req, res, next) {
+   5:   const { message } = error;
+   6: 
+   7:   if (error.type === 'entity.parse.failed') {
+   8:     return res.status(400).send({ message: 'JSON inválido. Corrija o corpo da requisição e tente novamente.' });
+   9:   }
+  10: 
+  11:   if (error instanceof Err.NotFoundError) return res.status(404).send({ message });
+  12:   if (error instanceof Err.InvalidDataError) return res.status(422).send({ message });
+  13:   if (error instanceof Err.ConflictError) return res.status(409).send({ message });
+  14: 
+  15:   if (error instanceof Err.UpdateError || error instanceof Err.DeleteError) {
+  16:     console.error(error);
+  17:     return res.status(500).send({ message });
+  18:   }
+  19: 
+  20:   res.status(500).send({ message: 'Erro interno no servidor. Tente novamente mais tarde.' });
+  21:   console.error(error);
+  22: }
+  23: 
+  24: module.exports = errorHandler;
+  25: 
+
+FILE: src/errors/UpdateError.js
+   1: class UpdateError extends Error {
+   2:   constructor (message, cause) {
+   3:     super(message);
+   4:     this.name = 'UpdateError';
+   5:     this.cause = cause;
+   6:   }
+   7: }
+   8: 
+   9: module.exports = UpdateError;
+  10: 
+
+FILE: src/errors/DeleteError.js
+   1: class DeleteError extends Error {
+   2:   constructor (message, cause) {
+   3:     super(message);
+   4:     this.name = 'DeleteError';
+   5:     this.cause = cause;
+   6:   }
+   7: }
+   8: 
+   9: module.exports = DeleteError;
+  10: 
+
+FILE: src/errors/index.js
+   1: const ConflictError = require('./ConflictError');
+   2: const InvalidDataError = require('./InvalidDataError');
+   3: const NotFoundError = require('./NotFoundError');
+   4: const UpdateError = require('./UpdateError');
+   5: const DeleteError = require('./DeleteError');
+   6: 
+   7: module.exports = {
+   8:   ConflictError,
+   9:   InvalidDataError,
+  10:   NotFoundError,
+  11:   UpdateError,
+  12:   DeleteError,
+  13: };
+  14: 
+
+FILE: src/utils/normaliseName.js
+   1: function normaliseName (value) {
+   2:   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ').toLowerCase() : value;
+   3: }
+   4: 
+   5: module.exports = normaliseName;
+   6: 
+
+FILE: src/utils/validateId.js
+   1: const Joi = require('joi');
+   2: const { InvalidDataError } = require('../errors');
+   3: const validationMessages = require('../schemas/validationMessages');
+   4: 
+   5: const schema = Joi.object({
+   6:   id: Joi.number().integer().positive().max(2147483647).required(),
+   7: }).messages(validationMessages);
+   8: 
+   9: function validateId (id) {
+  10:   const { error, value } = schema.validate({ id });
+  11:   if (error) throw new InvalidDataError(error.details[0].message);
+  12:   return value.id;
+  13: }
+  14: 
+  15: module.exports = validateId;
+  16: 
+
+FILE: src/utils/generalFunctions.js
+   1: const { stripHtml } = require('string-strip-html');
+   2: 
+   3: function sanitiseObj (obj) {
+   4:   if (obj === null || typeof (obj) !== 'object') return null;
+   5:   const newObj = Array.isArray(obj) ? [] : {};
+   6: 
+   7:   const objEntries = Object.entries(obj);
+   8:   objEntries.forEach((entry) => {
+   9:     const [key, value] = entry;
+  10:     if (typeof (value) === 'string') {
+  11:       const sanitisedString = stripHtml(value).result;
+  12:       newObj[key] = sanitisedString;
+  13:     } else if (typeof (value) === 'object') {
+  14:       newObj[key] = sanitiseObj(value);
+  15:     } else {
+  16:       newObj[key] = value;
+  17:     }
+  18:   });
+  19: 
+  20:   return newObj;
+  21: }
+  22: 
+  23: module.exports = { sanitiseObj };
+  24: 

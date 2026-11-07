@@ -1,0 +1,60 @@
+REV-02 — pedido e delimitação confirmados pela autora
+Data de referência: 07/11/2026. Execução: r01.
+
+Mensagens da autora, preservadas na ordem da conversa:
+
+1. "agora eu quero uma segunda rodada de avaliação, a REV-02 de tudo o que foi implementado. evite acrescentar achados que já aparecem  em REV-01
+
+Preserve os registros originais da revisão no mesmo molde da rev-01.
+
+Você já entendeu como deve fazer essa revisão? planeja aqui pra eu confirmar"
+
+2. "o único ponto que precisamos corrigir é que vocÊ~não vai avaliar o backend todo, só o que foi registrado coomo implementado no arquivo de handover"
+
+3. Após a apresentação do escopo ajustado: "pode seguir"
+
+Escopo ajustado e autorizado:
+- PATCH /schools/:id — edição parcial de escola.
+- DELETE /schools/:id — exclusão de escola.
+- POST /schools/:id/classes — cadastro de turma.
+- PATCH /classes/:id — edição parcial de turma.
+- DELETE /classes/:id — exclusão de turma.
+- GET /classes/:id — detalhes de turma.
+
+Essas são as seis funcionalidades novas da seção 3 do HANDOVER.md. Os arquivos
+compartilhados são examinados somente no que sustenta essas operações. Os recursos
+anteriores da seção 2 e as implementações futuras da seção 7 ficam fora da inspeção.
+As consultas anteriores de escola, capacidade e filtros podem ser usadas para
+verificar os efeitos das novas operações, sem reabrir a avaliação independente
+desses recursos. A suíte completa serve como verificação de regressão.
+
+Plano autorizado:
+- Identificar commit, branch, alterações locais, ambiente e instrumentos.
+- Aplicar BE01–BE12, CT01–CT05, AR01 e regras pertinentes somente ao escopo acima.
+- Comparar com a REV-01; reutilizar os IDs pertinentes quando houver persistência
+  do mesmo problema e reservar IDs REV-02-BE-Axxx a problemas distintos.
+- Executar testes pertinentes com PostgreSQL real em schemas isolados, cobertura
+  e detecção de conexões abertas; complementar com sondas reproduzíveis quando
+  necessário. Registrar comando, esperado, observado, saída e limitações.
+- Preservar todos os registros da REV-01 e o código, sem correções ou autofix.
+- Produzir relatorio-backend.md e achados-backend.json separados, no formato dos
+  documentos 03 e 04, acompanhados deste pedido e das evidências.
+- Não presumir confirmação humana dos novos achados. Não criar consolidado nesta
+  entrega nem alterar o acompanhamento existente da REV-01.
+
+Versão examinada:
+- Repositório: case-eleva-api; branch main.
+- Commit: 88999fc422b6fce8a562f0adb9d88868f84f6e74.
+- Alteração local preexistente: package-lock.json; preservada por hash e patch.
+- HANDOVER.md sem rastreamento no início; cópia exata preservada no snapshot.
+- Contexto: leitura prévia do handover, código e documentação de avaliação,
+  incluindo a REV-01, autorizada pela autora antes do planejamento desta rodada.
+- Instrumentos: avaliacao/01_Regras_e_Requisitos.md, 03_Review_Backend.md,
+  04_Registro_e_Acompanhamento.md e 06_Modelo_Achados.json; versões exatas e hashes
+  em evidencias/EV01_codigo_e_instrumentos.snapshot.json e EV01_manifesto_antes.json.
+- Referência de IDs: avaliacao/rodadas/REV-01/achados-backend.json. Não existe
+  avaliacao/achados.json na versão inicial examinada.
+
+Frontend, acessibilidade renderizada, NVDA e pessoas usuárias não fazem parte
+desta rodada. A API é examinada como suporte às interações. A pendência conhecida
+de edições concorrentes da mesma turma não é apresentada como descoberta nova.

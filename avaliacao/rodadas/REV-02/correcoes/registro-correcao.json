@@ -1,0 +1,30 @@
+{
+  "id": "REV-02-BE-A001",
+  "data": "2026-11-07",
+  "solicitacao_autora": "ok, dá pra corrigir isso na própria sanitização?",
+  "registro_original": "avaliacao/rodadas/REV-02/achados-backend.json",
+  "correcao": {
+    "rodada": "REV-02",
+    "versao_codigo": {
+      "frontend": null,
+      "backend": "88999fc422b6fce8a562f0adb9d88868f84f6e74",
+      "alteracoes_locais": "Correção local em src/utils/generalFunctions.js; quatro novos testes unitários, quatro de integração em tests/integration/sanitisation.contract.test.js e documentação dos testes. Patch e cópia exata em avaliacao/rodadas/REV-02/correcoes/EV05_correcao.patch e EV05_codigo_depois.snapshot.json. package-lock.json preexistente preservado. Nenhum commit criado."
+    },
+    "descricao": "Objetos retornados por sanitiseObj passaram a usar Object.create(null), mantendo __proto__ como propriedade própria sem incorporar seus campos por herança. O schema continua validando e rejeitando campos desconhecidos. Arrays e sanitização recursiva foram preservados. Acrescentadas regressões permanentes de propriedade própria, recursão, mensagens HTTP e ausência de mutação no banco.",
+    "responsavel": "Codex — implementação solicitada pela autora",
+    "evidencia": "avaliacao/rodadas/REV-02/correcoes/EV05_codigo_depois.snapshot.json"
+  },
+  "reavaliacao": {
+    "rodada": "REV-02",
+    "versao_codigo": {
+      "frontend": null,
+      "backend": "88999fc422b6fce8a562f0adb9d88868f84f6e74",
+      "alteracoes_locais": "Estado corrigido preservado em avaliacao/rodadas/REV-02/correcoes/EV05_codigo_depois.snapshot.json e identificado por SHA256 em EV05_validacao_e_preservacao.json."
+    },
+    "metodo": "Regressões executadas antes da mudança: 8 falharam e 13 passaram. Depois: suíte completa com 430 testes aprovados em 19 suítes, PostgreSQL real em schemas isolados e detectOpenHandles sem forceExit. Reexecução das mesmas 35 sondas arquivadas da revisão, sem alterar suas expectativas: todas aprovadas, incluindo S06-escola, S06-cadastro e S06-turma. ESLint dos arquivos alterados aprovado. Conferência SHA256 preservou os 85 arquivos originais da REV-01 e REV-02/r01 e o package-lock.json preexistente.",
+    "responsavel": "Codex — execução automatizada e inspeção da alteração",
+    "resultado": "resolveu_no_recorte",
+    "evidencia": "avaliacao/rodadas/REV-02/correcoes/EV02_suite_depois.txt; EV03_sondas_originais_depois.txt; EV04_eslint.txt; EV05_validacao_e_preservacao.json"
+  },
+  "observacao": "Registro complementar da intervenção. Os produtos originais da revisão foram preservados, incluindo seus campos de confirmação humana e os resultados anteriores. Nenhum consolidado foi criado."
+}

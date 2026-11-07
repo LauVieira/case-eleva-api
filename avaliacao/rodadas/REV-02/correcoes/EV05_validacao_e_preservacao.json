@@ -1,0 +1,26 @@
+{
+  "id": "REV-02-BE-A001",
+  "instante_utc": "2026-11-07T23:27:26.648Z",
+  "registros_originais_conferidos": 85,
+  "registros_originais_alterados": [],
+  "package_lock_preexistente_preservado": true,
+  "arquivos_alterados": [
+    "src/utils/generalFunctions.js",
+    "tests/README.md",
+    "tests/utils/generalFunctions.test.js"
+  ],
+  "arquivo_novo": "tests/integration/sanitisation.contract.test.js",
+  "sha256_arquivos": {
+    "src/utils/generalFunctions.js": "d784ef0926f5b3b2103a7e5db38814bfd76e13e0cae125e197c4817fc2e1a005",
+    "tests/utils/generalFunctions.test.js": "702c9ce2ec38ac69e51e14d3f01f702cc4d4d201cdcab7360e69dfd8bc786554",
+    "tests/integration/sanitisation.contract.test.js": "1c954d3216a3820506eac3346db861e85ee7f38ece4075aae179ac312f3b89b6",
+    "tests/README.md": "d9ee3a68b5c014ce12fe06311c9e4beb67ffca902c661cf9493a1933624d089c"
+  },
+  "resultados": {
+    "antes": "8 falhas e 13 aprovacoes, 2 suites",
+    "depois": "430 aprovacoes, 19 suites",
+    "sondas_originais": "35 aprovacoes",
+    "eslint": "saida 0"
+  },
+  "resultado": "passou"
+}
