@@ -1,0 +1,336 @@
+Leva 1, antes — Validação do cadastro e dos identificadores; antecipação da migration de diretor e telefone opcionais.
+Data de acompanhamento: 2026-11-07; execução UTC: 2026-11-07T05:04:34.736Z
+Achados relacionados: REV-01-BE-A003, REV-01-BE-A004, REV-01-BE-A012
+Versão: {"frontend":null,"backend":"753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687","alteracoes_locais":"Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.snapshot.json; SHA256 0514cec2f9e7ea347fe3528575f839ebcffbbf7e8290914fd111b956866af9d8. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."}
+Node: v24.16.0; Jest: 26.6.3
+Ambiente: PostgreSQL real; schema exclusivo por suíte, sem limpeza do schema public.
+Comando: node node_modules/jest/bin/jest.js --runInBand --coverage=false --detectOpenHandles --verbose --runTestsByPath tests/integration/schools.contract.test.js
+Código de saída: 1
+FAIL tests/integration/schools.contract.test.js
+  Cadastro: contrato dos campos e identificadores
+    × permite diretor e telefone opcionais: {} (41 ms)
+    × permite diretor e telefone opcionais: {"headteacher": null, "phone": null} (10 ms)
+    × permite diretor e telefone opcionais: {"headteacher": "   ", "phone": null} (9 ms)
+    √ aceita o limite exato de name (100) (22 ms)
+    √ aceita o limite exato de address (255) (13 ms)
+    √ aceita o limite exato de headteacher (150) (16 ms)
+    × rejeita name inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (14 ms)
+    × rejeita address inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (13 ms)
+    × rejeita headteacher inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" (11 ms)
+    √ rejeita phone inválido sem gravar: "" (11 ms)
+    × rejeita phone inválido sem gravar: "(22) 2345-6789" (11 ms)
+    √ rejeita phone inválido sem gravar: 22998765432 (10 ms)
+    × rejeita phone inválido sem gravar: "+5522123" (11 ms)
+    √ rejeita sectorId inválido sem gravar: 0 (17 ms)
+    √ rejeita sectorId inválido sem gravar: -1 (10 ms)
+    √ rejeita sectorId inválido sem gravar: 1.5 (10 ms)
+    √ rejeita sectorId inválido sem gravar: 2147483648 (10 ms)
+    √ rejeita sectorId inválido sem gravar: "1" (11 ms)
+    √ aceita telefone canônico +552223456789 (11 ms)
+    √ aceita telefone canônico +5522998765432 (10 ms)
+    × Joi valida sem converter os dados (4 ms)
+    × rejeita identificador inválido em /schools/abc antes da consulta (14 ms)
+    × rejeita identificador inválido em /schools/0 antes da consulta (8 ms)
+    × rejeita identificador inválido em /schools/-1 antes da consulta (6 ms)
+    × rejeita identificador inválido em /schools/1.5 antes da consulta (8 ms)
+    × rejeita identificador inválido em /schools/2147483648 antes da consulta (9 ms)
+    × rejeita identificador inválido em /schools/12abc antes da consulta (6 ms)
+    × rejeita identificador inválido em /schools/abc/classes antes da consulta (6 ms)
+    × rejeita identificador inválido em /sectors/abc/schools antes da consulta (7 ms)
+    √ mantém 404 para identificador positivo inexistente em /schools/2147483647 (7 ms)
+    √ mantém 404 para identificador positivo inexistente em /schools/2147483647/classes (11 ms)
+    √ mantém 404 para identificador positivo inexistente em /sectors/2147483647/schools (7 ms)
+
+  ● Cadastro: contrato dos campos e identificadores › permite diretor e telefone opcionais: {}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 422
+
+      13 |       if (Object.keys(optional).length === 0) { delete body.headteacher; delete body.phone; }
+      14 |       const response = await request(app).post('/schools').send(body);
+    > 15 |       expect(response.status).toBe(201);
+         |                               ^
+      16 |       expect(response.body).toEqual(expect.objectContaining({ headteacher: null, phone: null }));
+      17 |       const stored = await db.query('SELECT headteacher, phone FROM schools');
+      18 |       expect(stored.rows).toEqual([{ headteacher: null, phone: null }]);
+
+      at tests/integration/schools.contract.test.js:15:31
+
+  ● Cadastro: contrato dos campos e identificadores › permite diretor e telefone opcionais: {"headteacher": null, "phone": null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 422
+
+      13 |       if (Object.keys(optional).length === 0) { delete body.headteacher; delete body.phone; }
+      14 |       const response = await request(app).post('/schools').send(body);
+    > 15 |       expect(response.status).toBe(201);
+         |                               ^
+      16 |       expect(response.body).toEqual(expect.objectContaining({ headteacher: null, phone: null }));
+      17 |       const stored = await db.query('SELECT headteacher, phone FROM schools');
+      18 |       expect(stored.rows).toEqual([{ headteacher: null, phone: null }]);
+
+      at tests/integration/schools.contract.test.js:15:31
+
+  ● Cadastro: contrato dos campos e identificadores › permite diretor e telefone opcionais: {"headteacher": "   ", "phone": null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 422
+
+      13 |       if (Object.keys(optional).length === 0) { delete body.headteacher; delete body.phone; }
+      14 |       const response = await request(app).post('/schools').send(body);
+    > 15 |       expect(response.status).toBe(201);
+         |                               ^
+      16 |       expect(response.body).toEqual(expect.objectContaining({ headteacher: null, phone: null }));
+      17 |       const stored = await db.query('SELECT headteacher, phone FROM schools');
+      18 |       expect(stored.rows).toEqual([{ headteacher: null, phone: null }]);
+
+      at tests/integration/schools.contract.test.js:15:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita name inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 201
+
+      33 |       const sector = await insertSector();
+      34 |       const response = await request(app).post('/schools').send(schoolBody(sector.id, { phone: '+5522998765432', [field]: value }));
+    > 35 |       expect(response.status).toBe(422);
+         |                               ^
+      36 |       expect(response.body.message).toContain(field);
+      37 |       expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      38 |     },
+
+      at tests/integration/schools.contract.test.js:35:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita address inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      33 |       const sector = await insertSector();
+      34 |       const response = await request(app).post('/schools').send(schoolBody(sector.id, { phone: '+5522998765432', [field]: value }));
+    > 35 |       expect(response.status).toBe(422);
+         |                               ^
+      36 |       expect(response.body.message).toContain(field);
+      37 |       expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      38 |     },
+
+      at tests/integration/schools.contract.test.js:35:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita headteacher inválido sem gravar: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 201
+
+      33 |       const sector = await insertSector();
+      34 |       const response = await request(app).post('/schools').send(schoolBody(sector.id, { phone: '+5522998765432', [field]: value }));
+    > 35 |       expect(response.status).toBe(422);
+         |                               ^
+      36 |       expect(response.body.message).toContain(field);
+      37 |       expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      38 |     },
+
+      at tests/integration/schools.contract.test.js:35:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita phone inválido sem gravar: "(22) 2345-6789"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 201
+
+      33 |       const sector = await insertSector();
+      34 |       const response = await request(app).post('/schools').send(schoolBody(sector.id, { phone: '+5522998765432', [field]: value }));
+    > 35 |       expect(response.status).toBe(422);
+         |                               ^
+      36 |       expect(response.body.message).toContain(field);
+      37 |       expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      38 |     },
+
+      at tests/integration/schools.contract.test.js:35:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita phone inválido sem gravar: "+5522123"
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 201
+
+      33 |       const sector = await insertSector();
+      34 |       const response = await request(app).post('/schools').send(schoolBody(sector.id, { phone: '+5522998765432', [field]: value }));
+    > 35 |       expect(response.status).toBe(422);
+         |                               ^
+      36 |       expect(response.body.message).toContain(field);
+      37 |       expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      38 |     },
+
+      at tests/integration/schools.contract.test.js:35:31
+
+  ● Cadastro: contrato dos campos e identificadores › Joi valida sem converter os dados
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      47 |     const body = schoolBody('1', { phone: '+5522998765432' });
+      48 |     const result = schema.post.validate(body);
+    > 49 |     expect(result.error).toBeDefined();
+         |                          ^
+      50 |     expect(body.sectorId).toBe('1');
+      51 |   });
+      52 |   it.each(['/schools/abc', '/schools/0', '/schools/-1', '/schools/1.5', '/schools/2147483648', '/schools/12abc', '/schools/abc/classes', '/sectors/abc/schools'])(
+
+      at Object.<anonymous> (tests/integration/schools.contract.test.js:49:26)
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/abc antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/0 antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 404
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/-1 antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 404
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/1.5 antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/2147483648 antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/12abc antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /schools/abc/classes antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+  ● Cadastro: contrato dos campos e identificadores › rejeita identificador inválido em /sectors/abc/schools antes da consulta
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 422
+    Received: 500
+
+      54 |       jest.spyOn(console, 'error').mockImplementation(() => {});
+      55 |       const response = await request(app).get(url);
+    > 56 |       expect(response.status).toBe(422);
+         |                               ^
+      57 |       expect(response.body.message).toContain('id');
+      58 |     },
+      59 |   );
+
+      at tests/integration/schools.contract.test.js:56:31
+
+Test Suites: 1 failed, 1 total
+Tests:       17 failed, 15 passed, 32 total
+Snapshots:   0 total
+Time:        2.104 s
+Ran all test suites within paths "tests/integration/schools.contract.test.js".

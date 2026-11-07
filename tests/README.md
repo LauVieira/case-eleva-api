@@ -1,0 +1,86 @@
+# Testes das funcionalidades existentes
+
+A suíte começou pela caracterização do comportamento observado no sistema, antes
+da refatoração em camadas. A referência inicial tinha 94 testes em três suítes.
+Essa etapa não usava funcionalidades futuras dos requisitos como expectativas.
+
+Depois, as correções funcionais foram autorizadas separadamente. As expectativas
+afetadas passaram a representar o contrato corrigido; os registros anteriores e
+as versões dos testes permanecem nas evidências. Os testes atuais, portanto, já
+não descrevem integralmente o comportamento original.
+
+## O que é verificado
+
+| Área | Verificações atuais |
+| --- | --- |
+| Setores | Listagem completa e ordenada; escolas somente do setor consultado; vazio, ausência e identificador inválido. |
+| Cadastro de escola | Campos obrigatórios/opcionais, limites, telefone canônico, setor existente, rejeição de campos extras e de IDs/datas enviados pelo cliente; nenhuma gravação após rejeição. |
+| Nomes de escola | Sanitização antes da validação; espaços internos e minúsculas; acentos preservados; unicidade global e conflito em criações concorrentes. |
+| Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
+| Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
+| Persistência | Colunas opcionais, tamanhos, status textual sem padrão, índice único parcial, capacidade não negativa, limites do inteiro e chaves estrangeiras sem exclusão em cascata. |
+| Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
+| Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
+| Erros | JSON; campo, causa e orientação em português; JSON malformado em 400, validação em 422, ausência em 404, conflito em 409 e falha inesperada em 500 sem detalhes internos. |
+| Sanitização | Objetos/arrays aninhados, tipos diversos, HTML, entidades e espaços; sem modificar a entrada. |
+
+O Joi valida e converte strings numéricas dos IDs; os serviços utilizam o valor
+retornado pela validação. Também aceita notação decimal ou exponencial quando o
+resultado é um inteiro positivo dentro do limite. Letras misturadas ao número,
+frações, zero, negativos e valores acima do limite são rejeitados. Telefone tem
+validação estrita: continua sendo texto canônico ou null. Sanitização, normalização
+dos nomes e atribuição de null aos opcionais permanecem fora do Joi.
+
+Os testes HTTP exercitam o app Express pelas rotas, usando Supertest e PostgreSQL
+real. Um teste sincroniza as consultas de duplicidade para provocar duas inserções
+concorrentes. Outro provoca uma falha de repository para conferir o erro inesperado.
+Esses controles pontuais não simulam as restrições do banco.
+
+## Execução
+
+Instale as dependências e disponibilize PostgreSQL. TEST_DATABASE_URL seleciona
+o banco dos testes; na ausência dela, utiliza-se DATABASE_URL do ambiente/.env.
+O usuário do banco precisa de permissão para criar schemas.
+
+~~~sh
+npm.cmd test -- --detectOpenHandles
+npm.cmd test -- --coverage=false --runTestsByPath tests/integration/schools.capacity.test.js
+npm.cmd test -- --coverageReporters=text --coverageReporters=html
+~~~
+
+No PowerShell, npm.cmd funciona mesmo quando a execução de npm.ps1 é bloqueada.
+O último comando mostra a tabela no terminal e gera coverage/index.html.
+Não há meta percentual de cobertura.
+
+Cada suíte cria um schema exclusivo eleva_test_<pid>_<identificador>. Todas as
+migrations são aplicadas ali, com tabelas e referências no mesmo espaço. Não se usa
+sync(). Importe o helper antes do app/models; ele configura schema e search_path.
+A limpeza ocorre na ordem turmas, escolas e setores. No encerramento, o schema e
+as conexões dos dois pools são fechados. As tabelas public não são limpas nem
+migradas por essa execução. Os testes devem terminar sem --forceExit.
+Uma interrupção forçada pode deixar o schema temporário daquela execução, que não
+é reutilizado pela próxima.
+
+## Evidências e limites
+
+O planejamento fica em avaliacao/rodadas/REV-01/correcoes/. Cada leva tem logs
+antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
+código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
+implementação é esperada; o resultado posterior utiliza a suíte completa.
+
+Não são cobertas rotas ausentes de edição, exclusão ou escrita de turmas. A mudança
+de situação no teste da capacidade é preparação direta no banco; não representa
+uma rota de edição. Não se verificam frontend, foco, leitor de tela, SSL de produção,
+falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.
+O rollback é conferido sem dados; restaurar NOT NULL depois de gravar opcionais
+nulos pode ser bloqueado pelo banco.
+
+As migrations antigas foram preservadas. Aplicar migrations/seeds no banco de uso
+é uma operação distinta dos testes. Esta entrega não converte dados de seeds antigas
+já gravados: um ambiente com esses dados precisa considerar sua recriação, conforme
+o recorte sem dados legados. As seeds não são idempotentes.
+
+A referência histórica de 06/11/2026 registrou 94 testes aprovados e cobertura de
+100% de instruções, funções e linhas, com 96,43% de ramificações. Esses números
+pertencem àquela versão. A configuração atual usa Babel e inclui src, exceto
+server.js, que apenas inicia o listener. Cobertura não comprova ausência de defeitos.

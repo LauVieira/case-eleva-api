@@ -9,7 +9,7 @@ class SchoolController {
 
   async getClassesBySchool (req, res) {
     const { id } = req.params;
-    const classesList = await SchoolService.getClassesBySchool(id);
+    const classesList = await SchoolService.getClassesBySchool(id, req.query.status);
     res.status(200).send(classesList);
   }
 

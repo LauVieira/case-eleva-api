@@ -45,16 +45,16 @@ describe('GET /sectors/:id/schools', () => {
   });
 
   it('returns the current 404 JSON message for a missing sector', async () => {
-    const response = await agent.get('/sectors/-1/schools')
+    const response = await agent.get('/sectors/2147483647/schools')
       .expect('Content-Type', /json/).expect(404);
     expect(response.body).toEqual({ message: 'Setor não encontrado' });
   });
 
-  it('currently returns 500 with an HTML content type for a nonnumeric id', async () => {
+  it('returns JSON 422 for a nonnumeric id', async () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     
     const response = await agent.get('/sectors/abc/schools')
-      .expect('Content-Type', /html/).expect(500);
-    expect(response.text).toBe('Erro interno no servidor');
+      .expect('Content-Type', /json/).expect(422);
+    expect(response.body.message).toContain('id');
   });
 });

@@ -35,7 +35,7 @@ beforeAll(async () => {
   schemaCreated = true;
 
   const queryInterface = sequelize.getQueryInterface();
-  const scopedInterface = {
+  const scopedInterface = Object.assign(Object.create(queryInterface), {
     createTable (tableName, attributes, options) {
       const scopedAttributes = Object.fromEntries(Object.entries(attributes).map(([key, value]) => [
         key,
@@ -49,7 +49,7 @@ beforeAll(async () => {
       ]));
       return queryInterface.createTable({ tableName, schema }, scopedAttributes, options);
     },
-  };
+  });
 
   const migrationsPath = path.join(__dirname, '../migrations');
   for (const filename of readdirSync(migrationsPath).filter((name) => name.endsWith('.js')).sort()) {
@@ -69,7 +69,6 @@ afterAll(async () => {
     await sequelize.close();
   } finally {
     try {
-
       if (schemaCreated && /^eleva_test_\d+_[a-f0-9]+$/.test(schema)) {
         await db.query(`DROP SCHEMA "${schema}" CASCADE`);
       }
@@ -102,27 +101,27 @@ function insertSector (overrides = {}) {
 function schoolBody (sectorId, overrides = {}) {
   return {
     sectorId,
-    name: 'Escola Ancyra',
+    name: 'escola ancyra',
     address: 'Avenida Amaral Peixoto 555',
     headteacher: 'Ada Luiz',
-    phone: '(22)98131-0329',
+    phone: '+5522981310329',
     ...overrides,
   };
 }
 
 function insertSchool (sectorId, overrides = {}) {
   sequence += 1;
-  return insert('schools', schoolBody(sectorId, { name: `School ${sequence}`, ...overrides }));
+  return insert('schools', schoolBody(sectorId, { name: `school ${sequence}`, ...overrides }));
 }
 
 function insertClass (schoolId, overrides = {}) {
   sequence += 1;
   return insert('classes', {
     schoolId,
-    name: `Class ${sequence}`,
-    grade: 'Test Grade',
-    segment: 'Test Segment',
-    shift: 'Test Shift',
+    name: `class ${sequence}`,
+    grade: '1º ano',
+    segment: 'Ensino Fundamental',
+    shift: 'Matutino',
     status: 'current',
     maxOccupancy: 20,
     ...overrides,

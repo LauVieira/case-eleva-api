@@ -1,0 +1,13 @@
+Revise o backend na rodada REV-01, execução r01, versão commit 9a9aa9e1a77a6c6b484c3219c6120489620d094f (2021-02-19, fix: package-json adjusts), branch main. Alterações locais fora desse commit: src/utils/database.js e package-lock.json. A pasta avaliacao/ está sem commit.
+
+Leia os documentos avaliacao/01_Regras_e_Requisitos.md, avaliacao/03_Review_Backend.md e avaliacao/04_Registro_e_Acompanhamento.md, datados de 05/11/2026 no próprio texto. Os documentos 02 e 05 não estão neste repositório.
+
+O objetivo é a inspeção do sistema original. O alcance é o backend inteiro deste repositório: BE01 a BE12, CT01 a CT05, AR01, R01 a R13 no que a API alcança e os casos B01 a B10. Funcionalidades previstas no documento 01 e ainda ausentes entram como lacuna de implementação. Não implementar correções nesta rodada.
+
+O frontend não entra. Não avaliar HTML, foco, contraste, teclado nem leitor de tela. A24 fica limitado ao que a resposta da API mostra. NVDA e pessoas usuárias permanecem para a avaliação final.
+
+Pode executar os testes. O banco usado pela DATABASE_URL pode ser apagado; a autora roda as seeds de novo depois. Não alterar código, dependências, configuração, migrations nem seeds. Não executar autofix.
+
+Produza relatorio-backend.md com cabeçalho, inventário, cobertura, testes e pendências, e achados-backend.json separado com todos os apontamentos no contrato do documento 04. Não inclua descrições de achados no Markdown. Comece com registro vazio: não existe avaliacao/achados.json. Não invente resultados de execução nem confirmação humana. Não crie o consolidado. Salve em avaliacao/rodadas/REV-01/.
+
+Confirmação da autora em 2026-11-06, neste chat: o recorte é todo o backend; as lacunas não serão implementadas agora; os testes podem limpar o banco; não haverá review de frontend.

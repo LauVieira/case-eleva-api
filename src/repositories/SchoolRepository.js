@@ -1,8 +1,14 @@
 const School = require('../models/School');
+const { UniqueConstraintError } = require('sequelize');
+const { ConflictError } = require('../errors');
 
 class SchoolRepository {
   findById (id) {
     return School.findByPk(id);
+  }
+
+  findDetailsById (id) {
+    return School.findByPk(id, { raw: true });
   }
 
   findByName (name) {
@@ -18,8 +24,15 @@ class SchoolRepository {
     });
   }
 
-  create (schoolData) {
-    return School.create(schoolData);
+  async create (schoolData) {
+    try {
+      return await School.create(schoolData);
+    } catch (error) {
+      if (error instanceof UniqueConstraintError && error.parent.constraint === 'schools_name_key') {
+        throw new ConflictError('Já existe uma escola com este nome');
+      }
+      throw error;
+    }
   }
 }
 

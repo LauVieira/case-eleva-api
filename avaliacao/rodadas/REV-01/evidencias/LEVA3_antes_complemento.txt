@@ -1,0 +1,171 @@
+Leva 3, antes — Modelos e novas migrations restantes; correção e complementação das seeds; erros em JSON e orientação de validação.
+Data de acompanhamento: 2026-11-07; execução UTC: 2026-11-07T05:16:21.725Z
+Achados relacionados: REV-01-BE-A003, REV-01-BE-A004, REV-01-BE-A009, REV-01-BE-A010, REV-01-BE-A012
+Versão: {"frontend":null,"backend":"753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687","alteracoes_locais":"Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."}
+Node: v24.16.0; Jest: 26.6.3
+Ambiente: PostgreSQL real; schema exclusivo por suíte, sem limpeza do schema public.
+Comando: node node_modules/jest/bin/jest.js --runInBand --coverage=false --detectOpenHandles --verbose --runTestsByPath tests/integration/contracts.verification.test.js
+Código de saída: 1
+FAIL tests/integration/contracts.verification.test.js
+  Verificação complementar dos contratos existentes
+    × identifica name e explica a correção em português (43 ms)
+    × identifica name e explica a correção em português (11 ms)
+    × identifica address e explica a correção em português (10 ms)
+    × identifica headteacher e explica a correção em português (10 ms)
+    × identifica phone e explica a correção em português (10 ms)
+    × identifica sectorId e explica a correção em português (13 ms)
+    × explica os identificadores e filtros inválidos em português (9 ms)
+    √ reverte e reaplica as novas migrations, preservando as migrations originais (90 ms)
+    √ mantém chaves estrangeiras e bloqueia apagar escola com turma, inclusive encerrada (194 ms)
+    √ o banco rejeita status inválido sem fornecer um padrão: null (19 ms)
+    √ o banco rejeita status inválido sem fornecer um padrão: active (59 ms)
+    × reverte e reaplica todas as seeds e representa os quatro segmentos (69 ms)
+
+  ● Verificação complementar dos contratos existentes › identifica name e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "não pode ficar vazio"
+    Received string:    "\"name\" is not allowed to be empty"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › identifica name e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "no máximo 100 caracteres"
+    Received string:    "\"name\" length must be less than or equal to 100 characters long"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › identifica address e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "no máximo 255 caracteres"
+    Received string:    "\"address\" length must be less than or equal to 255 characters long"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › identifica headteacher e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "no máximo 150 caracteres"
+    Received string:    "\"headteacher\" length must be less than or equal to 150 characters long"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › identifica phone e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "sem máscara"
+    Received string:    "\"phone\" with value \"(22) 2345-6789\" fails to match the required pattern: /^\\+55\\d{10,11}$/"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › identifica sectorId e explica a correção em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "inteiro"
+    Received string:    "\"sectorId\" must be an integer"
+
+      20 |     const response = await request(app).post('/schools').send(schoolBody(sector.id, { [field]: value })).expect(422);
+      21 |     expect(response.body.message).toContain(`"${field}"`);
+    > 22 |     expect(response.body.message).toContain(guidance);
+         |                                   ^
+      23 |     expect((await db.query('SELECT id FROM schools')).rows).toEqual([]);
+      24 |   });
+      25 | 
+
+      at tests/integration/contracts.verification.test.js:22:35
+
+  ● Verificação complementar dos contratos existentes › explica os identificadores e filtros inválidos em português
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "inteiro"
+    Received string:    "\"id\" must be a number"
+
+      26 |   it('explica os identificadores e filtros inválidos em português', async () => {
+      27 |     const invalidId = await request(app).get('/schools/abc').expect(422);
+    > 28 |     expect(invalidId.body.message).toContain('inteiro');
+         |                                    ^
+      29 |     const sector = await insertSector();
+      30 |     const school = await insertSchool(sector.id);
+      31 |     const invalidFilter = await request(app).get(`/schools/${school.id}/classes?status=active`).expect(422);
+
+      at Object.<anonymous> (tests/integration/contracts.verification.test.js:28:36)
+
+  ● Verificação complementar dos contratos existentes › reverte e reaplica todas as seeds e representa os quatro segmentos
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 0
+
+      Array [
+        "Educação Infantil — Creche",
+    -   "Educação Infantil — Pré-escola",
+        "Ensino Fundamental",
+        "Ensino Médio",
+      ]
+
+      73 |     for (const filename of files) await require(path.join(directory, filename)).up(queryInterface, Sequelize);
+      74 |     const segments = await db.query('SELECT DISTINCT segment FROM classes');
+    > 75 |     expect(segments.rows.map((item) => item.segment).sort()).toEqual([
+         |                                                              ^
+      76 |       'Educação Infantil — Creche', 'Educação Infantil — Pré-escola', 'Ensino Fundamental', 'Ensino Médio',
+      77 |     ].sort());
+      78 |     for (const filename of [...files].reverse()) await require(path.join(directory, filename)).down(queryInterface, Sequelize);
+
+      at Object.<anonymous> (tests/integration/contracts.verification.test.js:75:62)
+
+Test Suites: 1 failed, 1 total
+Tests:       8 failed, 4 passed, 12 total
+Snapshots:   0 total
+Time:        2.278 s
+Ran all test suites within paths "tests/integration/contracts.verification.test.js".

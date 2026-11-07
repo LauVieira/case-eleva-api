@@ -1,0 +1,213 @@
+Achado: REV-01-BE-A004
+Etapa: verificação após a correção de setor inexistente no cadastro.
+Data de acompanhamento: 2026-11-07 (America/Sao_Paulo)
+Início da execução (UTC): 2026-11-07T04:33:30.360Z
+Commit de referência: 753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687
+Node: v24.16.0; Jest: 26.6.3
+Estado sem commit: SchoolService usa SectorRepository.findById antes de gravar e lança InvalidDataError quando não há setor correspondente. Mantida a verificação de duplicidade anterior à consulta do setor.
+Mensagem esperada: sectorId: setor não encontrado. Informe um setor existente.
+Patch: avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.patch
+Cópia do teste dedicado: avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.test.js.txt
+O teste dedicado é idêntico ao preservado na EV08: requer 422 JSON com mensagem identificando setor ou sectorId e nenhuma escola gravada.
+Procedimento: suíte HTTP completa com PostgreSQL real e schemas temporários. Inclui criação com setor válido, retorno de erro sem gravação e consulta direta ao setor inexistente mantendo 404.
+Recorte adicional de schools.test.js: referências numéricas 0, -1, 2147483647 e 1.5 devem responder 422 com identificação de sectorId, sem gravação.
+Limites: não adiciona validação explícita de inteiro positivo ao schema, tradução de erros de identificadores das consultas, limites do banco ou conflitos concorrentes. Não verifica frontend ou NVDA.
+
+Suíte completa, com cobertura e detecção de conexões abertas
+Comando: node node_modules/jest/bin/jest.js --runInBand --detectOpenHandles --verbose
+Código de saída: 0
+Saída padrão:
+----------------------|---------|----------|---------|---------|-------------------
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------------------|---------|----------|---------|---------|-------------------
+All files             |     100 |    96.67 |     100 |     100 |                   
+ src                  |     100 |      100 |     100 |     100 |                   
+  app.js              |     100 |      100 |     100 |     100 |                   
+ src/controllers      |     100 |      100 |     100 |     100 |                   
+  SchoolController.js |     100 |      100 |     100 |     100 |                   
+  SectorController.js |     100 |      100 |     100 |     100 |                   
+ src/errors           |     100 |      100 |     100 |     100 |                   
+  ConflictError.js    |     100 |      100 |     100 |     100 |                   
+  InvalidDataError.js |     100 |      100 |     100 |     100 |                   
+  NotFoundError.js    |     100 |      100 |     100 |     100 |                   
+  index.js            |     100 |      100 |     100 |     100 |                   
+ src/middlewares      |     100 |      100 |     100 |     100 |                   
+  errorHandler.js     |     100 |      100 |     100 |     100 |                   
+ src/models           |     100 |      100 |     100 |     100 |                   
+  Class.js            |     100 |      100 |     100 |     100 |                   
+  School.js           |     100 |      100 |     100 |     100 |                   
+  Sector.js           |     100 |      100 |     100 |     100 |                   
+  associations.js     |     100 |      100 |     100 |     100 |                   
+ src/repositories     |     100 |      100 |     100 |     100 |                   
+  ClassRepository.js  |     100 |      100 |     100 |     100 |                   
+  SchoolRepository.js |     100 |      100 |     100 |     100 |                   
+  SectorRepository.js |     100 |      100 |     100 |     100 |                   
+ src/routers          |     100 |      100 |     100 |     100 |                   
+  schoolsRouter.js    |     100 |      100 |     100 |     100 |                   
+  sectorsRouter.js    |     100 |      100 |     100 |     100 |                   
+ src/schemas          |     100 |      100 |     100 |     100 |                   
+  schoolSchema.js     |     100 |      100 |     100 |     100 |                   
+ src/services         |     100 |      100 |     100 |     100 |                   
+  SchoolService.js    |     100 |      100 |     100 |     100 |                   
+  SectorService.js    |     100 |      100 |     100 |     100 |                   
+ src/utils            |     100 |    91.67 |     100 |     100 |                   
+  database.js         |     100 |       50 |     100 |     100 | 7                 
+  generalFunctions.js |     100 |      100 |     100 |     100 |                   
+----------------------|---------|----------|---------|---------|-------------------
+
+Saída de erro:
+PASS tests/integration/schools.missing-sector.test.js
+  POST /schools
+    √ rejects a nonexistent sector with JSON 422 and does not persist a school (49 ms)
+
+PASS tests/integration/schools.validation-errors.test.js
+  POST /schools
+    √ identifies the invalid name field in the 422 message and does not persist a school (20 ms)
+
+PASS tests/integration/schools.test.js
+  GET /schools/:id
+    √ returns exactly the requested school and its current fields (21 ms)
+    √ returns the current 404 JSON message for /schools/-1 (10 ms)
+    √ returns the current 404 JSON message for /schools/-1/classes (9 ms)
+    √ currently returns a generic HTML 500 for /schools/abc (23 ms)
+    √ currently returns a generic HTML 500 for /schools/abc/classes (9 ms)
+  POST /schools
+    √ persists the school and timestamps and returns the same representation on GET and listing (37 ms)
+    √ rejects sectorId (missing) with JSON 422 and no write (11 ms)
+    √ rejects sectorId (null) with JSON 422 and no write (9 ms)
+    √ rejects sectorId (boolean) with JSON 422 and no write (9 ms)
+    √ rejects sectorId (object) with JSON 422 and no write (8 ms)
+    √ rejects sectorId (array) with JSON 422 and no write (15 ms)
+    √ rejects sectorId (empty) with JSON 422 and no write (9 ms)
+    √ rejects sectorId (wrong type) with JSON 422 and no write (9 ms)
+    √ rejects name (missing) with JSON 422 and no write (9 ms)
+    √ rejects name (null) with JSON 422 and no write (9 ms)
+    √ rejects name (boolean) with JSON 422 and no write (8 ms)
+    √ rejects name (object) with JSON 422 and no write (9 ms)
+    √ rejects name (array) with JSON 422 and no write (9 ms)
+    √ rejects name (empty) with JSON 422 and no write (15 ms)
+    √ rejects name (wrong type) with JSON 422 and no write (8 ms)
+    √ rejects address (missing) with JSON 422 and no write (8 ms)
+    √ rejects address (null) with JSON 422 and no write (7 ms)
+    √ rejects address (boolean) with JSON 422 and no write (8 ms)
+    √ rejects address (object) with JSON 422 and no write (7 ms)
+    √ rejects address (array) with JSON 422 and no write (11 ms)
+    √ rejects address (empty) with JSON 422 and no write (7 ms)
+    √ rejects address (wrong type) with JSON 422 and no write (11 ms)
+    √ rejects headteacher (missing) with JSON 422 and no write (8 ms)
+    √ rejects headteacher (null) with JSON 422 and no write (8 ms)
+    √ rejects headteacher (boolean) with JSON 422 and no write (8 ms)
+    √ rejects headteacher (object) with JSON 422 and no write (8 ms)
+    √ rejects headteacher (array) with JSON 422 and no write (8 ms)
+    √ rejects headteacher (empty) with JSON 422 and no write (9 ms)
+    √ rejects headteacher (wrong type) with JSON 422 and no write (8 ms)
+    √ rejects phone (missing) with JSON 422 and no write (7 ms)
+    √ rejects phone (null) with JSON 422 and no write (8 ms)
+    √ rejects phone (boolean) with JSON 422 and no write (11 ms)
+    √ rejects phone (object) with JSON 422 and no write (7 ms)
+    √ rejects phone (array) with JSON 422 and no write (7 ms)
+    √ rejects phone (empty) with JSON 422 and no write (9 ms)
+    √ rejects phone (wrong type) with JSON 422 and no write (9 ms)
+    √ rejects address that becomes empty after sanitisation ("   ") with 422 and no write (9 ms)
+    √ rejects address that becomes empty after sanitisation ("<b></b>") with 422 and no write (9 ms)
+    √ rejects headteacher that becomes empty after sanitisation ("   ") with 422 and no write (9 ms)
+    √ rejects headteacher that becomes empty after sanitisation ("<b></b>") with 422 and no write (10 ms)
+    √ rejects phone that becomes empty after sanitisation ("   ") with 422 and no write (8 ms)
+    √ rejects phone that becomes empty after sanitisation ("<b></b>") with 422 and no write (9 ms)
+    √ rejects an unknown or server-managed field: id (11 ms)
+    √ rejects an unknown or server-managed field: createdAt (8 ms)
+    √ rejects an unknown or server-managed field: updatedAt (8 ms)
+    √ rejects an unknown or server-managed field: unexpected (8 ms)
+    √ validates before checking duplicate names (9 ms)
+    √ rejects an exact duplicate in another sector without changing the original (10 ms)
+    √ rejects a duplicate created through the API in the same sector (18 ms)
+    √ currently treats names with different case or internal spacing as distinct (25 ms)
+    √ sanitises every string field before persisting it (18 ms)
+    √ rejects a whitespace-only name with 422 and no write (8 ms)
+    √ rejects a duplicate introduced by sanitisation with 409: <b>Escola Ancyra</b> (9 ms)
+    √ rejects a duplicate introduced by sanitisation with 409:   Escola Ancyra   (11 ms)
+    √ rejects a sector reference without an existing sector with 422: 0 (9 ms)
+    √ rejects a sector reference without an existing sector with 422: -1 (8 ms)
+    √ rejects a sector reference without an existing sector with 422: 2147483647 (8 ms)
+    √ rejects a sector reference without an existing sector with 422: 1.5 (12 ms)
+    √ accepts a numeric string sectorId and returns the stored integer (10 ms)
+    √ currently accepts phone strings without validating or normalising the format: +552223456789 (11 ms)
+    √ currently accepts phone strings without validating or normalising the format: +5522998765432 (10 ms)
+    √ currently accepts phone strings without validating or normalising the format: (22) 2345-6789 (11 ms)
+    √ currently accepts phone strings without validating or normalising the format: not a phone (11 ms)
+    √ accepts name with the current database limit of 255 characters (11 ms)
+    √ accepts address with the current database limit of 255 characters (11 ms)
+    √ accepts headteacher with the current database limit of 255 characters (11 ms)
+    √ accepts phone with the current database limit of 255 characters (10 ms)
+    √ currently returns generic 500 when name exceeds 255 characters (11 ms)
+    √ currently returns generic 500 when address exceeds 255 characters (11 ms)
+    √ currently returns generic 500 when headteacher exceeds 255 characters (12 ms)
+    √ currently returns generic 500 when phone exceeds 255 characters (10 ms)
+    √ currently returns generic 500 for malformed JSON (9 ms)
+  GET /schools/:id/classes
+    √ returns [] for an existing school without classes (10 ms)
+    √ returns only classes of the requested school, with all statuses, ordered by name (16 ms)
+    √ currently ignores a status query parameter (11 ms)
+
+PASS tests/integration/sectors.test.js
+  GET /sectors
+    √ returns an empty JSON array when there are no sectors (14 ms)
+    √ returns all sector fields ordered by name, independently of insertion order (12 ms)
+  GET /sectors/:id/schools
+    √ returns only schools of the requested sector, ordered by name, with their full fields (25 ms)
+    √ returns [] for an existing sector without schools (9 ms)
+    √ returns the current 404 JSON message for a missing sector (8 ms)
+    √ currently returns 500 with an HTML content type for a nonnumeric id (7 ms)
+
+PASS tests/integration/schools.empty-name.test.js
+  POST /schools
+    √ rejects a name containing only an empty HTML tag with 422 and does not persist a school (18 ms)
+
+PASS tests/utils/generalFunctions.test.js
+  sanitiseObj - function created to use the lib strip-html with any known/unknown object
+    √ It should return the same object
+    √ It should return the same object, without modifying the array inside (1 ms)
+    √ It should return the same object, without the html tag (1 ms)
+    √ It should clean off the array and remove the tags
+    √ should return null when function is called with a non-object parameter
+    √ returns null for unsupported input null (1 ms)
+    √ returns null for unsupported input undefined
+    √ returns null for unsupported input 42
+    √ returns null for unsupported input true
+    √ sanitises nested objects and arrays without mutating the input (1 ms)
+    √ trims surrounding spaces, preserves internal spaces and removes empty tags
+    √ returns a new empty container for {}
+    √ returns a new empty container for []
+
+Test Suites: 6 passed, 6 total
+Tests:       102 passed, 102 total
+Snapshots:   0 total
+Time:        6.001 s, estimated 7 s
+Ran all test suites.
+
+
+Verificação de estilo
+Comando: node node_modules/eslint/bin/eslint.js src/services/SchoolService.js tests/integration/schools.test.js tests/integration/schools.missing-sector.test.js
+Código de saída: 1
+Saída padrão:
+
+C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\tests\integration\schools.test.js
+  209:95  error  Block must not be padded by blank lines  padded-blocks
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+
+Saída de erro:
+
+
+Conferência final após ajuste de estilo:
+Removida somente uma linha em branco no início do bloco do teste; nenhuma mudança de lógica após os 102 testes aprovados.
+Patch do estado final: avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.final.patch
+Comando: node node_modules/eslint/bin/eslint.js src/services/SchoolService.js tests/integration/schools.test.js tests/integration/schools.missing-sector.test.js
+Código de saída ESLint final: 0
+Saída padrão:
+
+Saída de erro:
+
+Resumo: 102 testes aprovados em 6 suítes; verificação final de estilo aprovada.

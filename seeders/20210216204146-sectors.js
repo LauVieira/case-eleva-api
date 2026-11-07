@@ -2,6 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const now = new Date();
     await queryInterface.bulkInsert('sectors', [
       {
         name: 'Setor Azul',
@@ -58,7 +59,7 @@ module.exports = {
         code: 'SA-11',
         color: '#ffffff',
       },
-    ], {});
+    ].map((row) => ({ ...row, createdAt: now, updatedAt: now })), {});
   },
 
   down: async (queryInterface, Sequelize) => {

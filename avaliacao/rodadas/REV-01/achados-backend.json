@@ -31,14 +31,49 @@
       "prioridade": "baixa",
       "classificacao": "confirmado_no_codigo",
       "sugestao": "Na implementação, separar por entidade na direção controller, service e repository, sem repository genérico nem contêiner de injeção.",
-      "verificacao_pendente": false,
+      "verificacao_pendente": null,
       "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": "evidencia_REV-01-BE-A001",
-      "situacao": "corrigido",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": "refatorar código em camadas; evidencia_REV-01-BE-A001",
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Arquitetura em camadas previamente implantada e preservada: controllers chamam services; services coordenam repositories; repositories acessam models/banco. A agregação de capacidade fica no repository de turmas e é coordenada pelo service.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Inspeção dos imports e chamadas dos routers, controllers, services e repositories; consultas HTTP da suíte completa não apontaram regressões. O campo correcao anterior era o texto: refatorar código em camadas; evidencia_REV-01-BE-A001. Registro convertido ao formato estruturado, preservando essa informação neste evento. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. Inspeção dos imports e chamadas dos routers, controllers, services e repositories; consultas HTTP da suíte completa não apontaram regressões. O campo correcao anterior era o texto: refatorar código em camadas; evidencia_REV-01-BE-A001. Registro convertido ao formato estruturado, preservando essa informação neste evento.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A002",
@@ -73,14 +108,75 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Normalizar e rejeitar o nome vazio antes da unicidade e da gravação. Procurar duplicidade pelo valor que será salvo.",
-      "verificacao_pendente": false,
+      "verificacao_pendente": null,
       "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": "evidencia_REV-01-BE-A002",
-      "situacao": "corrigido",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": "sanitizar antes de validar; evidencia_correcao_REV-01-BE-A002",
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Sanitização e normalização ocorrem antes da validação, da busca de duplicidade e da gravação; nomes vazios são rejeitados e nomes coincidentes após limpeza recebem 409.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "schools.empty-name.test.js, schools.test.js e schools.names.test.js: tag vazia, espaços, colisão após sanitização, variações de caixa/espaços e concorrência; rejeição sem gravação e preservação do registro original. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.snapshot.json; SHA256 643509617bb3d67d16ef5ec1d47d37f25a4e1c74260157062f46e44d3a6169ac. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 2, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.snapshot.json; SHA256 0c16645dd3d3755b1370fc7164942b7e779186b991d19397d30351c753272d5f. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 2, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. schools.empty-name.test.js, schools.test.js e schools.names.test.js: tag vazia, espaços, colisão após sanitização, variações de caixa/espaços e concorrência; rejeição sem gravação e preservação do registro original.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A003",
@@ -117,13 +213,204 @@
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Aplicar CT01, CT02 e CT03 no cadastro, permitir null em diretor e telefone e manter a unicidade global do nome já normalizado.",
       "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
-      "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados.",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Simplificação da validação de ID: retirada conversão manual e convert:false global; consumo de value retornado pelo Joi no cadastro e no helper de ID. Telefone recebe strict(). Normalização e sanitização dos textos permanecem no serviço. Nova decisão da autora registrada no planejamento.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Ajuste autorizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend.",
+        "responsavel": "Codex — execução automatizada",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.snapshot.json; SHA256 0514cec2f9e7ea347fe3528575f839ebcffbbf7e8290914fd111b956866af9d8. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.snapshot.json; SHA256 00515d4d38a1621791a57244730f17e94afeb7f824dfca6a5409f0d02e098dc0. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.snapshot.json; SHA256 643509617bb3d67d16ef5ec1d47d37f25a4e1c74260157062f46e44d3a6169ac. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 2, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.snapshot.json; SHA256 0c16645dd3d3755b1370fc7164942b7e779186b991d19397d30351c753272d5f. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 2, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.snapshot.json; SHA256 486e2d610d0fb38501c19735c454518780f2165122b8962194f3a3d8ac361031. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.snapshot.json; SHA256 9aac4139368167db25c4eba7e193bef20f97dc33b81b85f294694501ca8a3064. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.snapshot.json; SHA256 60af98d03925030ce3360d5e1e85472bf152ac3d2a30dffabcad5cccd481be94. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. schools.contract.test.js, schools.names.test.js, schools.missing-sector.test.js, persistence.contract.test.js e contracts.verification.test.js: limites exatos e excessos, formatos, null/omissão, unicidade, existência do setor e leitura das colunas reais. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.snapshot.json; SHA256 419306638669bb94cc0a39b11e039ffe4503bf82c0f12b616c4cf5fe9339a451. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "esclarecimento_autora_conversao_numerica_e_verificacao",
+          "responsavel": "Codex — registro do esclarecimento da autora e execução",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. Ajuste autorizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend. Confirmação humana do achado original permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "confirmacao_autora_e_encerramento_da_correcao_verificada",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados. Estado atual: confirmado e resolvido_no_recorte. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmacao\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Confirmação da autora sobre o achado original. A correção foi executada e verificada; a confirmação humana não foi inferida da autorização para implementar.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A004",
@@ -158,33 +445,33 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Responder JSON com causa e campo. Traduzir os conflitos 23503, 23505 e 22001. Validar id e sectorId antes da consulta. Manter o 404 JSON quando o registro numérico não existe.",
-      "verificacao_pendente": "Backend: corrigir os demais aspectos do A004, incluindo identificação de causa e campo nos erros de identificadores, referências inexistentes, limites do banco e conflitos concorrentes, além de reavaliar o recorte completo. A identificação do campo nos erros Joi do cadastro foi verificada nesta etapa. Frontend: permanece pendente A24 no navegador e com NVDA, conforme revisão original.",
+      "verificacao_pendente": "No frontend: conferir apresentação das mensagens, identificação dos campos, orientação de correção e preservação do preenchimento. Leitura de erros pelo NVDA pertence à avaliação final; o backend não comprova esses aspectos.",
       "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": "Confirmação explícita da autora nesta conversa em 07/11/2026. O teste automatizado reproduziu a ausência de identificação do campo name na mensagem 422; execução registrada em avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.txt.",
-      "situacao": "em_correcao",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
       "correcao": {
         "rodada": "REV-01",
         "versao_codigo": {
           "frontend": null,
-          "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
-          "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
         },
-        "descricao": "Correção parcial: SchoolService.createSchool passa error.details[0].message do Joi ao InvalidDataError. A resposta mantém 422 e JSON com message, que agora identifica o primeiro campo inválido e a causa no texto padrão do Joi, atualmente em inglês. Preservada a ordem sanitizar, validar, verificar duplicidade e gravar. Expectativas antigas da frase genérica foram atualizadas para exigir a identificação do campo. Sem alteração no tratamento dos demais erros do A004.",
+        "descricao": "Simplificação da validação de ID: retirada conversão manual e convert:false global; consumo de value retornado pelo Joi no cadastro e no helper de ID. Telefone recebe strict(). Normalização e sanitização dos textos permanecem no serviço. Nova decisão da autora registrada no planejamento.",
         "responsavel": "Codex — implementação autorizada pela autora",
-        "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
       },
       "reavaliacao": {
         "rodada": "REV-01",
         "versao_codigo": {
           "frontend": null,
-          "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
-          "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
         },
-        "metodo": "node node_modules/jest/bin/jest.js --runInBand --coverage=false --detectOpenHandles --verbose; depois ESLint nos arquivos alterados. O mesmo teste de schools.validation-errors.test.js da EV06 passou sem alteração: POST /schools com name vazio, mensagem identificando name ou nome, status 422 e nenhuma gravação. schools.test.js também verifica a identificação dos cinco campos obrigatórios, de campos desconhecidos e de campos que ficam vazios após sanitização. Resultado: 101 testes aprovados em 5 suítes, saída 0, sem aviso de conexões abertas; ESLint com saída 0. Os casos de erro genérico 500 de identificadores inválidos, referências e tamanho continuam caracterizados nos testes da suíte. Verificação restrita ao backend.",
+        "metodo": "Ajuste autorizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend.",
         "responsavel": "Codex — execução automatizada",
-        "resultado": "persiste",
-        "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
       },
       "historico": [
         {
@@ -238,6 +525,214 @@
           },
           "resultado": "Resolveu o recorte da identificação do campo nos erros Joi do cadastro: o mesmo teste que falhou na EV06 passou com expectativa inalterada. Suíte completa: 101 testes aprovados em 5 suítes, saída 0; ESLint aprovado; sem aviso de conexões abertas. O achado completo persiste, pois os demais erros ainda não foram corrigidos.",
           "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "teste_setor_inexistente_antes_da_correcao",
+          "responsavel": "Codex — execução automatizada",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Aplicação sem alterações em relação ao commit. Novo tests/integration/schools.missing-sector.test.js, preservado em avaliacao/rodadas/REV-01/evidencias/EV08_2026-11-07_setor_inexistente_antes.test.js.txt. package-lock.json e documentos não rastreados já estavam presentes antes desta etapa."
+          },
+          "resultado": "Persiste no recorte de setor inexistente: o teste espera 422 JSON com identificação do vínculo inválido e nenhuma escola gravada; a aplicação retorna 500 text/html. A ausência de gravação foi confirmada. Saída 1, falha esperada; nenhuma correção de aplicação realizada. A correção parcial anterior das mensagens Joi e sua evidência EV07 permanecem registradas.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV08_2026-11-07_setor_inexistente_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "correcao_parcial_setor_inexistente",
+          "responsavel": "Codex — implementação autorizada pela autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Verificação de existência do setor em src/services/SchoolService.js e expectativas 422 em tests/integration/schools.test.js ainda sem commit; estado final preservado em avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.final.patch. Teste dedicado não commitado preservado em avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json e documentos não rastreados já estavam presentes antes desta intervenção."
+          },
+          "resultado": "Acrescentada consulta de existência do setor pelo repositório antes da gravação. Setor sem registro correspondente retorna 422 JSON com identificação de sectorId e orientação para informar um setor existente. Demais aspectos do A004 permanecem em correção.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "verificacao_setor_inexistente_apos_correcao",
+          "responsavel": "Codex — execução automatizada",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Verificação de existência do setor em src/services/SchoolService.js e expectativas 422 em tests/integration/schools.test.js ainda sem commit; estado final preservado em avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.final.patch. Teste dedicado não commitado preservado em avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json e documentos não rastreados já estavam presentes antes desta intervenção."
+          },
+          "resultado": "Resolveu o recorte de setor inexistente no cadastro: o teste que falhou na EV08 passou sem alteração. Verificados 422 JSON e ausência de gravação, cadastro com setor válido e manutenção do 404 da consulta direta. Suíte completa com 102 testes aprovados em 6 suítes, sem aviso de conexões abertas; ESLint final aprovado após correção exclusivamente de estilo. A004 continua em_correcao por seus demais aspectos.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV09_2026-11-07_setor_inexistente_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "delimitacao_escopo_setor_concorrente",
+          "responsavel": "autora — decisão explícita nesta conversa",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Sem novas alterações na aplicação nesta etapa. Correção de existência do setor e testes ainda sem commit, conforme EV09_2026-11-07_setor_inexistente_depois.final.patch; acrescentado apenas o registro da decisão de escopo."
+          },
+          "resultado": "Fora do recorte apenas o tratamento específico de desaparecimento concorrente do setor, pois o sistema não administra setores. Permanecem a consulta prévia, a restrição do banco e o acompanhamento dos demais aspectos do A004. Não implica correção nem resolução do achado.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/DEC01_2026-11-07_escopo_setores.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.snapshot.json; SHA256 0514cec2f9e7ea347fe3528575f839ebcffbbf7e8290914fd111b956866af9d8. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.snapshot.json; SHA256 00515d4d38a1621791a57244730f17e94afeb7f824dfca6a5409f0d02e098dc0. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.snapshot.json; SHA256 643509617bb3d67d16ef5ec1d47d37f25a4e1c74260157062f46e44d3a6169ac. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 2, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.snapshot.json; SHA256 0c16645dd3d3755b1370fc7164942b7e779186b991d19397d30351c753272d5f. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 2, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.snapshot.json; SHA256 486e2d610d0fb38501c19735c454518780f2165122b8962194f3a3d8ac361031. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.snapshot.json; SHA256 9aac4139368167db25c4eba7e193bef20f97dc33b81b85f294694501ca8a3064. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.snapshot.json; SHA256 60af98d03925030ce3360d5e1e85472bf152ac3d2a30dffabcad5cccd481be94. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. schools.validation-errors.test.js, schools.missing-sector.test.js, schools.contract.test.js, schools.names.test.js, persistence.contract.test.js e contracts.verification.test.js. Conferidos os casos originalmente relatados e o erro inesperado. A corrida de exclusão do setor entre consulta e gravação foi excluída expressamente pela autora, conforme DEC01_2026-11-07_escopo_setores.txt; não se declara tratamento desse caso.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.snapshot.json; SHA256 419306638669bb94cc0a39b11e039ffe4503bf82c0f12b616c4cf5fe9339a451. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. ",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "esclarecimento_autora_conversao_numerica_e_verificacao",
+          "responsavel": "Codex — registro do esclarecimento da autora e execução",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. Ajuste autorizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
         }
       ]
     },
@@ -273,14 +768,52 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Implementar a edição parcial conforme CT01, R02 e R12, validando o estado resultante e a existência do novo setor.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
+      "verificacao_pendente": "Fora desta entrega: implementar e verificar edição de escola em etapa futura, quando autorizada.",
+      "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "situacao": "aberto",
       "duplicado_de": null,
       "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Inspeção de schoolsRouter.js: não há PUT/PATCH. A edição permanece não implementada e foi expressamente excluída desta entrega. Nenhuma correção ou teste de edição foi contabilizado. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. Inspeção de schoolsRouter.js: não há PUT/PATCH. A edição permanece não implementada e foi expressamente excluída desta entrega. Nenhuma correção ou teste de edição foi contabilizado. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "adequacao_do_estado_de_achado_ja_confirmado",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Confirmação já presente no arquivo preservada; situação ajustada para aberto conforme os estados do documento 04, sem declarar correção integral. Nada foi implementado ou testado novamente nesta atualização documental. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmado\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Fora desta entrega: implementar e verificar edição de escola em etapa futura, quando autorizada; confirmação da autora sobre o achado original permanece pendente.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A006",
@@ -316,14 +849,52 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Implementar a exclusão sem cascata, bloqueando qualquer turma vinculada e respondendo a causa e o próximo passo. Manter a FK.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
+      "verificacao_pendente": "Fora desta entrega: implementar e verificar exclusão de escola pela API, quando autorizada.",
+      "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "situacao": "aberto",
       "duplicado_de": null,
       "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Inspeção de schoolsRouter.js: não há DELETE. contracts.verification.test.js comprova apenas a proteção da FK para escola com turma encerrada; isso não implementa nem valida exclusão pela API ou sua mensagem. Lacuna fora desta entrega. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. Inspeção de schoolsRouter.js: não há DELETE. contracts.verification.test.js comprova apenas a proteção da FK para escola com turma encerrada; isso não implementa nem valida exclusão pela API ou sua mensagem. Lacuna fora desta entrega. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "adequacao_do_estado_de_achado_ja_confirmado",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Confirmação já presente no arquivo preservada; situação ajustada para aberto conforme os estados do documento 04, sem declarar correção integral. Nada foi implementado ou testado novamente nesta atualização documental. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmado\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Fora desta entrega: implementar e verificar exclusão de escola pela API, quando autorizada; confirmação da autora sobre o achado original permanece pendente.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A007",
@@ -357,14 +928,52 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Implementar cadastro, detalhe, edição e exclusão de turma, com schoolId definido só no cadastro.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
+      "verificacao_pendente": "Fora desta entrega: implementar e verificar as operações ausentes de turma, quando autorizadas.",
+      "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "situacao": "aberto",
       "duplicado_de": null,
       "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Inspeção dos routers: somente listagem de turmas por escola; não foram criadas rotas de cadastro, consulta individual, edição ou exclusão. A mudança de status no teste de capacidade é SQL de preparação e não demonstra uma rota de edição. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. Inspeção dos routers: somente listagem de turmas por escola; não foram criadas rotas de cadastro, consulta individual, edição ou exclusão. A mudança de status no teste de capacidade é SQL de preparação e não demonstra uma rota de edição. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "adequacao_do_estado_de_achado_ja_confirmado",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Confirmação já presente no arquivo preservada; situação ajustada para aberto conforme os estados do documento 04, sem declarar correção integral. Nada foi implementado ou testado novamente nesta atualização documental. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmado\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Fora desta entrega: implementar e verificar as operações ausentes de turma, quando autorizadas; confirmação da autora sobre o achado original permanece pendente.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A008",
@@ -401,14 +1010,127 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Filtrar a listagem com padrão current e calcular o total só das turmas current, independente do filtro visual.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
-      "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "verificacao_pendente": "No frontend, verificar seleção visual/programática do filtro e apresentação do total; esses aspectos não foram avaliados pelo backend e não impedem o encerramento do recorte corrigido da API.",
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados.",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Listagem aceita current, completed e all, com current por padrão. GET /schools/:id acrescenta totalCapacity somente das ativas, com zero sem ativas e independência do filtro.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "classes.filters.test.js e schools.capacity.test.js: seleção, ordenação, escola distinta, filtro inválido, soma de ativa 30 + encerrada 20, zero, mudança de situação por SQL e soma superior a um inteiro individual. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_4_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA4_antes.snapshot.json; SHA256 5125fa3dee580dbab07b5ab976314fe9b069e87ea98966902a7e9a96737a2543. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 4, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA4_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_4_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA4_depois.snapshot.json; SHA256 ea2c4be4d66e4844942cc7aa29ada0a3c4631a1549168906aa036f271c058602. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 4, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA4_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_antes.snapshot.json; SHA256 1b5000372efbe269d812a34c412eb5c3abfc68fb7bc0face1f47bf43698b6cfc. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 5, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois.snapshot.json; SHA256 4f21236dc3e962d4d0fd8d86773dae58dac6e834d98a2c997839b8c85cfa210a. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 5, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_depois_final",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 5, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. classes.filters.test.js e schools.capacity.test.js: seleção, ordenação, escola distinta, filtro inválido, soma de ativa 30 + encerrada 20, zero, mudança de situação por SQL e soma superior a um inteiro individual. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "confirmacao_autora_e_encerramento_da_correcao_verificada",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados. Estado atual: confirmado e resolvido_no_recorte. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmado\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Confirmação da autora sobre o achado original. No frontend, verificar seleção visual/programática do filtro e apresentação do total; esses aspectos não foram avaliados pelo backend.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A009",
@@ -442,14 +1164,114 @@
       "prioridade": "alta",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Validar as opções e a combinação no código, persistir status como texto, criar o índice único parcial de turma current e rejeitar capacidade negativa e troca de escola.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
+      "verificacao_pendente": "Normalização na entrada e rejeição de transferência/erros nas futuras rotas de turma ficam para a implementação dessas rotas. A proteção por índice já foi verificada no banco.",
+      "confirmacao_autora": "confirmado",
       "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "situacao": "em_correcao",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Correção parcial: constantes e validações no model, status textual sem enum nativo/default, índice único parcial, limites de nome e capacidade não negativa. Não foram criadas rotas de escrita de turmas.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "persistence.contract.test.js e contracts.verification.test.js: índice real, reativação conflitante preservando estado, capacidade zero/negativa/fracionária/fora do inteiro, opções no model e schema real. Persistem aspectos do achado fora da entrega: não existe entrada de API para normalizar/criar/editar turma nem para rejeitar transferência de schoolId; UPDATE direto desse vínculo não recebeu bloqueio novo. Não se declara o achado integralmente resolvido. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.snapshot.json; SHA256 486e2d610d0fb38501c19735c454518780f2165122b8962194f3a3d8ac361031. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.snapshot.json; SHA256 9aac4139368167db25c4eba7e193bef20f97dc33b81b85f294694501ca8a3064. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.snapshot.json; SHA256 60af98d03925030ce3360d5e1e85472bf152ac3d2a30dffabcad5cccd481be94. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. persistence.contract.test.js e contracts.verification.test.js: índice real, reativação conflitante preservando estado, capacidade zero/negativa/fracionária/fora do inteiro, opções no model e schema real. Persistem aspectos do achado fora da entrega: não existe entrada de API para normalizar/criar/editar turma nem para rejeitar transferência de schoolId; UPDATE direto desse vínculo não recebeu bloqueio novo. Não se declara o achado integralmente resolvido. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "adequacao_do_estado_de_achado_ja_confirmado",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Confirmação já presente no arquivo preservada; situação ajustada para em_correcao conforme os estados do documento 04, sem declarar correção integral. Nada foi implementado ou testado novamente nesta atualização documental. Valores anteriores preservados: {\"confirmacao_autora\":\"confirmado\",\"situacao\":\"confirmado\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Confirmação da autora sobre o achado original. Normalização na entrada e rejeição de transferência/erros nas futuras rotas de turma ficam para a implementação dessas rotas. A proteção por índice já foi verificada no banco.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A010",
@@ -483,14 +1305,114 @@
       "prioridade": "media",
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Alinhar as seeds ao contrato na implementação, sem truncar nomes, e gravar datas coerentes com R12.",
-      "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
-      "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "verificacao_pendente": "Preparação/aplicação no banco de uso é etapa operacional separada dos testes isolados e não foi executada nesta entrega. A correção das seeds foi verificada e está confirmada no recorte.",
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados.",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Seeds existentes corrigidas para nomes/telefones/opções canônicos e datas preenchidas. Seed complementar cobre opcionais nulos, quatro segmentos no conjunto, turma encerrada e capacidade zero.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "persistence.contract.test.js e contracts.verification.test.js: execução das seeds reais, conferência dos dados, reversão e reaplicação. Novas migrations também revertidas/reaplicadas em schema vazio. Não houve conversão de dados previamente semeados nem alteração do schema public. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.snapshot.json; SHA256 486e2d610d0fb38501c19735c454518780f2165122b8962194f3a3d8ac361031. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.snapshot.json; SHA256 9aac4139368167db25c4eba7e193bef20f97dc33b81b85f294694501ca8a3064. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.snapshot.json; SHA256 60af98d03925030ce3360d5e1e85472bf152ac3d2a30dffabcad5cccd481be94. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. persistence.contract.test.js e contracts.verification.test.js: execução das seeds reais, conferência dos dados, reversão e reaplicação. Novas migrations também revertidas/reaplicadas em schema vazio. Não houve conversão de dados previamente semeados nem alteração do schema public. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "confirmacao_autora_e_encerramento_da_correcao_verificada",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados. Estado atual: confirmado e resolvido_no_recorte. Valores anteriores preservados: {\"confirmacao_autora\":\"pendente\",\"situacao\":\"aguardando_confirmacao\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Confirmação da autora sobre o achado original. A preparação/aplicação no banco de uso é separada dos testes isolados e não foi executada nesta entrega.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A011",
@@ -520,13 +1442,61 @@
       "classificacao": "confirmado_em_execucao",
       "sugestao": "Apagar classes antes de schools em todas as limpezas e encerrar o pool de auxiliarFunctions.js.",
       "verificacao_pendente": null,
-      "confirmacao_autora": "pendente",
-      "justificativa_confirmacao": null,
-      "situacao": "aguardando_confirmacao",
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados.",
+      "situacao": "resolvido_no_recorte",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Helper de testes previamente corrigido e preservado: limpa classes antes de schools/sectors, usa schema isolado e encerra conexões Sequelize e pg. Adaptação adicional permite executar as novas migrations reais no schema de teste.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "sectors.test.js exercita escola com turma vinculada e limpeza posterior sem falha de FK; execução completa com detectOpenHandles terminou sem forceExit nem aviso de handles abertos. Inspeção de auxiliarFunctions.js confirma a ordem de limpeza e fechamento dos dois pools. Suíte completa: 164 testes em 12 suítes, com cobertura e detectOpenHandles, saída 0. Ambiente PostgreSQL real e schemas exclusivos por suíte. Cada teste e seu resultado estão identificados no log compartilhado. Inspeção das dependências e ESLint em avaliacao/rodadas/REV-01/evidencias/VERIFICACAO_FINAL_estatica.txt. Não foi executada verificação de frontend.",
+        "responsavel": "Codex — execução automatizada e inspeção de código",
+        "resultado": "resolveu_no_recorte",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte. sectors.test.js exercita escola com turma vinculada e limpeza posterior sem falha de FK; execução completa com detectOpenHandles terminou sem forceExit nem aviso de handles abertos. Inspeção de auxiliarFunctions.js confirma a ordem de limpeza e fechamento dos dois pools. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "confirmacao_autora_e_encerramento_da_correcao_verificada",
+          "responsavel": "Codex — registro da orientação expressa da autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "Orientação expressa da autora nesta conversa em 07/11/2026: \"Tudo que estiver corrigido deve estar refletido como já confirmado e corrigido\". Confirmação registrada para a correção já verificada no recorte do backend, sem atribuir à autora a execução dos testes automatizados. Estado atual: confirmado e resolvido_no_recorte. Valores anteriores preservados: {\"confirmacao_autora\":\"pendente\",\"situacao\":\"aguardando_confirmacao\",\"justificativa_confirmacao\":null,\"verificacao_pendente\":\"Confirmação da autora sobre o achado original; a verificação automatizada foi concluída.\"}",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        }
+      ]
     },
     {
       "id": "REV-01-BE-A012",
@@ -564,14 +1534,257 @@
       "prioridade": "media",
       "classificacao": "confirmado_no_codigo",
       "sugestao": "Acrescentar os casos B com asserção de corpo, de persistência e de constraint no banco de teste, quando as rotas existirem.",
-      "verificacao_pendente": null,
+      "verificacao_pendente": "Confirmação da autora sobre o achado original. Os testes das operações ausentes serão acrescentados quando elas forem implementadas; não são exigidos nesta entrega.",
       "confirmacao_autora": "pendente",
       "justificativa_confirmacao": null,
       "situacao": "aguardando_confirmacao",
       "duplicado_de": null,
-      "correcao": null,
-      "reavaliacao": null,
-      "historico": []
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "descricao": "Simplificação da validação de ID: retirada conversão manual e convert:false global; consumo de value retornado pelo Joi no cadastro e no helper de ID. Telefone recebe strict(). Normalização e sanitização dos textos permanecem no serviço. Nova decisão da autora registrada no planejamento.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+          "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+        },
+        "metodo": "Ajuste realizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend. A parcela de testes para operações ainda não implementadas continua fora desta entrega; não se declara resolução integral de A012.",
+        "responsavel": "Codex — execução automatizada",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.snapshot.json; SHA256 0514cec2f9e7ea347fe3528575f839ebcffbbf7e8290914fd111b956866af9d8. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.snapshot.json; SHA256 00515d4d38a1621791a57244730f17e94afeb7f824dfca6a5409f0d02e098dc0. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.snapshot.json; SHA256 643509617bb3d67d16ef5ec1d47d37f25a4e1c74260157062f46e44d3a6169ac. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 2, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_2_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.snapshot.json; SHA256 0c16645dd3d3755b1370fc7164942b7e779186b991d19397d30351c753272d5f. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 2, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA2_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.snapshot.json; SHA256 486e2d610d0fb38501c19735c454518780f2165122b8962194f3a3d8ac361031. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.snapshot.json; SHA256 9aac4139368167db25c4eba7e193bef20f97dc33b81b85f294694501ca8a3064. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_4_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA4_antes.snapshot.json; SHA256 5125fa3dee580dbab07b5ab976314fe9b069e87ea98966902a7e9a96737a2543. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 4, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA4_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_4_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA4_depois.snapshot.json; SHA256 ea2c4be4d66e4844942cc7aa29ada0a3c4631a1549168906aa036f271c058602. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 4, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA4_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_antes",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_antes.snapshot.json; SHA256 1b5000372efbe269d812a34c412eb5c3abfc68fb7bc0face1f47bf43698b6cfc. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 5, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_depois",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois.snapshot.json; SHA256 4f21236dc3e962d4d0fd8d86773dae58dac6e834d98a2c997839b8c85cfa210a. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 5, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_antes_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.snapshot.json; SHA256 5c2d8e0ab6e709f51bb9c957dde836a6f3f296a0ac9b7e810dc8609863a6810c. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 3, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_antes_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_3_depois_complemento",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.snapshot.json; SHA256 60af98d03925030ce3360d5e1e85472bf152ac3d2a30dffabcad5cccd481be94. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 3, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA3_depois_complemento.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_5_depois_final",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 5, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "reavaliacao_final_das_cinco_levas",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.snapshot.json; SHA256 841bddd43fa2db7048aa46411e362fff98021169a527532815dac3735e220227. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. 164 testes em 12 suítes aprovados; os logs de cada leva preservam falhas esperadas anteriores e execuções posteriores. Existem testes para mensagens e ausência de gravação indevida. Persiste apenas a parcela relativa às operações ausentes e excluídas desta entrega: edição/exclusão de escola e escrita/consulta individual de turma. Não se afirma cobertura desses fluxos. Confirmação da autora permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA5_depois_final.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_antes_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.snapshot.json; SHA256 419306638669bb94cc0a39b11e039ffe4503bf82c0f12b616c4cf5fe9339a451. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste: leva 1, antes; saída 1. Expectativa de falha anterior à implementação. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_antes_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "leva_1_depois_conversao_ids",
+          "responsavel": "Codex",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "resolveu_no_recorte: leva 1, depois; saída 0. Intervenção e verificação do recorte; demais aspectos exigem avaliação separada. Confirmação humana do achado permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "esclarecimento_autora_conversao_numerica_e_verificacao",
+          "responsavel": "Codex — registro do esclarecimento da autora e execução",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687",
+            "alteracoes_locais": "Estado exato de src, testes, migrations e seeds em avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.snapshot.json; SHA256 2a3ce6360b23aa383d2d14a884f9aa2bf8c7240e0614b4cf568dfae38176f330. package-lock.json já modificado antes destas levas; nenhuma credencial incluída."
+          },
+          "resultado": "persiste. Ajuste autorizado pela autora: Joi converte strings numéricas de IDs e os serviços usam o valor retornado; telefone continua estritamente string canônica ou null. schools.contract.test.js cobre strings decimais/exponenciais, resultado numérico, entrada original preservada, IDs nas três consultas, letras misturadas, frações e estouro; schools.test.js confirma o cadastro com sectorId numérico em string. Suíte completa: 172 testes em 12 suítes aprovados, saída 0, detectOpenHandles sem forceExit. ESLint de src/tests passou. O registro anterior das cinco levas e suas exclusões permanece no histórico. Não se verificou frontend. Confirmação humana do achado original permanece pendente.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/LEVA1_depois_conversao_ids.txt"
+        }
+      ]
     }
   ]
 }

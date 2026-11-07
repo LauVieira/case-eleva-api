@@ -1,0 +1,9 @@
+Decisão de escopo — REV-01-BE-A004
+Data: 2026-11-07 (America/Sao_Paulo)
+Origem: decisão explícita da autora nesta conversa.
+Declaração: "não vamos resolver a questão do setor desaparecendo, isso é um detalhe que eu não vou entrar dado que o sistema não administra setores".
+Fora do recorte: implementar e verificar um tratamento específico para a remoção concorrente do setor entre a consulta de existência e a gravação da escola.
+Mantidos: verificação de existência do setor no cadastro e restrição de vínculo no banco. A decisão não exclui o conflito de nomes em cadastros simultâneos.
+Não é uma verificação de correção. Nenhum teste executado e nenhuma validação de aplicação alterada nesta etapa.
+Commit de referência: 753bc06eb8f7a9f97c3e4aa50c0bc0a6c9acf687
+Alterações locais de aplicação prévias: correção de existência do setor e testes, preservados em EV09_2026-11-07_setor_inexistente_depois.final.patch.

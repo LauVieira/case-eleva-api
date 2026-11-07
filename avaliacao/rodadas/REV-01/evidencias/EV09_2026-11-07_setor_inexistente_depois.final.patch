@@ -1,0 +1,44 @@
+diff --git a/src/services/SchoolService.js b/src/services/SchoolService.js
+index ee30bb3..64aec35 100644
+--- a/src/services/SchoolService.js
++++ b/src/services/SchoolService.js
+@@ -1,4 +1,5 @@
+ const SchoolRepository = require('../repositories/SchoolRepository');
++const SectorRepository = require('../repositories/SectorRepository');
+ const ClassRepository = require('../repositories/ClassRepository');
+ const schoolSchema = require('../schemas/schoolSchema');
+ const { ConflictError, InvalidDataError, NotFoundError } = require('../errors');
+@@ -27,6 +28,11 @@ class SchoolService {
+     const schoolExists = await SchoolRepository.findByName(sanitisedData.name);
+     if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');
+ 
++    const sectorExists = await SectorRepository.findById(sanitisedData.sectorId);
++    if (!sectorExists) {
++      throw new InvalidDataError('sectorId: setor não encontrado. Informe um setor existente.');
++    }
++
+     const newSchool = await SchoolRepository.create(sanitisedData);
+ 
+     return newSchool;
+diff --git a/tests/integration/schools.test.js b/tests/integration/schools.test.js
+index 4079a17..65e21fc 100644
+--- a/tests/integration/schools.test.js
++++ b/tests/integration/schools.test.js
+@@ -206,12 +206,12 @@ describe('POST /schools', () => {
+   );
+ 
+   it.each([0, -1, 2147483647, 1.5])(
+-    'currently returns generic 500 for an invalid sector reference: %s', async (sectorId) => {
+-      jest.spyOn(console, 'error').mockImplementation(() => {});
+-      
++    'rejects a sector reference without an existing sector with 422: %s', async (sectorId) => {
+       const response = await agent.post('/schools').send(schoolBody(sectorId))
+-        .expect('Content-Type', /html/).expect(500);
+-      expect(response.text).toBe('Erro interno no servidor');
++        .expect('Content-Type', /json/).expect(422);
++      expect(response.body).toEqual({
++        message: 'sectorId: setor não encontrado. Informe um setor existente.',
++      });
+       
+       await expectNoSchools();
+     },

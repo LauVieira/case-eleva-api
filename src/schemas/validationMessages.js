@@ -1,0 +1,16 @@
+module.exports = {
+  'any.required': '{{#label}} é obrigatório. Informe um valor.',
+  'any.only': '{{#label}} deve ser uma das opções: {{#valids}}.',
+  'string.base': '{{#label}} deve ser informado como texto.',
+  'string.empty': '{{#label}} não pode ficar vazio. Informe um texto.',
+  'string.max': '{{#label}} deve ter no máximo {{#limit}} caracteres.',
+  'string.pattern.base': '{{#label}} deve conter +55, DDD e número, sem máscara ou espaços. Exemplo: +552223456789.',
+  'number.base': '{{#label}} deve ser um número inteiro positivo.',
+  'number.integer': '{{#label}} deve ser um número inteiro, sem casas decimais.',
+  'number.positive': '{{#label}} deve ser um inteiro maior que zero.',
+  'number.max': '{{#label}} deve ser no máximo {{#limit}}.',
+  'number.unsafe': '{{#label}} excede o limite numérico permitido. Informe um inteiro até 2147483647.',
+  'number.infinity': '{{#label}} deve ser um inteiro até 2147483647.',
+  'object.base': 'O corpo da requisição deve ser um objeto com os campos da escola.',
+  'object.unknown': '{{#label}} não é permitido. Remova este campo da requisição.',
+};

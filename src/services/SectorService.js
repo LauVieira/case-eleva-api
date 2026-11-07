@@ -1,6 +1,7 @@
 const SectorRepository = require('../repositories/SectorRepository');
 const SchoolRepository = require('../repositories/SchoolRepository');
 const { NotFoundError } = require('../errors');
+const validateId = require('../utils/validateId');
 
 class SectorService {
   getAll () {
@@ -8,6 +9,7 @@ class SectorService {
   }
 
   async getSchoolsBySector (id) {
+    id = validateId(id);
     const sectorExists = await SectorRepository.findById(id);
     if (!sectorExists) throw new NotFoundError('Setor não encontrado');
 

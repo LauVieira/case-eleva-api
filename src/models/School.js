@@ -16,7 +16,7 @@ School.init(
       allowNull: false,
     },
     name: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(100),
       allowNull: false,
       unique: true,
     },
@@ -25,12 +25,12 @@ School.init(
       allowNull: false,
     },
     headteacher: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      type: Sequelize.STRING(150),
+      allowNull: true,
     },
     phone: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      type: Sequelize.STRING(14),
+      allowNull: true,
     },
   }, 
   {

@@ -1,0 +1,8 @@
+Conferência documental final — 2026-11-07
+JSON válido; 12 IDs únicos; estados e objetos de acompanhamento seguem o documento 04.
+Campos originais, confirmações e prefixo do histórico original foram comparados com HEAD na atualização final e preservados.
+Evidências atuais de correção e reavaliação existem.
+Todos os fontes/testes/migrations/seeds coincidem com LEVA5_depois_final.snapshot.json.
+164 testes aprovados em 12 suítes; ESLint saída zero; migrations de 2021 preservadas.
+SHA256 de achados-backend.json: 1776e2e0b1fa4ca98cae8cf85f0018fefef8152d3531399b4441af1b751cfb21
+Verificações humanas pendentes identificadas em correcoes/resumo.md e no JSON.
