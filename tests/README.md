@@ -21,6 +21,7 @@ não descrevem integralmente o comportamento original.
 | Consulta da escola | Dados persistidos e totalCapacity calculado somente com turmas current; zero sem ativas; soma independente do filtro da listagem. |
 | Turmas da escola | current por padrão; filtros current, completed e all; ordenação, isolamento por escola e filtro inválido. |
 | Cadastro de turma | Escola da URL; campos e situação obrigatórios; normalização do nome; opções de segmento/grupo/ano e turno; capacidade zero e limite técnico; unicidade de ativas por escola e conflito concorrente; mensagens de erro e ausência de gravação após rejeição. |
+| Edição de turma | PATCH parcial; vínculo imutável; campos omitidos e data de criação preservados; estado completo e combinação segmento/ano validados; encerramento e reativação; conflitos de nome, inclusive concorrentes; reflexos nos filtros e na capacidade da escola. |
 | Persistência | Colunas opcionais, tamanhos, status textual sem padrão, índice único parcial, capacidade não negativa, limites do inteiro e chaves estrangeiras sem exclusão em cascata. |
 | Models de turma | Opções de segmento/ano/turno, limites de nome e capacidade; não substituem testes de futuras rotas de escrita. |
 | Migrations e seeds | Migrations reais; reversão/reaplicação das novas migrations em base vazia e das seeds; dados normalizados, datas e quatro segmentos. |
@@ -106,6 +107,34 @@ regra em criações concorrentes. Escola inexistente retorna 404; dados inválid
 422; JSON malformado ou primitivo, 400; falhas inesperadas, 500 sem detalhes
 internos. Os testes verificam também as mensagens de erro completas.
 
+## Edição parcial de turma
+
+PATCH /classes/:id aceita name, segment, grade, shift, status e maxOccupancy.
+A rota usa ClassController e ClassService. A criação permanece no SchoolController,
+em POST /schools/:id/classes. Na edição, schoolId é imutável: enviá-lo é rejeitado
+mesmo que repita a escola atual. id, createdAt, updatedAt e campos desconhecidos
+também são rejeitados. É necessário enviar pelo menos um campo editável.
+
+Campos omitidos preservam seus valores. A validação usa o estado resultante
+completo e aplica as mesmas regras do cadastro, incluindo normalização do nome.
+Ao alterar só o segmento ou só o grupo/ano, a combinação com o campo mantido
+precisa continuar válida. É possível enviar ambos juntos; a API não escolhe
+automaticamente outro grupo/ano. null e texto vazio não apagam campos obrigatórios.
+
+status omitido mantém a situação. Ao renomear ou reativar, o nome resultante não
+pode coincidir com outra turma ativa da mesma escola. Encerradas podem repetir
+nomes. O índice parcial protege também renomeações e reativações concorrentes.
+Encerrar e renomear na mesma requisição é permitido, mesmo que o nome já seja
+usado por uma ativa. Mudanças de situação e capacidade refletem nas consultas
+existentes, sem armazenar um total de capacidade separado na escola.
+
+A resposta 200 contém a turma persistida, preservando createdAt e refletindo a
+edição em updatedAt. Erros retornam mensagens em JSON: 422 para dados inválidos,
+404 para turma inexistente na consulta inicial, 409 para conflito de nome e
+500 para falha na atualização, com “Não foi possível atualizar a turma.
+Tente novamente.” Os testes verificam as mensagens completas e os dados
+preservados após rejeição.
+
 ## Execução
 
 Instale as dependências e disponibilize PostgreSQL. TEST_DATABASE_URL seleciona
@@ -138,9 +167,10 @@ antes/depois em avaliacao/rodadas/REV-01/evidencias/, acompanhados de cópias do
 código, testes, migrations e seeds identificadas por SHA256. A falha anterior à
 implementação é esperada; o resultado posterior utiliza a suíte completa.
 
-Não são cobertas rotas ausentes de edição, exclusão ou detalhes de turma. A mudança
-de situação no teste da capacidade é preparação direta no banco; não representa
-uma rota de edição. Não se verificam frontend, foco, leitor de tela, SSL de produção,
+Não são cobertas rotas ausentes de exclusão ou detalhes de turma. Os testes
+específicos de capacidade também preparam situações diretamente no banco; os
+testes de PATCH exercitam a mudança pela API. Não se verificam frontend, foco,
+leitor de tela, SSL de produção,
 falhas de rede ou o desaparecimento concorrente de setor, expressamente excluído.
 O rollback é conferido sem dados; restaurar NOT NULL depois de gravar opcionais
 nulos pode ser bloqueado pelo banco.

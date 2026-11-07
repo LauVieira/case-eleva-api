@@ -16,4 +16,9 @@ const post = Joi.object({
   'number.min': '{{#label}} deve ser um inteiro maior ou igual a zero.',
 });
 
-module.exports = { post };
+const patch = post.fork(['name', 'grade', 'segment', 'shift', 'status', 'maxOccupancy'], (field) => field.optional())
+  .min(1).messages({
+    'object.min': 'Informe pelo menos um campo da turma para atualizar.',
+  });
+
+module.exports = { post, patch };

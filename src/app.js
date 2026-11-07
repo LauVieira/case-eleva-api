@@ -6,6 +6,7 @@ const express = require('express');
 const cors = require('cors');
 const sectorsRouter = require('./routers/sectorsRouter');
 const schoolsRouter = require('./routers/schoolsRouter');
+const classesRouter = require('./routers/classesRouter');
 const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/sectors', sectorsRouter);
 app.use('/schools', schoolsRouter);
+app.use('/classes', classesRouter);
 
 app.use(errorHandler);
 

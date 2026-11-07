@@ -3,6 +3,21 @@ const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize'
 const { ConflictError, NotFoundError } = require('../errors');
 
 class ClassRepository {
+  findById (id) {
+    return Class.findByPk(id);
+  }
+
+  async update (classRecord, changes) {
+    try {
+      return await classRecord.update(changes, { returning: true });
+    } catch (error) {
+      if (error instanceof UniqueConstraintError && error.parent.constraint === 'classes_current_name_unique') {
+        throw new ConflictError('Já existe uma turma ativa com este nome nesta escola. Informe outro nome.');
+      }
+      throw error;
+    }
+  }
+
   findCurrentByName (schoolId, name) {
     return Class.findOne({ where: { schoolId, name, status: 'current' } });
   }
