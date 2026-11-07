@@ -89,6 +89,20 @@ describe('POST /schools', () => {
     await expectNoSchools();
   });
 
+  const emptyAfterSanitisationCases = ['address', 'headteacher', 'phone'].flatMap((field) => [
+    [field, '   '], [field, '<b></b>'],
+  ]);
+
+  it.each(emptyAfterSanitisationCases)(
+    'rejects %s that becomes empty after sanitisation (%p) with 422 and no write', async (field, value) => {
+      const sector = await insertSector();
+      const response = await agent.post('/schools').send(schoolBody(sector.id, { [field]: value }))
+        .expect('Content-Type', /json/).expect(422);
+      expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+      await expectNoSchools();
+    },
+  );
+
   it.each(['id', 'createdAt', 'updatedAt', 'unexpected'])(
     'rejects an unknown or server-managed field: %s', async (field) => {
       const sector = await insertSector();
@@ -168,25 +182,23 @@ describe('POST /schools', () => {
     expect(read.body).toEqual(response.body);
   });
 
-  it.each(['   ', '<b></b>'])('currently accepts a name sanitised into an empty string: %s', async (name) => {
+  it('rejects a whitespace-only name with 422 and no write', async () => {
     const sector = await insertSector();
-    
-    const response = await agent.post('/schools').send(schoolBody(sector.id, { name })).expect(201);
-    expect(response.body.name).toBe('');
-    
-    const read = await agent.get(`/schools/${response.body.id}`).expect(200);
-    expect(read.body.name).toBe('');
+
+    const response = await agent.post('/schools').send(schoolBody(sector.id, { name: '   ' }))
+      .expect('Content-Type', /json/).expect(422);
+    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
+    await expectNoSchools();
   });
 
   it.each(['<b>Escola Ancyra</b>', '  Escola Ancyra  '])(
-    'currently returns 500 for a duplicate introduced by sanitisation: %s', async (name) => {
-      jest.spyOn(console, 'error').mockImplementation(() => {});
+    'rejects a duplicate introduced by sanitisation with 409: %s', async (name) => {
       const sector = await insertSector();
       const original = await insertSchool(sector.id, { name: 'Escola Ancyra' });
       
       const response = await agent.post('/schools').send(schoolBody(sector.id, { name }))
-        .expect('Content-Type', /html/).expect(500);
-      expect(response.text).toBe('Erro interno no servidor');
+        .expect('Content-Type', /json/).expect(409);
+      expect(response.body).toEqual({ message: 'Já existe uma escola com este nome' });
       
       const stored = await db.query('SELECT * FROM schools');
       expect(JSON.parse(JSON.stringify(stored.rows))).toEqual([original]);
