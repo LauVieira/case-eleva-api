@@ -1,0 +1,991 @@
+CASE B01-create {"request":{"sectorId":26,"name":"escola leitura","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":16,"sectorId":26,"name":"escola leitura","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.492Z","createdAt":"2026-11-06T03:35:42.492Z"}}
+CASE B01-read {"status":200,"type":"application/json","body":{"id":16,"sectorId":26,"name":"escola leitura","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","createdAt":"2026-11-06T03:35:42.492Z","updatedAt":"2026-11-06T03:35:42.492Z"}}
+CASE empty-name {"request":{"sectorId":26,"name":"","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE spaces-name {"request":{"sectorId":26,"name":"   ","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":17,"sectorId":26,"name":"","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.517Z","createdAt":"2026-11-06T03:35:42.517Z"}}
+CASE name-100 {"request":{"sectorId":26,"name":"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":18,"sectorId":26,"name":"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.525Z","createdAt":"2026-11-06T03:35:42.525Z"}}
+CASE name-101 {"request":{"sectorId":26,"name":"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":19,"sectorId":26,"name":"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.529Z","createdAt":"2026-11-06T03:35:42.529Z"}}
+CASE address-255 {"request":{"sectorId":26,"name":"end255","address":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":20,"sectorId":26,"name":"end255","address":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.534Z","createdAt":"2026-11-06T03:35:42.534Z"}}
+node : DatabaseError [SequelizeDatabaseError]: valor é muito longo para tipo character varying(255)
+No linha:1 caractere:88
++ ... e_modules"; node "$env:TEMP\eleva-probe.js" *> "avaliacao\rodadas\REV ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (DatabaseError [...er varying(255):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:386:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  parent: error: valor é muito longo para tipo character varying(255)
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 105,
+    severity: 'ERRO',
+    code: '22001',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'varchar.c',
+    line: '640',
+    routine: 'varchar',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      26,
+      'end256',
+      'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbb',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.539 +00:00',
+      '2026-11-06 03:35:42.539 +00:00'
+    ]
+  },
+  original: error: valor é muito longo para tipo character varying(255)
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 105,
+    severity: 'ERRO',
+    code: '22001',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'varchar.c',
+    line: '640',
+    routine: 'varchar',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      26,
+      'end256',
+      'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbb',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.539 +00:00',
+      '2026-11-06 03:35:42.539 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+  parameters: [
+    26,
+    'end256',
+    'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbb',
+    'ada sonda',
+    '22999999999',
+    '2026-11-06 03:35:42.539 +00:00',
+    '2026-11-06 03:35:42.539 +00:00'
+  ]
+}
+CASE address-256 {"request":{"sectorId":26,"name":"end256","address":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+CASE omit-headteacher {"request":{"sectorId":26,"name":"sem diretor","address":"rua das sondas 10","phone":"22999999999"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE null-headteacher {"request":{"sectorId":26,"name":"diretor null","address":"rua das sondas 10","headteacher":null,"phone":"22999999999"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE empty-headteacher {"request":{"sectorId":26,"name":"diretor vazio","address":"rua das sondas 10","headteacher":"","phone":"22999999999"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE headteacher-150 {"request":{"sectorId":26,"name":"diretor 150","address":"rua das sondas 10","headteacher":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":21,"sectorId":26,"name":"diretor 150","address":"rua das sondas 10","headteacher":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.556Z","createdAt":"2026-11-06T03:35:42.556Z"}}
+CASE headteacher-151 {"request":{"sectorId":26,"name":"diretor 151","address":"rua das sondas 10","headteacher":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":22,"sectorId":26,"name":"diretor 151","address":"rua das sondas 10","headteacher":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.562Z","createdAt":"2026-11-06T03:35:42.562Z"}}
+CASE omit-phone {"request":{"sectorId":26,"name":"sem fone","address":"rua das sondas 10","headteacher":"ada sonda"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE null-phone {"request":{"sectorId":26,"name":"fone null","address":"rua das sondas 10","headteacher":"ada sonda","phone":null},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE empty-phone {"request":{"sectorId":26,"name":"fone vazio","address":"rua das sondas 10","headteacher":"ada sonda","phone":""},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE phone-landline {"request":{"sectorId":26,"name":"fone fixo","address":"rua das sondas 10","headteacher":"ada sonda","phone":"+552223456789"},"status":201,"type":"application/json","body":{"id":23,"sectorId":26,"name":"fone fixo","address":"rua das sondas 10","headteacher":"ada sonda","phone":"+552223456789","updatedAt":"2026-11-06T03:35:42.573Z","createdAt":"2026-11-06T03:35:42.573Z"}}
+CASE phone-mobile {"request":{"sectorId":26,"name":"fone movel","address":"rua das sondas 10","headteacher":"ada sonda","phone":"+5522998765432"},"status":201,"type":"application/json","body":{"id":24,"sectorId":26,"name":"fone movel","address":"rua das sondas 10","headteacher":"ada sonda","phone":"+5522998765432","updatedAt":"2026-11-06T03:35:42.578Z","createdAt":"2026-11-06T03:35:42.578Z"}}
+CASE phone-masked {"request":{"sectorId":26,"name":"fone mascara","address":"rua das sondas 10","headteacher":"ada sonda","phone":"(22) 2345-6789"},"status":201,"type":"application/json","body":{"id":25,"sectorId":26,"name":"fone mascara","address":"rua das sondas 10","headteacher":"ada sonda","phone":"(22) 2345-6789","updatedAt":"2026-11-06T03:35:42.582Z","createdAt":"2026-11-06T03:35:42.582Z"}}
+CASE phone-number {"request":{"sectorId":26,"name":"fone numero","address":"rua das sondas 10","headteacher":"ada sonda","phone":22999999999},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+CASE dup-exact-1 {"request":{"sectorId":26,"name":"escola unica","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":26,"sectorId":26,"name":"escola unica","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.588Z","createdAt":"2026-11-06T03:35:42.588Z"}}
+CASE dup-exact-2 {"request":{"sectorId":27,"name":"escola unica","address":"outro endereco","headteacher":"ada sonda","phone":"22999999999"},"status":409,"type":"application/json","body":{"message":"Já existe uma escola com este nome"}}
+ForeignKeyConstraintError [SequelizeForeignKeyConstraintError]: inserção ou atualização em tabela "schools" viola 
+restrição de chave estrangeira "schools_sectorId_fkey"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:315:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  parent: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 286,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(999999) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      999999,
+      'setor inexistente',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.612 +00:00',
+      '2026-11-06 03:35:42.612 +00:00'
+    ]
+  },
+  original: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 286,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(999999) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      999999,
+      'setor inexistente',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.612 +00:00',
+      '2026-11-06 03:35:42.612 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+  parameters: [
+    999999,
+    'setor inexistente',
+    'rua das sondas 10',
+    'ada sonda',
+    '22999999999',
+CASE dup-case {"request":{"sectorId":27,"name":"Escola Case","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":27,"sectorId":27,"name":"Escola Case","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.596Z","createdAt":"2026-11-06T03:35:42.596Z"}}
+CASE dup-case-2 {"request":{"sectorId":26,"name":"escola case","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":28,"sectorId":26,"name":"escola case","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.599Z","createdAt":"2026-11-06T03:35:42.599Z"}}
+CASE dup-space-1 {"request":{"sectorId":26,"name":"escola espaco","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":29,"sectorId":26,"name":"escola espaco","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.604Z","createdAt":"2026-11-06T03:35:42.604Z"}}
+CASE dup-space-2 {"request":{"sectorId":27,"name":"  escola   espaco  ","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":30,"sectorId":27,"name":"escola   espaco","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.608Z","createdAt":"2026-11-06T03:35:42.608Z"}}
+CASE sector-missing {"request":{"sectorId":999999,"name":"setor inexistente","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+    '2026-11-06 03:35:42.612 +00:00',
+    '2026-11-06 03:35:42.612 +00:00'
+  ],
+  fields: null,
+  table: undefined,
+  value: undefined,
+  index: undefined,
+  reltype: undefined
+}
+ForeignKeyConstraintError [SequelizeForeignKeyConstraintError]: inserção ou atualização em tabela "schools" viola 
+restrição de chave estrangeira "schools_sectorId_fkey"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:315:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  parent: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 281,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(0) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      0,
+      'setor zero',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.617 +00:00',
+      '2026-11-06 03:35:42.617 +00:00'
+    ]
+  },
+  original: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 281,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(0) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      0,
+      'setor zero',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.617 +00:00',
+      '2026-11-06 03:35:42.617 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+  parameters: [
+    0,
+    'setor zero',
+    'rua das sondas 10',
+    'ada sonda',
+    '22999999999',
+    '2026-11-06 03:35:42.617 +00:00',
+    '2026-11-06 03:35:42.617 +00:00'
+  ],
+  fields: null,
+  table: undefined,
+  value: undefined,
+  index: undefined,
+  reltype: undefined
+}
+CASE sector-zero {"request":{"sectorId":0,"name":"setor zero","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+ForeignKeyConstraintError [SequelizeForeignKeyConstraintError]: inserção ou atualização em tabela "schools" viola 
+restrição de chave estrangeira "schools_sectorId_fkey"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:315:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  parent: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 282,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(-1) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      -1,
+      'setor negativo',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.622 +00:00',
+      '2026-11-06 03:35:42.622 +00:00'
+    ]
+  },
+  original: error: inserção ou atualização em tabela "schools" viola restrição de chave estrangeira 
+"schools_sectorId_fkey"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 282,
+    severity: 'ERRO',
+    code: '23503',
+    detail: 'Chave (sectorId)=(-1) não está presente na tabela "sectors".',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_sectorId_fkey',
+    file: 'ri_triggers.c',
+    line: '2783',
+    routine: 'ri_ReportViolation',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      -1,
+      'setor negativo',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.622 +00:00',
+      '2026-11-06 03:35:42.622 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+  parameters: [
+    -1,
+    'setor negativo',
+    'rua das sondas 10',
+    'ada sonda',
+    '22999999999',
+    '2026-11-06 03:35:42.622 +00:00',
+    '2026-11-06 03:35:42.622 +00:00'
+  ],
+  fields: null,
+  table: undefined,
+  value: undefined,
+  index: undefined,
+  reltype: undefined
+}
+CASE sector-negative {"request":{"sectorId":-1,"name":"setor negativo","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+DatabaseError [SequelizeDatabaseError]: sintaxe de entrada é inválida para tipo integer: "1.5"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:386:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  parent: error: sintaxe de entrada é inválida para tipo integer: "1.5"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 162,
+    severity: 'ERRO',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: "parâmetro de portal sem nome $1 = '...'",
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '618',
+    routine: 'pg_strtoint32_safe',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      1.5,
+      'setor fracionario',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.629 +00:00',
+      '2026-11-06 03:35:42.629 +00:00'
+    ]
+  },
+  original: error: sintaxe de entrada é inválida para tipo integer: "1.5"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 162,
+    severity: 'ERRO',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: "parâmetro de portal sem nome $1 = '...'",
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '618',
+    routine: 'pg_strtoint32_safe',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      1.5,
+      'setor fracionario',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.629 +00:00',
+      '2026-11-06 03:35:42.629 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+  parameters: [
+    1.5,
+    'setor fracionario',
+    'rua das sondas 10',
+    'ada sonda',
+    '22999999999',
+CASE sector-float {"request":{"sectorId":1.5,"name":"setor fracionario","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+CASE extra-id {"request":{"sectorId":26,"name":"com id","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","id":1,"createdAt":"2000-01-01T00:00:00.000Z"},"status":422,"type":"application/json","body":{"message":"Não foi possível processar o formato dos dados"}}
+    '2026-11-06 03:35:42.629 +00:00',
+    '2026-11-06 03:35:42.629 +00:00'
+  ]
+}
+CASE html-1 {"request":{"sectorId":26,"name":"escola html","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":201,"type":"application/json","body":{"id":34,"sectorId":26,"name":"escola html","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.637Z","createdAt":"2026-11-06T03:35:42.637Z"}}
+UniqueConstraintError [SequelizeUniqueConstraintError]: duplicar valor da chave viola a restrição de unicidade 
+"schools_name_key"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:347:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  errors: {},
+  fields: undefined,
+  parent: error: duplicar valor da chave viola a restrição de unicidade "schools_name_key"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 213,
+    severity: 'ERRO',
+    code: '23505',
+    detail: 'Chave (name)=(escola html) já existe.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_name_key',
+    file: 'nbtinsert.c',
+    line: '673',
+    routine: '_bt_check_unique',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      27,
+      'escola html',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.642 +00:00',
+      '2026-11-06 03:35:42.642 +00:00'
+    ]
+  },
+  original: error: duplicar valor da chave viola a restrição de unicidade "schools_name_key"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 213,
+    severity: 'ERRO',
+    code: '23505',
+    detail: 'Chave (name)=(escola html) já existe.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_name_key',
+    file: 'nbtinsert.c',
+    line: '673',
+    routine: '_bt_check_unique',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      27,
+      'escola html',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.642 +00:00',
+      '2026-11-06 03:35:42.642 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";'
+}
+CASE html-2 {"request":{"sectorId":27,"name":"<b>escola html</b>","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999"},"status":500,"type":"text/html","body":"Erro interno no servidor"}
+UniqueConstraintError [SequelizeUniqueConstraintError]: duplicar valor da chave viola a restrição de unicidade 
+"schools_name_key"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:347:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.insert (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:748:21)
+    at async School.save 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:3954:35)
+    at async school.create 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:2207:12)
+    at async SchoolController.createSchool 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:35:23)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:22:21 {
+  errors: {},
+  fields: undefined,
+  parent: error: duplicar valor da chave viola a restrição de unicidade "schools_name_key"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 216,
+    severity: 'ERRO',
+    code: '23505',
+    detail: 'Chave (name)=(escola corrida) já existe.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_name_key',
+    file: 'nbtinsert.c',
+    line: '673',
+    routine: '_bt_check_unique',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      27,
+      'escola corrida',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.648 +00:00',
+      '2026-11-06 03:35:42.648 +00:00'
+    ]
+  },
+  original: error: duplicar valor da chave viola a restrição de unicidade "schools_name_key"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 216,
+    severity: 'ERRO',
+    code: '23505',
+    detail: 'Chave (name)=(escola corrida) já existe.',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'schools',
+    column: undefined,
+    dataType: undefined,
+    constraint: 'schools_name_key',
+    file: 'nbtinsert.c',
+    line: '673',
+    routine: '_bt_check_unique',
+    sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") 
+VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";',
+    parameters: [
+      27,
+      'escola corrida',
+      'rua das sondas 10',
+      'ada sonda',
+      '22999999999',
+      '2026-11-06 03:35:42.648 +00:00',
+      '2026-11-06 03:35:42.648 +00:00'
+    ]
+  },
+  sql: 'INSERT INTO "schools" ("id","sectorId","name","address","headteacher","phone","createdAt","updatedAt") VALUES 
+(DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING 
+"id","sectorId","name","address","headteacher","phone","createdAt","updatedAt";'
+}
+CASE race-duplicate {"a":{"status":201,"type":"application/json","body":{"id":36,"sectorId":26,"name":"escola corrida","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","updatedAt":"2026-11-06T03:35:42.648Z","createdAt":"2026-11-06T03:35:42.648Z"}},"b":{"status":500,"type":"text/html","body":"Erro interno no servidor"}}
+DatabaseError [SequelizeDatabaseError]: sintaxe de entrada é inválida para tipo integer: "abc"
+    at Query.formatError 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:386:16)
+    at Query.run 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\dialects\postgres\query.js:87:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\sequelize.js:619:16
+    at async PostgresQueryInterface.select (C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequeliz
+e\lib\dialects\abstract\query-interface.js:952:12)
+    at async school.findAll 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:1753:21)
+    at async school.findOne 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:1917:12)
+    at async school.findByPk 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\sequelize\lib\model.js:1883:12)
+    at async SchoolController.getSchoolById 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\controllers\SchoolController.js:9:26)
+    at async C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\src\routers\schoolsRouter.js:8:22 {
+  parent: error: sintaxe de entrada é inválida para tipo integer: "abc"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 125,
+    severity: 'ERRO',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: '143',
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '618',
+    routine: 'pg_strtoint32_safe',
+    sql: `SELECT "id", "sectorId", "name", "address", "headteacher", "phone", "createdAt", "updatedAt" FROM "schools" 
+AS "school" WHERE "school"."id" = 'abc';`,
+    parameters: undefined
+  },
+  original: error: sintaxe de entrada é inválida para tipo integer: "abc"
+      at Parser.parseErrorMessage 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:278:15)
+      at Parser.handlePacket 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:126:29)
+      at Parser.parse 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\parser.js:39:38)
+      at Socket.<anonymous> 
+(C:\Users\laumt\OneDrive\Documentos\TCC\case-eleva-api\node_modules\pg-protocol\dist\index.js:10:42)
+      at Socket.emit (node:events:509:28)
+      at addChunk (node:internal/streams/readable:563:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+      at Readable.push (node:internal/streams/readable:394:5)
+      at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+    length: 125,
+    severity: 'ERRO',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: '143',
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '618',
+    routine: 'pg_strtoint32_safe',
+    sql: `SELECT "id", "sectorId", "name", "address", "headteacher", "phone", "createdAt", "updatedAt" FROM "schools" 
+AS "school" WHERE "school"."id" = 'abc';`,
+    parameters: undefined
+  },
+  sql: `SELECT "id", "sectorId", "name", "address", "headteacher", "phone", "createdAt", "updatedAt" FROM "schools" AS 
+"school" WHERE "school"."id" = 'abc';`,
+  parameters: undefined
+}
+CASE get-abc {"status":500,"type":"text/html","body":"Erro interno no servidor"}
+CASE get-missing {"status":404,"type":"application/json","body":{"message":"Escola não encontrada"}}
+CASE classes-empty {"status":200,"type":"application/json","body":"[]"}
+CASE classes-missing {"status":404,"type":"application/json","body":{"message":"Escola não encontrada"}}
+CASE sector-schools-empty {"status":200,"type":"application/json","body":[{"id":30,"sectorId":27,"name":"escola   espaco","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","createdAt":"2026-11-06T03:35:42.608Z","updatedAt":"2026-11-06T03:35:42.608Z"},{"id":27,"sectorId":27,"name":"Escola Case","address":"rua das sondas 10","headteacher":"ada sonda","phone":"22999999999","createdAt":"2026-11-06T03:35:42.596Z","updatedAt":"2026-11-06T03:35:42.596Z"}]}
+CASE sector-missing-get {"status":404,"type":"application/json","body":{"message":"Setor não encontrado"}}
+CASE put-school {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot PUT /schools/16</pre>\n</body>\n</html>\n"}
+CASE patch-school {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot PATCH /schools/16</pre>\n</body>\n</html>\n"}
+CASE delete-school {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot DELETE /schools/16</pre>\n</body>\n</html>\n"}
+CASE post-class {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /schools/16/classes</pre>\n</body>\n</html>\n"}
+CASE get-class {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /classes/1</pre>\n</body>\n</html>\n"}
+CASE get-capacity {"status":404,"type":"text/html","body":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /schools/16/capacity</pre>\n</body>\n</html>\n"}
+CASE sql-dup-current {"ok":true,"id":9}
+CASE sql-invalid-combo {"ok":true,"id":10}
+CASE sql-negative-capacity {"ok":true,"id":11}
+CASE sql-fractional-capacity {"ok":false,"code":"22P02"}
+CASE sql-bad-status {"ok":false,"code":"22P02"}
+CASE sql-move-school {"ok":true,"schoolId":26}
+CASE list-mixed-status {"statuses":["current","current","current","completed"],"count":4,"schoolKeys":["id","sectorId","name","address","headteacher","phone","createdAt","updatedAt"]}
+CASE sql-delete-school-with-class {"ok":false,"code":"23503","constraint":"classes_schoolId_fkey"}
+CASE sql-delete-school-without-class {"ok":true}
+CASE list-after-cleanup {"status":200,"type":"application/json","body":"[]"}

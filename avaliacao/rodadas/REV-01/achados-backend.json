@@ -1,0 +1,577 @@
+{
+  "tipo_documento": "revisao",
+  "versao_formato": "1.0",
+  "rodada": "REV-01",
+  "execucao": "r01",
+  "achados": [
+    {
+      "id": "REV-01-BE-A001",
+      "titulo": "Controllers acessam os models diretamente",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "arquitetura"
+      ],
+      "tipo": "melhoria_estrutural",
+      "requisitos": [
+        "AR01",
+        "BE01"
+      ],
+      "localizacao": "src/controllers/SchoolController.js; src/controllers/SectorController.js; src/routers/schoolsRouter.js; src/routers/sectorsRouter.js",
+      "descricao": "As rotas chamam controllers e os controllers consultam e gravam pelos models Sequelize. Não há services nem repositories. A diferença para AR01, isoladamente, não é defeito funcional das rotas que já respondem.",
+      "evidencia": "SchoolController exige School, Class e schoolSchema e chama School.findByPk, Class.findAll, School.findOne e School.create. SectorController chama Sector.findAll e School.findAll. Não existem diretórios de service ou repository em src/.",
+      "impacto": "Regras de negócio novas tenderiam a continuar no controller, misturadas com o acesso ao banco.",
+      "prioridade": "baixa",
+      "classificacao": "confirmado_no_codigo",
+      "sugestao": "Na implementação, separar por entidade na direção controller, service e repository, sem repository genérico nem contêiner de injeção.",
+      "verificacao_pendente": false,
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "evidencia_REV-01-BE-A001",
+      "situacao": "corrigido",
+      "duplicado_de": null,
+      "correcao": "refatorar código em camadas; evidencia_REV-01-BE-A001",
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A002",
+      "titulo": "Nome só com espaços é gravado vazio",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional",
+        "integridade",
+        "usabilidade"
+      ],
+      "tipo": "defeito",
+      "requisitos": [
+        "CT01",
+        "CT02",
+        "BE02",
+        "BE03",
+        "H05",
+        "H09"
+      ],
+      "localizacao": "src/controllers/SchoolController.js, createSchool; src/utils/generalFunctions.js, sanitiseObj; src/schemas/schoolSchema.js",
+      "descricao": "O POST valida o nome e só depois remove marcação. A string vazia recebe 422. O nome formado só por espaços passa nessa validação, a sanitização reduz o valor a string vazia e a escola é gravada com 201. A busca de duplicidade usa o texto anterior à sanitização: um nome com marcação que só coincide depois dela não recebe 409 e cai no tratamento genérico de REV-01-BE-A004.",
+      "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV03_casos.txt, casos spaces-name (201 e name vazio) e empty-name (422). Caso html-2: 500 depois de UniqueConstraintError em schools_name_key. createSchool valida, faz findOne pelo nome recebido, chama sanitiseObj e só então School.create.",
+      "impacto": "A API persiste uma escola sem nome identificável e transforma um conflito de nome em erro interno.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Normalizar e rejeitar o nome vazio antes da unicidade e da gravação. Procurar duplicidade pelo valor que será salvo.",
+      "verificacao_pendente": false,
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "evidencia_REV-01-BE-A002",
+      "situacao": "corrigido",
+      "duplicado_de": null,
+      "correcao": "sanitizar antes de validar; evidencia_correcao_REV-01-BE-A002",
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A003",
+      "titulo": "Cadastro de escola não aplica o contrato de campos",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional",
+        "integridade",
+        "usabilidade"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "CT01",
+        "CT02",
+        "CT03",
+        "BE02",
+        "BE03",
+        "BE04",
+        "BE05"
+      ],
+      "localizacao": "src/schemas/schoolSchema.js; src/models/School.js; migrations/20210216223055-create-schools-table.js; POST /schools",
+      "descricao": "O cadastro exige diretor e telefone e o schema impede null. Não há teto de 100 caracteres para o nome, 255 para o endereço nem 150 para o diretor. Não há normalização de caixa nem de espaços internos: variações são gravadas como escolas diferentes. O índice único existente compara o texto exato e rejeita a duplicata exata, inclusive entre setores. Telefone canônico e telefone com máscara são gravados como chegaram. sectorId não é validado como inteiro positivo de um setor existente.",
+      "evidencia": "EV03_casos.txt: omit-headteacher, null-headteacher, omit-phone e null-phone em 422; headteacher-151, name-101 e phone-masked em 201; dup-exact-2 em 409; dup-case-2 e dup-space-2 em 201, este último persistindo espaços internos. EV05: headteacher e phone NOT NULL, name varchar(255) UNIQUE. O caso da string vazia gravada está em REV-01-BE-A002.",
+      "impacto": "O cadastro aceita estados que o contrato rejeita e recusa escola sem diretor ou sem telefone.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Aplicar CT01, CT02 e CT03 no cadastro, permitir null em diretor e telefone e manter a unicidade global do nome já normalizado.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A004",
+      "titulo": "Erros das rotas existentes não identificam causa e campo",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "usabilidade",
+        "acessibilidade",
+        "funcional"
+      ],
+      "tipo": "defeito",
+      "requisitos": [
+        "BE09",
+        "R09",
+        "R10",
+        "A24",
+        "H01",
+        "H09"
+      ],
+      "localizacao": "src/app.js, middleware de erro; src/controllers/SchoolController.js",
+      "descricao": "NotFound, InvalidData e Conflict respondem JSON com a propriedade message. O 422 do cadastro é sempre a frase genérica, sem campo nem correção. O 409 da duplicata exata informa o nome. Fora dessas classes, a resposta é a string Erro interno no servidor, com tipo text/html. Isso ocorre para setor inexistente, id não numérico, endereço acima de 255 caracteres, conflito de unicidade depois da sanitização e duas criações simultâneas do mesmo nome. O corpo HTTP não inclui SQL; o erro completo fica no log do servidor. Id numérico inexistente continua respondendo 404 JSON.",
+      "evidencia": "src/app.js envia { message } para NotFoundError, InvalidDataError e ConflictError e res.status(500).send da string fixa no restante, com console.error. EV03_casos.txt: empty-name e extra-id em 422; dup-exact-2 em 409; address-256, sector-missing, sector-float, html-2, race-duplicate e get-abc em 500 text/html; get-missing em 404 JSON. EV03_sondas.txt registra SequelizeDatabaseError e ForeignKeyConstraintError no console, inclusive códigos 22001, 23503, 23505 e 22P02.",
+      "impacto": "A interface não consegue apontar o campo nem distinguir dado inválido de falha interna, e a pessoa não recebe o próximo passo.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Responder JSON com causa e campo. Traduzir os conflitos 23503, 23505 e 22001. Validar id e sectorId antes da consulta. Manter o 404 JSON quando o registro numérico não existe.",
+      "verificacao_pendente": "Backend: corrigir os demais aspectos do A004, incluindo identificação de causa e campo nos erros de identificadores, referências inexistentes, limites do banco e conflitos concorrentes, além de reavaliar o recorte completo. A identificação do campo nos erros Joi do cadastro foi verificada nesta etapa. Frontend: permanece pendente A24 no navegador e com NVDA, conforme revisão original.",
+      "confirmacao_autora": "confirmado",
+      "justificativa_confirmacao": "Confirmação explícita da autora nesta conversa em 07/11/2026. O teste automatizado reproduziu a ausência de identificação do campo name na mensagem 422; execução registrada em avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.txt.",
+      "situacao": "em_correcao",
+      "duplicado_de": null,
+      "correcao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+          "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+        },
+        "descricao": "Correção parcial: SchoolService.createSchool passa error.details[0].message do Joi ao InvalidDataError. A resposta mantém 422 e JSON com message, que agora identifica o primeiro campo inválido e a causa no texto padrão do Joi, atualmente em inglês. Preservada a ordem sanitizar, validar, verificar duplicidade e gravar. Expectativas antigas da frase genérica foram atualizadas para exigir a identificação do campo. Sem alteração no tratamento dos demais erros do A004.",
+        "responsavel": "Codex — implementação autorizada pela autora",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+      },
+      "reavaliacao": {
+        "rodada": "REV-01",
+        "versao_codigo": {
+          "frontend": null,
+          "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+          "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+        },
+        "metodo": "node node_modules/jest/bin/jest.js --runInBand --coverage=false --detectOpenHandles --verbose; depois ESLint nos arquivos alterados. O mesmo teste de schools.validation-errors.test.js da EV06 passou sem alteração: POST /schools com name vazio, mensagem identificando name ou nome, status 422 e nenhuma gravação. schools.test.js também verifica a identificação dos cinco campos obrigatórios, de campos desconhecidos e de campos que ficam vazios após sanitização. Resultado: 101 testes aprovados em 5 suítes, saída 0, sem aviso de conexões abertas; ESLint com saída 0. Os casos de erro genérico 500 de identificadores inválidos, referências e tamanho continuam caracterizados nos testes da suíte. Verificação restrita ao backend.",
+        "responsavel": "Codex — execução automatizada",
+        "resultado": "persiste",
+        "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+      },
+      "historico": [
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "confirmacao_autora",
+          "responsavel": "autora — confirmação explícita nesta conversa",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+            "alteracoes_locais": "Código de aplicação sem alterações em relação ao commit. Novo tests/integration/schools.validation-errors.test.js, preservado em avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.test.js.txt. package-lock.json já modificado antes desta etapa; avaliacao/ e tests/README.md não rastreados."
+          },
+          "resultado": "confirmado; estado anterior aguardando_confirmacao. Iniciada a preparação do teste antes da correção, sem alteração do código da aplicação.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "teste_antes_da_correcao",
+          "responsavel": "Codex — execução automatizada",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+            "alteracoes_locais": "Código de aplicação sem alterações em relação ao commit. Novo tests/integration/schools.validation-errors.test.js, preservado em avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.test.js.txt. package-lock.json já modificado antes desta etapa; avaliacao/ e tests/README.md não rastreados."
+          },
+          "resultado": "persiste no recorte verificado: 1 teste falhou, saída 1. A aplicação retorna 422 e não grava a escola, mas a mensagem genérica não identifica name. Nenhuma correção foi aplicada; os demais aspectos do achado não foram verificados nesta execução.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV06_2026-11-07_campo_invalido_antes.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "correcao_parcial_mensagem_validacao",
+          "responsavel": "Codex — implementação autorizada pela autora",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+            "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+          },
+          "resultado": "Substituída a frase genérica pelo primeiro detalhe de erro do Joi no cadastro de escola. O campo e a causa passam a aparecer em message; os demais aspectos do A004 permanecem em correção.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+        },
+        {
+          "data": "2026-11-07",
+          "rodada": "REV-01",
+          "evento": "verificacao_apos_correcao_parcial",
+          "responsavel": "Codex — execução automatizada",
+          "versao_codigo": {
+            "frontend": null,
+            "backend": "0b291319364623fda220c5d867a8bc52eebe28d5",
+            "alteracoes_locais": "Correção ainda sem commit em src/services/SchoolService.js e atualização das expectativas em tests/integration/schools.test.js, preservadas em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.patch. Novo teste de campo inválido preservado em avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.test.js.txt. Atualização documental em tests/README.md; package-lock.json já modificado antes desta intervenção."
+          },
+          "resultado": "Resolveu o recorte da identificação do campo nos erros Joi do cadastro: o mesmo teste que falhou na EV06 passou com expectativa inalterada. Suíte completa: 101 testes aprovados em 5 suítes, saída 0; ESLint aprovado; sem aviso de conexões abertas. O achado completo persiste, pois os demais erros ainda não foram corrigidos.",
+          "evidencia": "avaliacao/rodadas/REV-01/evidencias/EV07_2026-11-07_campo_invalido_depois.txt"
+        }
+      ]
+    },
+    {
+      "id": "REV-01-BE-A005",
+      "titulo": "Edição de escola não implementada",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "R02",
+        "R12",
+        "CT01",
+        "BE02",
+        "BE06",
+        "B03",
+        "B10"
+      ],
+      "localizacao": "src/routers/schoolsRouter.js",
+      "descricao": "Não há atualização de escola. Não é possível mudar o setor, limpar diretor ou telefone, preservar createdAt nem tratar omissão de campo como manutenção do valor atual. Manter o próprio nome na edição, sem falso conflito, não pôde ser exercitado.",
+      "evidencia": "O router expõe GET /:id, GET /:id/classes e POST /. EV03_casos.txt: put-school e patch-school respondem 404 HTML do Express, Cannot PUT /schools/16 e Cannot PATCH /schools/16.",
+      "impacto": "A tarefa de editar a escola e movê-la de setor não existe na API.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Implementar a edição parcial conforme CT01, R02 e R12, validando o estado resultante e a existência do novo setor.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A006",
+      "titulo": "Exclusão de escola não implementada na API",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional",
+        "usabilidade",
+        "integridade"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "BE08",
+        "B07",
+        "B08"
+      ],
+      "localizacao": "src/routers/schoolsRouter.js; migrations/20210219004712-create-classes-table.js",
+      "descricao": "Não há exclusão de escola pela API, nem mensagem pedindo para remover as turmas antes. A confirmação da pessoa também não existe neste repositório. No banco, a chave classes_schoolId_fkey impede apagar a escola que ainda tem turma e não declara cascata. Depois de apagar as turmas por SQL, a escola pôde ser apagada.",
+      "evidencia": "EV03_casos.txt: delete-school responde 404 HTML, Cannot DELETE /schools/16. sql-delete-school-with-class retornou 23503 na constraint classes_schoolId_fkey. sql-delete-school-without-class concluiu. EV05: a FK não declara ON DELETE CASCADE.",
+      "impacto": "A pessoa não consegue excluir a escola pela API nem receber a orientação quando houver turma vinculada, inclusive encerrada.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Implementar a exclusão sem cascata, bloqueando qualquer turma vinculada e respondendo a causa e o próximo passo. Manter a FK.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A007",
+      "titulo": "Operações de turma não implementadas",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "R03",
+        "R04",
+        "R11",
+        "R12",
+        "BE06",
+        "B04",
+        "B10"
+      ],
+      "localizacao": "src/routers/schoolsRouter.js; src/models/Class.js. Não há router de turma.",
+      "descricao": "Turma só pode ser listada dentro da escola. Não há cadastro, consulta individual, edição nem exclusão. Por isso a API não rejeita troca de schoolId, não exige status no cadastro e não preserva createdAt numa edição.",
+      "evidencia": "EV03_casos.txt: post-class, get-class e get-capacity respondem 404 HTML do Express. O model Class e a migration existem, sem rotas de escrita.",
+      "impacto": "Cadastrar, corrigir e excluir turma não podem ser feitos pela API.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Implementar cadastro, detalhe, edição e exclusão de turma, com schoolId definido só no cadastro.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A008",
+      "titulo": "Listagem sem filtro de situação e sem capacidade total",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional",
+        "usabilidade"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "R04",
+        "R05",
+        "R06",
+        "BE07",
+        "BE10",
+        "H01",
+        "H06",
+        "B05",
+        "B06"
+      ],
+      "localizacao": "src/controllers/SchoolController.js, getClassesBySchool e getSchoolById",
+      "descricao": "A listagem devolve todas as turmas da escola, ordenadas por nome, sem seleção de ativas, todas ou encerradas. A consulta da escola não traz a soma de maxOccupancy das turmas current. Uma lista vazia de turma responde 200 com array vazio; escola inexistente responde 404 JSON.",
+      "evidencia": "getClassesBySchool usa Class.findAll por schoolId, order name, sem filtro de status. EV03_casos.txt, list-mixed-status: quatro turmas com statuses current, current, current e completed; schoolKeys sem total. classes-empty: 200 e []. classes-missing: 404.",
+      "impacto": "A interface não recebe o recorte padrão das ativas nem um total estável quando a pessoa muda o filtro.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Filtrar a listagem com padrão current e calcular o total só das turmas current, independente do filtro visual.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A009",
+      "titulo": "Regras de turma ausentes no código e no banco",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "integridade",
+        "funcional"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "CT02",
+        "CT04",
+        "BE03",
+        "BE05",
+        "BE11",
+        "R03"
+      ],
+      "localizacao": "src/models/Class.js; migrations/20210219004712-create-classes-table.js; catálogo public.classes",
+      "descricao": "Não há constantes de segmento, grupo, turno ou situação no código, nem índice único parcial de turma ativa por escola. Duas turmas current com o mesmo nome foram inseridas na mesma escola. Segmento e turno fora do contrato foram gravados. Capacidade negativa foi gravada. Capacidade fracionária e status fora de current/completed foram recusados pelo tipo da coluna, com erro 22P02. O enum nativo enum_classes_status permanece. UPDATE de schoolId concluiu. Não houve teste separado de capacidade zero nem de nome de turma com 51 caracteres.",
+      "evidencia": "EV05: sem índice único em classes além da chave primária; status é enum_classes_status. EV03_casos.txt: sql-dup-current ok, sql-invalid-combo ok, sql-negative-capacity ok, sql-fractional-capacity código 22P02, sql-bad-status código 22P02, sql-move-school ok com schoolId alterado.",
+      "impacto": "O banco não garante nome único entre turmas ativas da mesma escola, nem a combinação de segmento, grupo, turno e capacidade do contrato.",
+      "prioridade": "alta",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Validar as opções e a combinação no código, persistir status como texto, criar o índice único parcial de turma current e rejeitar capacidade negativa e troca de escola.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A010",
+      "titulo": "Seeds divergem do contrato e não preenchem datas",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional",
+        "integridade"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "CT05",
+        "CT02",
+        "CT03",
+        "CT04",
+        "R12",
+        "BE11"
+      ],
+      "localizacao": "seeders/20210216223701-schools.js; seeders/20210219010045-classes.js; migrations de schools e classes",
+      "descricao": "As seeds de escola usam telefone com máscara e nomes com a capitalização original, sem a normalização do contrato. As turmas usam o segmento Ensino Fundamental I e os turnos Manhã e Tarde, além de Integral. Nenhum nome semeado ultrapassou 100 caracteres e nenhum endereço ultrapassou 255. As colunas de data aceitam null e os seeders não as preenchem. Antes da suíte, as 11 linhas de setor, as 5 de escola e as 5 de turma estavam com createdAt e updatedAt nulos.",
+      "evidencia": "EV05, consulta ao banco case_eleva em 2026-11-06 antes dos testes. seeders/20210216223701-schools.js grava phone com parênteses. seeders/20210219010045-classes.js grava segment Ensino Fundamental I e shift Manhã, Integral ou Tarde. Migrations declaram createdAt e updatedAt allowNull true, sem default.",
+      "impacto": "Uma base semeada não oferece datas e carrega telefone, turno e segmento fora do contrato que a implementação vai aplicar.",
+      "prioridade": "media",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Alinhar as seeds ao contrato na implementação, sem truncar nomes, e gravar datas coerentes com R12.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A011",
+      "titulo": "Teste de setores quebra quando existe turma",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "teste_automatizado",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional"
+      ],
+      "tipo": "defeito",
+      "requisitos": [
+        "BE12",
+        "B09"
+      ],
+      "localizacao": "tests/integration/sectors.test.js, cleanDB; tests/auxiliarFunctions.js",
+      "descricao": "A limpeza da suíte de setores apaga schools e sectors e não apaga classes. Com uma turma no banco, a suíte inteira falha antes dos testes, na chave classes_schoolId_fkey. A suíte completa passou porque schools.test.js rodou antes e já tinha apagado classes. O pool criado em auxiliarFunctions.js não é encerrado. As execuções com --forceExit avisaram handles ainda abertos; esse aviso não identifica sozinho qual handle restou.",
+      "evidencia": "sectors.test.js, função cleanDB: DELETE FROM schools e DELETE FROM sectors. schools.test.js apaga classes antes. EV02: ordem schools, sectors, utils, 15 passed, e o aviso Force exiting Jest. EV04: sectors.test.js isolado, com uma turma, saída 1, erro de FK classes_schoolId_fkey, 0 testes executados. auxiliarFunctions.js cria Pool no carregamento do módulo e não chama end.",
+      "impacto": "O arquivo de setores não demonstra as rotas quando o banco tem turma, e o runner precisa ser forçado a encerrar.",
+      "prioridade": "media",
+      "classificacao": "confirmado_em_execucao",
+      "sugestao": "Apagar classes antes de schools em todas as limpezas e encerrar o pool de auxiliarFunctions.js.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    },
+    {
+      "id": "REV-01-BE-A012",
+      "titulo": "Testes não demonstram os casos do contrato",
+      "rodada_identificacao": "REV-01",
+      "data_identificacao": "2026-11-06",
+      "origem": "revisao_ia",
+      "repositorio": "backend",
+      "versao_codigo": {
+        "frontend": null,
+        "backend": "9a9aa9e1a77a6c6b484c3219c6120489620d094f",
+        "alteracoes_locais": "Working tree com src/utils/database.js e package-lock.json modificados. Inspeção e testes usaram esses arquivos."
+      },
+      "categoria": [
+        "funcional"
+      ],
+      "tipo": "lacuna_implementacao",
+      "requisitos": [
+        "BE12",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10"
+      ],
+      "localizacao": "tests/integration/schools.test.js; tests/integration/sectors.test.js; tests/utils/generalFunctions.test.js",
+      "descricao": "A suíte cobre lista de setores, escolas do setor, consulta e cadastro feliz de escola, duplicata exata, um payload de tipos inválidos e lista de turmas. Os testes de 404, 409 e 422 conferem o status e não conferem a mensagem nem a ausência de gravação. Não há testes de integração para normalização, telefone, edição, exclusão, filtro, capacidade ou constraints de turma. O título de um teste de sanitiseObj diz que o retorno é undefined; a asserção espera null e passou.",
+      "evidencia": "EV02: 15 passed. schools.test.js espera 409 e 422 só pelo status. generalFunctions.test.js, último teste, título com undefined e expect(expected).toBe(null). Não há arquivos de teste para os demais casos B.",
+      "impacto": "A passagem da suíte atual não mostra se o contrato de campos, vínculos e erros está protegido.",
+      "prioridade": "media",
+      "classificacao": "confirmado_no_codigo",
+      "sugestao": "Acrescentar os casos B com asserção de corpo, de persistência e de constraint no banco de teste, quando as rotas existirem.",
+      "verificacao_pendente": null,
+      "confirmacao_autora": "pendente",
+      "justificativa_confirmacao": null,
+      "situacao": "aguardando_confirmacao",
+      "duplicado_de": null,
+      "correcao": null,
+      "reavaliacao": null,
+      "historico": []
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+diff --git a/src/services/SchoolService.js b/src/services/SchoolService.js
+index cd97d5b..ee30bb3 100644
+--- a/src/services/SchoolService.js
++++ b/src/services/SchoolService.js
+@@ -22,7 +22,7 @@ class SchoolService {
+   async createSchool (schoolData) {
+     const sanitisedData = sanitiseObj(schoolData);
+     const { error } = schoolSchema.post.validate(sanitisedData);
+-    if (error) throw new InvalidDataError('Não foi possível processar o formato dos dados');
++    if (error) throw new InvalidDataError(error.details[0].message);
+ 
+     const schoolExists = await SchoolRepository.findByName(sanitisedData.name);
+     if (!!schoolExists) throw new ConflictError('Já existe uma escola com este nome');
+diff --git a/tests/integration/schools.test.js b/tests/integration/schools.test.js
+index 3b1d801..4079a17 100644
+--- a/tests/integration/schools.test.js
++++ b/tests/integration/schools.test.js
+@@ -84,7 +84,7 @@ describe('POST /schools', () => {
+     
+     const response = await agent.post('/schools').send(body)
+       .expect('Content-Type', /json/).expect(422);
+-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
++    expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
+     
+     await expectNoSchools();
+   });
+@@ -98,7 +98,7 @@ describe('POST /schools', () => {
+       const sector = await insertSector();
+       const response = await agent.post('/schools').send(schoolBody(sector.id, { [field]: value }))
+         .expect('Content-Type', /json/).expect(422);
+-      expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
++      expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
+       await expectNoSchools();
+     },
+   );
+@@ -108,7 +108,7 @@ describe('POST /schools', () => {
+       const sector = await insertSector();
+       const response = await agent.post('/schools').send(schoolBody(sector.id, { [field]: 1 }))
+         .expect('Content-Type', /json/).expect(422);
+-      expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
++      expect(response.body).toEqual({ message: expect.stringContaining(`"${field}"`) });
+       
+       await expectNoSchools();
+     },
+@@ -121,7 +121,7 @@ describe('POST /schools', () => {
+     const response = await agent.post('/schools').send(schoolBody(sector.id, {
+       name: school.name, phone: null,
+     })).expect(422);
+-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
++    expect(response.body).toEqual({ message: expect.stringContaining('"phone"') });
+     
+     const stored = await db.query('SELECT * FROM schools');
+     expect(JSON.parse(JSON.stringify(stored.rows))).toEqual([school]);
+@@ -187,7 +187,7 @@ describe('POST /schools', () => {
+ 
+     const response = await agent.post('/schools').send(schoolBody(sector.id, { name: '   ' }))
+       .expect('Content-Type', /json/).expect(422);
+-    expect(response.body).toEqual({ message: 'Não foi possível processar o formato dos dados' });
++    expect(response.body).toEqual({ message: expect.stringContaining('"name"') });
+     await expectNoSchools();
+   });
+ 

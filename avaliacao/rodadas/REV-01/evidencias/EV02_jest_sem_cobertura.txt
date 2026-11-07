@@ -1,0 +1,39 @@
+Comando: node .\node_modules\jest\bin\jest.js --runInBand --coverage=false --watchman=false --forceExit --verbose
+Diretório: case-eleva-api
+Node: v24.16.0
+Jest: 26.6.3
+Código de saída: 0
+
+PASS tests/integration/schools.test.js
+  GET /:id
+    √ should return 200 and an object with the school data (297 ms)
+    √ should return 404 when called with an unexisting schoolId (9 ms)
+  POST /
+    √ should return 201 and the school object (33 ms)
+    √ should return status 409 when trying to create school with the same name of another (10 ms)
+    √ should return status 422 when trying to create school with invalid data (5 ms)
+  GET /:id/classes
+    √ should return 200 and an object with the school data (12 ms)
+    √ should return 404 when called with an unexisting schoolId (5 ms)
+
+PASS tests/integration/sectors.test.js
+  GET /sectors
+    √ should return 200 and an array of sectors (247 ms)
+  GET /sectors/:id/schools
+    √ should return 200 and an array of sectors (12 ms)
+    √ should return 404 when called with an unexisting sectorId (7 ms)
+
+PASS tests/utils/generalFunctions.test.js
+  sanitiseObj - function created to use the lib strip-html with any known/unknown object
+    √ It should return the same object (1 ms)
+    √ It should return the same object, without modifying the array inside (1 ms)
+    √ It should return the same object, without the html tag (1 ms)
+    √ It should clean off the array and remove the tags (1 ms)
+    √ should return undefined when function is called with a non-object parameter
+
+Test Suites: 3 passed, 3 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        3.236 s, estimated 11 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
