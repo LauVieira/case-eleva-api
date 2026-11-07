@@ -7,6 +7,10 @@ class ClassRepository {
     return Class.findByPk(id);
   }
 
+  delete (id) {
+    return Class.destroy({ where: { id } });
+  }
+
   async update (classRecord, changes) {
     try {
       return await classRecord.update(changes, { returning: true });

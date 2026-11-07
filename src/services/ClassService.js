@@ -2,7 +2,7 @@ const ClassRepository = require('../repositories/ClassRepository');
 const SchoolRepository = require('../repositories/SchoolRepository');
 const classSchema = require('../schemas/classSchema');
 const { GRADES_BY_SEGMENT } = require('../constants/classOptions');
-const { ConflictError, InvalidDataError, NotFoundError, UpdateError } = require('../errors');
+const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
 const { sanitiseObj } = require('../utils/generalFunctions');
 const normaliseName = require('../utils/normaliseName');
 const validateId = require('../utils/validateId');
@@ -76,6 +76,20 @@ class ClassService {
     }
     if (!updated) throw new UpdateError('Não foi possível atualizar a turma. Tente novamente.');
     return updated;
+  }
+
+  async deleteClass (id) {
+    id = validateId(id);
+    const classRecord = await ClassRepository.findById(id);
+    if (!classRecord) throw new NotFoundError('Turma não encontrada');
+
+    let deleted;
+    try {
+      deleted = await ClassRepository.delete(id);
+    } catch (error) {
+      throw new DeleteError('Não foi possível excluir a turma. Tente novamente.', error);
+    }
+    if (!deleted) throw new DeleteError('Não foi possível excluir a turma. Tente novamente.');
   }
 }
 
