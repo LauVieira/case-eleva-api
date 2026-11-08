@@ -1,0 +1,653 @@
+REV-02 — identificação dos commits de correção e inspeção da REV-01.
+Data de referência: 2026-11-07; commit conferido: bf5acdd54c9370963370db922a4750378414af17
+Procedimento: git log, git show e git diff-tree para localizar mudanças; leitura dos fontes e testes atuais.
+A data do commit não é tratada como data comprovada da implementação local. Git registra autoria de versionamento; participação anterior de ferramentas permanece no histórico dos achados.
+Arquivos locais de aplicação/testes/migrations/seeds correspondem ao HEAD; única diferença preexistente: package-lock.json.
+
+Commit: 4070cfcfec6a7761a5b44a6eaddc8b9b3882a4d6
+Data: 2026-11-06T01:58:06-03:00
+Assunto: refact: starting Layered Architecture by GET /sectors
+
+ src/controllers/SectorController.js  |  8 ++++----
+ src/repositories/SectorRepository.js | 11 +++++++++++
+ src/routers/sectorsRouter.js         |  5 +----
+ src/services/SectorService.js        |  9 +++++++++
+ 4 files changed, 25 insertions(+), 8 deletions(-)
+
+Commit: 17d1eececbd0cae0c4a6568504acadb3dacc920d
+Data: 2026-11-06T02:13:58-03:00
+Assunto: refact: migrating school sectors to Layered Architecture
+
+ src/controllers/SectorController.js  | 15 ++++-----------
+ src/repositories/SchoolRepository.js | 12 ++++++++++++
+ src/repositories/SectorRepository.js |  4 ++++
+ src/routers/sectorsRouter.js         |  7 +------
+ src/services/SectorService.js        |  9 +++++++++
+ 5 files changed, 30 insertions(+), 17 deletions(-)
+
+Commit: 70208d6d9b32c916434c2755f50ed6dbb748b2fa
+Data: 2026-11-06T02:19:10-03:00
+Assunto: refact: migrating school creation to Layered Architecture
+
+ src/controllers/SchoolController.js  | 21 +++++----------------
+ src/repositories/SchoolRepository.js | 10 ++++++++++
+ src/routers/schoolsRouter.js         |  7 +------
+ src/services/SchoolService.js        | 21 +++++++++++++++++++++
+ 4 files changed, 37 insertions(+), 22 deletions(-)
+
+Commit: 9631627364561243872899add1cf0fc4d61aa2b1
+Data: 2026-11-06T02:28:00-03:00
+Assunto: refact: migrating get school by id to Layered Architecture
+
+ src/controllers/SchoolController.js  | 9 ++++-----
+ src/repositories/SchoolRepository.js | 4 ++++
+ src/routers/schoolsRouter.js         | 7 +------
+ src/services/SchoolService.js        | 9 ++++++++-
+ 4 files changed, 17 insertions(+), 12 deletions(-)
+
+Commit: f2457d75935953a0127c767134ef6c55c5472465
+Data: 2026-11-06T02:29:55-03:00
+Assunto: refact: migrating get school classes to Layered Architecture
+
+ src/controllers/SchoolController.js | 15 ++++-----------
+ src/repositories/ClassRepository.js | 12 ++++++++++++
+ src/routers/schoolsRouter.js        |  7 +------
+ src/services/SchoolService.js       |  8 ++++++++
+ 4 files changed, 25 insertions(+), 17 deletions(-)
+
+Commit: 30b4124669cff9225d5642f37b3dc73c2f7eefd3
+Data: 2026-11-06T02:34:55-03:00
+Assunto: refact: move tables relations to models
+
+ src/app.js                     | 2 +-
+ src/models/associations.js     | 8 ++++++++
+ src/utils/loadRelationships.js | 8 --------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+Commit: 0b291319364623fda220c5d867a8bc52eebe28d5
+Data: 2026-11-07T01:04:31-03:00
+Assunto: fix: correcao do achado REV-01-BE-A002
+
+ src/services/SchoolService.js                |  6 ++---
+ tests/integration/schools.empty-name.test.js | 26 +++++++++++++++++++++
+ tests/integration/schools.test.js            | 34 +++++++++++++++++++---------
+ 3 files changed, 52 insertions(+), 14 deletions(-)
+
+Commit: 3d00980dc50eca9153fed739dcbc447265eefb69
+Data: 2026-11-07T17:29:42-03:00
+Assunto: chore: adequando código implementado aos requisitos do sistema
+
+ .../20261107000100-school-optional-fields.js       |  14 +++
+ .../20261107000200-align-existing-contract.js      |  28 ++++++
+ seeders/20210216204146-sectors.js                  |   3 +-
+ seeders/20210216223701-schools.js                  |  23 ++---
+ seeders/20210219010045-classes.js                  |  21 ++--
+ seeders/20261107000300-contract-examples.js        |  19 ++++
+ src/constants/classOptions.js                      |  10 ++
+ src/controllers/SchoolController.js                |   2 +-
+ src/middlewares/errorHandler.js                    |   6 +-
+ src/models/Class.js                                |  22 ++++-
+ src/models/School.js                               |  10 +-
+ src/repositories/ClassRepository.js                |  11 ++-
+ src/repositories/SchoolRepository.js               |  17 +++-
+ src/schemas/classListSchema.js                     |   7 ++
+ src/schemas/schoolSchema.js                        |  13 +--
+ src/schemas/validationMessages.js                  |  16 +++
+ src/services/SchoolService.js                      |  33 +++++--
+ src/services/SectorService.js                      |   2 +
+ src/utils/normaliseName.js                         |   5 +
+ src/utils/validateId.js                            |  15 +++
+ tests/README.md                                    |  86 +++++++++++++++++
+ tests/auxiliarFunctions.js                         |  19 ++--
+ tests/integration/classes.filters.test.js          |  38 ++++++++
+ tests/integration/contracts.verification.test.js   |  85 ++++++++++++++++
+ tests/integration/persistence.contract.test.js     | 107 +++++++++++++++++++++
+ tests/integration/schools.capacity.test.js         |  58 +++++++++++
+ tests/integration/schools.contract.test.js         |  79 +++++++++++++++
+ tests/integration/schools.missing-sector.test.js   |  33 +++++++
+ tests/integration/schools.names.test.js            |  48 +++++++++
+ tests/integration/schools.test.js                  |  80 ++++++++-------
+ tests/integration/sectors.test.js                  |   8 +-
+ 31 files changed, 815 insertions(+), 103 deletions(-)
+
+Commit: 434c7f01891ed1b78c7e37b7039123f75355bd56
+Data: 2026-11-07T01:25:00-03:00
+Assunto: fix: returning field error with status 422
+
+ src/services/SchoolService.js                      |  2 +-
+ tests/integration/schools.empty-name.test.js       |  1 -
+ tests/integration/schools.test.js                  | 10 ++++----
+ .../integration/schools.validation-errors.test.js  | 27 ++++++++++++++++++++++
+ 4 files changed, 33 insertions(+), 7 deletions(-)
+
+Commit: 2247d7dcc5a1a96eafcccec9d2e724f0c5ea204f
+Data: 2026-11-07T18:04:54-03:00
+Assunto: feat: adds patch school route
+
+ src/controllers/SchoolController.js     |   5 +
+ src/errors/UpdateError.js               |   9 ++
+ src/errors/index.js                     |   2 +
+ src/middlewares/errorHandler.js         |   5 +
+ src/repositories/SchoolRepository.js    |  12 ++
+ src/routers/schoolsRouter.js            |   2 +
+ src/schemas/schoolSchema.js             |   8 +-
+ src/services/SchoolService.js           |  61 +++++++++-
+ tests/README.md                         |  19 +++-
+ tests/integration/schools.patch.test.js | 190 ++++++++++++++++++++++++++++++++
+ 10 files changed, 310 insertions(+), 3 deletions(-)
+
+Commit: bf5acdd54c9370963370db922a4750378414af17
+Data: 2026-11-07T20:41:49-03:00
+Assunto: fix: __proto__ object key
+
+ src/utils/generalFunctions.js                   |  2 +-
+ tests/README.md                                 |  2 +-
+ tests/integration/sanitisation.contract.test.js | 82 +++++++++++++++++++++++++
+ tests/utils/generalFunctions.test.js            | 28 +++++++++
+ 4 files changed, 112 insertions(+), 2 deletions(-)
+
+Commit: 0aad9b8fd0b630a12a4625a190787bdce1ec2ea5
+Data: 2026-11-07T18:34:45-03:00
+Assunto: feat: adds delete school route
+
+ src/controllers/SchoolController.js      |   5 ++
+ src/errors/DeleteError.js                |   9 +++
+ src/errors/index.js                      |   2 +
+ src/middlewares/errorHandler.js          |   2 +-
+ src/repositories/ClassRepository.js      |   5 ++
+ src/repositories/SchoolRepository.js     |  13 ++-
+ src/routers/schoolsRouter.js             |   2 +
+ src/services/SchoolService.js            |  26 +++++-
+ tests/README.md                          |  19 ++++-
+ tests/integration/schools.delete.test.js | 132 +++++++++++++++++++++++++++++++
+ 10 files changed, 211 insertions(+), 4 deletions(-)
+
+Commit: 0fec08c9e94c0af6f78d9f59a5c3ce2634d6f90c
+Data: 2026-11-07T18:46:48-03:00
+Assunto: feat: adds create class route
+
+ src/controllers/SchoolController.js      |   6 +
+ src/repositories/ClassRepository.js      |  20 +++
+ src/routers/schoolsRouter.js             |   2 +
+ src/schemas/classSchema.js               |  19 +++
+ src/services/ClassService.js             |  36 ++++
+ tests/README.md                          |  38 ++++-
+ tests/integration/classes.create.test.js | 271 +++++++++++++++++++++++++++++++
+ 7 files changed, 391 insertions(+), 1 deletion(-)
+
+Commit: 8c169cd025115062efed16d5c06669249e0bceff
+Data: 2026-11-07T18:57:32-03:00
+Assunto: feat: adds patch class route
+
+ src/app.js                              |   2 +
+ src/controllers/ClassController.js      |  10 +
+ src/repositories/ClassRepository.js     |  15 ++
+ src/routers/classesRouter.js            |   6 +
+ src/schemas/classSchema.js              |   7 +-
+ src/services/ClassService.js            |  56 +++++-
+ tests/README.md                         |  36 +++-
+ tests/integration/classes.patch.test.js | 312 ++++++++++++++++++++++++++++++++
+ 8 files changed, 435 insertions(+), 9 deletions(-)
+
+Commit: 4ea7132da532c02574186135b0a38911caf25067
+Data: 2026-11-07T19:02:54-03:00
+Assunto: feat: adds delete class route
+
+ src/controllers/ClassController.js       |   5 ++
+ src/repositories/ClassRepository.js      |   4 ++
+ src/routers/classesRouter.js             |   2 +
+ src/services/ClassService.js             |  16 ++++-
+ tests/integration/classes.delete.test.js | 109 +++++++++++++++++++++++++++++++
+ 5 files changed, 135 insertions(+), 1 deletion(-)
+
+Commit: 88999fc422b6fce8a562f0adb9d88868f84f6e74
+Data: 2026-11-07T19:15:44-03:00
+Assunto: feat: adds get class details route
+
+ src/controllers/ClassController.js        |   5 ++
+ src/repositories/ClassRepository.js       |   7 ++
+ src/routers/classesRouter.js              |   2 +
+ src/services/ClassService.js              |   7 ++
+ tests/README.md                           |  33 +++++++++-
+ tests/integration/classes.details.test.js | 102 ++++++++++++++++++++++++++++++
+ 6 files changed, 154 insertions(+), 2 deletions(-)
+
+Commit: ecb20fd451a33c92ea8dd9db54dd3c0bfe21199e
+Data: 2026-11-06T01:56:02-03:00
+Assunto: chore: improve test coverage
+
+ jest.config.js                       |   5 +-
+ src/utils/database.js                |   8 +-
+ tests/auxiliarFunctions.js           | 138 +++++++++++---
+ tests/integration/schools.test.js    | 353 +++++++++++++++++++++++++----------
+ tests/integration/sectors.test.js    |  89 ++++-----
+ tests/utils/generalFunctions.test.js |  54 +++++-
+ 6 files changed, 469 insertions(+), 178 deletions(-)
+
+migrations/20210216202110-create-sectors-table.js — trechos conferidos no commit atual
+4:   up: async (queryInterface, Sequelize) => {
+5:     await queryInterface.createTable('sectors', {
+15:         unique: true,
+20:         unique: true,
+26:       createdAt: {
+30:       updatedAt: {
+36:   down: async (queryInterface) => {
+
+migrations/20210216223055-create-schools-table.js — trechos conferidos no commit atual
+4:   up: async (queryInterface, Sequelize) => {
+5:     await queryInterface.createTable('schools', {
+23:         unique: true,
+37:       createdAt: {
+41:       updatedAt: {
+47:   down: async (queryInterface) => {
+
+migrations/20210219004712-create-classes-table.js — trechos conferidos no commit atual
+4:   up: async (queryInterface, Sequelize) => {
+5:     await queryInterface.createTable('classes', {
+12:       schoolId: {
+36:       status: {
+40:       maxOccupancy: {
+44:       createdAt: {
+48:       updatedAt: {
+54:   down: async (queryInterface) => {
+
+migrations/20261107000100-school-optional-fields.js — trechos conferidos no commit atual
+2:   async up (queryInterface, Sequelize) {
+8:   async down (queryInterface, Sequelize) {
+
+migrations/20261107000200-align-existing-contract.js — trechos conferidos no commit atual
+2:   async up (queryInterface, Sequelize) {
+7:     await queryInterface.sequelize.transaction(async (transaction) => {
+12:       await queryInterface.sequelize.query(`ALTER TABLE ${quoted}."classes" ALTER COLUMN "status" TYPE VARCHAR(20) USING "status"::text; DROP TYPE IF EXISTS ${quoted}."enum_classes_status";`, { transaction });
+13:       await queryInterface.sequelize.query(`ALTER TABLE ${quoted}."classes" ADD CONSTRAINT classes_status_values CHECK (status IN ('current', 'completed')), ADD CONSTRAINT classes_max_occupancy_nonnegative CHECK ("maxOccupancy" >= 0), ADD CONSTRAINT classes_name_not_empty CHECK (char_length(btrim(name)) > 0); ALTER TABLE ${quoted}."schools" ADD CONSTRAINT schools_name_not_empty CHECK (char_length(btrim(name)) > 0), ADD CONSTRAINT schools_phone_canonical CHECK (phone IS NULL OR phone ~ '^[+]55[0-9]{10,11}$');`, { transaction });
+14:       await queryInterface.addIndex(classes, ['schoolId', 'name'], { unique: true, where: { status: 'current' }, name: 'classes_current_name_unique', transaction });
+17:   async down (queryInterface, Sequelize) {
+20:     await queryInterface.sequelize.transaction(async (transaction) => {
+21:       await queryInterface.sequelize.query(`DROP INDEX ${quoted}."classes_current_name_unique"; ALTER TABLE ${quoted}."classes" DROP CONSTRAINT classes_status_values, DROP CONSTRAINT classes_max_occupancy_nonnegative, DROP CONSTRAINT classes_name_not_empty; ALTER TABLE ${quoted}."schools" DROP CONSTRAINT schools_name_not_empty, DROP CONSTRAINT schools_phone_canonical; CREATE TYPE ${quoted}."enum_classes_status" AS ENUM ('current', 'completed'); ALTER TABLE ${quoted}."classes" ALTER COLUMN status TYPE ${quoted}."enum_classes_status" USING status::${quoted}."enum_classes_status";`, { transaction });
+
+seeders/20210216204146-sectors.js — trechos conferidos no commit atual
+4:   up: async (queryInterface, Sequelize) => {
+62:     ].map((row) => ({ ...row, createdAt: now, updatedAt: now })), {});
+65:   down: async (queryInterface, Sequelize) => {
+
+seeders/20210216223701-schools.js — trechos conferidos no commit atual
+6:   up: async (queryInterface, Sequelize) => {
+50:     ].map((row) => ({ ...row, createdAt: now, updatedAt: now })), {});
+53:   down: async (queryInterface, Sequelize) => {
+
+seeders/20210219010045-classes.js — trechos conferidos no commit atual
+6:   up: async (queryInterface, Sequelize) => {
+12:     const schoolId = schools[0][0].id;
+16:         schoolId,
+21:         status: 'current',
+22:         maxOccupancy: 20,
+25:         schoolId,
+30:         status: 'current',
+31:         maxOccupancy: 22,
+34:         schoolId,
+39:         status: 'current',
+40:         maxOccupancy: 18,
+43:         schoolId,
+48:         status: 'current',
+49:         maxOccupancy: 20,
+52:         schoolId,
+57:         status: 'current',
+58:         maxOccupancy: 18,
+60:     ].map((row) => ({ ...row, createdAt: now, updatedAt: now })), {});
+63:   down: async (queryInterface, Sequelize) => {
+
+seeders/20261107000300-contract-examples.js — trechos conferidos no commit atual
+2:   async up (queryInterface) {
+5:     const [created] = await queryInterface.sequelize.query('INSERT INTO schools ("sectorId", name, address, headteacher, phone, "createdAt", "updatedAt") VALUES (:sectorId, :name, :address, NULL, NULL, :now, :now) RETURNING id', {
+9:       { schoolId: created[0].id, name: 'turma a', segment: 'Educação Infantil — Creche', grade: 'Berçário', shift: 'Integral', status: 'current', maxOccupancy: 0, createdAt: now, updatedAt: now },
+10:       { schoolId: created[0].id, name: 'turma a', segment: 'Ensino Médio', grade: '1º ano', shift: 'Noturno', status: 'completed', maxOccupancy: 25, createdAt: now, updatedAt: now },
+11:       { schoolId: created[0].id, name: 'jardim', segment: 'Educação Infantil — Pré-escola', grade: 'Jardim I', shift: 'Matutino', status: 'current', maxOccupancy: 15, createdAt: now, updatedAt: now },
+14:   async down (queryInterface) {
+16:     await queryInterface.sequelize.query('DELETE FROM classes WHERE "schoolId" IN (SELECT id FROM schools WHERE name = :name)', options);
+
+src/constants/classOptions.js — trechos conferidos no commit atual
+1: const GRADES_BY_SEGMENT = Object.freeze({
+7: const SHIFTS = Object.freeze(['Matutino', 'Vespertino', 'Noturno', 'Integral']);
+8: const STATUSES = Object.freeze(['current', 'completed']);
+10: module.exports = { GRADES_BY_SEGMENT, SHIFTS, STATUSES };
+
+src/controllers/ClassController.js — trechos conferidos no commit atual
+1: const ClassService = require('../services/ClassService');
+4:   async getClassById (req, res) {
+6:     res.status(200).send(classRecord);
+9:   async updateClass (req, res) {
+10:     const updated = await ClassService.updateClass(req.params.id, req.body);
+11:     res.status(200).send(updated);
+14:   async deleteClass (req, res) {
+15:     await ClassService.deleteClass(req.params.id);
+16:     res.status(204).send();
+
+src/controllers/SchoolController.js — trechos conferidos no commit atual
+1: const SchoolService = require('../services/SchoolService');
+2: const ClassService = require('../services/ClassService');
+5:   async getSchoolById (req, res) {
+8:     res.status(200).send(schoolData);
+11:   async getClassesBySchool (req, res) {
+13:     const classesList = await SchoolService.getClassesBySchool(id, req.query.status);
+14:     res.status(200).send(classesList);
+17:   async createSchool (req, res) {
+18:     const newSchool = await SchoolService.createSchool(req.body);
+19:     res.status(201).send(newSchool);
+22:   async createClass (req, res) {
+23:     const created = await ClassService.createClass(req.params.id, req.body);
+24:     res.status(201).send(created);
+27:   async updateSchool (req, res) {
+28:     const school = await SchoolService.updateSchool(req.params.id, req.body);
+29:     res.status(200).send(school);
+32:   async deleteSchool (req, res) {
+33:     await SchoolService.deleteSchool(req.params.id);
+34:     res.status(204).send();
+
+src/controllers/SectorController.js — trechos conferidos no commit atual
+1: const SectorService = require('../services/SectorService');
+4:   async getAll (req, res) {
+6:     res.status(200).send(sectors);
+9:   async getSchoolsBySector (req, res) {
+12:     res.status(200).send(sectorSchools);
+
+src/middlewares/errorHandler.js — trechos conferidos no commit atual
+1: const Err = require('../errors');
+8:     return res.status(400).send({ message: 'JSON inválido. Corrija o corpo da requisição e tente novamente.' });
+11:   if (error instanceof Err.NotFoundError) return res.status(404).send({ message });
+12:   if (error instanceof Err.InvalidDataError) return res.status(422).send({ message });
+13:   if (error instanceof Err.ConflictError) return res.status(409).send({ message });
+17:     return res.status(500).send({ message });
+20:   res.status(500).send({ message: 'Erro interno no servidor. Tente novamente mais tarde.' });
+
+src/models/Class.js — trechos conferidos no commit atual
+1: const { Sequelize } = require('sequelize');
+2: const sequelize = require('../utils/database');
+3: const { GRADES_BY_SEGMENT, SHIFTS, STATUSES } = require('../constants/classOptions');
+4: const normaliseName = require('../utils/normaliseName');
+16:     schoolId: {
+23:       validate: {
+26:           if (value !== normaliseName(value)) throw new Error('name deve estar normalizado');
+37:       validate: { isIn: [Object.keys(GRADES_BY_SEGMENT)] },
+42:       validate: { isIn: [SHIFTS] },
+44:     status: {
+47:       validate: { isIn: [STATUSES] },
+49:     maxOccupancy: {
+52:       validate: { isInt: true, min: 0, max: 2147483647 },
+58:     validate: {
+60:         const grades = GRADES_BY_SEGMENT[this.segment];
+
+src/models/School.js — trechos conferidos no commit atual
+1: const { Sequelize } = require('sequelize');
+2: const sequelize = require('../utils/database');
+21:       unique: true,
+
+src/models/Sector.js — trechos conferidos no commit atual
+1: const { Sequelize } = require('sequelize');
+2: const sequelize = require('../utils/database');
+17:       unique: true
+22:       unique: true
+
+src/models/associations.js — trechos conferidos no commit atual
+1: const Class = require('./Class');
+2: const School = require('./School');
+3: const Sector = require('./Sector');
+
+src/repositories/ClassRepository.js — trechos conferidos no commit atual
+1: const Class = require('../models/Class');
+2: const School = require('../models/School');
+3: const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
+4: const { ConflictError, NotFoundError } = require('../errors');
+7:   findById (id) {
+8:     return Class.findByPk(id);
+12:     return Class.findByPk(id, {
+17:   delete (id) {
+21:   async update (classRecord, changes) {
+23:       return await classRecord.update(changes, { returning: true });
+25:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'classes_current_name_unique') {
+32:   findCurrentByName (schoolId, name) {
+33:     return Class.findOne({ where: { schoolId, name, status: 'current' } });
+36:   async create (classData) {
+38:       return await Class.create(classData);
+40:       if (error instanceof UniqueConstraintError && error.parent.constraint === 'classes_current_name_unique') {
+43:       if (error instanceof ForeignKeyConstraintError && error.parent.constraint === 'classes_schoolId_fkey') {
+50:   async existsBySchoolId (schoolId) {
+51:     const existing = await Class.findOne({ where: { schoolId }, attributes: ['id'], raw: true });
+55:   async sumCurrentCapacity (schoolId) {
+56:     const total = await Class.sum('maxOccupancy', { where: { schoolId, status: 'current' } });
+60:   findBySchoolId (schoolId, status = 'current') {
+61:     const where = { schoolId };
+62:     if (status !== 'all') where.status = status;
+
+src/repositories/SchoolRepository.js — trechos conferidos no commit atual
+1: const School = require('../models/School');
+2: const { UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize');
+3: const { ConflictError } = require('../errors');
+6:   findById (id) {
+7:     return School.findByPk(id);
+11:     return School.findByPk(id, { raw: true });
+14:   findByName (name) {
+20:   findBySectorId (sectorId) {
+27:   async create (schoolData) {
+29:       return await School.create(schoolData);
+38:   async update (id, schoolData) {
+40:       const [, schools] = await School.update(schoolData, { where: { id }, returning: true });
+50:   async delete (id) {
+54:       if (error instanceof ForeignKeyConstraintError && error.parent.constraint === 'classes_schoolId_fkey') {
+
+src/repositories/SectorRepository.js — trechos conferidos no commit atual
+1: const Sector = require('../models/Sector');
+4:   findById (id) {
+5:     return Sector.findByPk(id);
+
+src/routers/classesRouter.js — trechos conferidos no commit atual
+1: const router = require('express').Router();
+2: const ClassController = require('../controllers/ClassController');
+6: router.patch('/:id', ClassController.updateClass);
+8: router.delete('/:id', ClassController.deleteClass);
+
+src/routers/schoolsRouter.js — trechos conferidos no commit atual
+1: const router = require('express').Router();
+3: const SchoolController = require('../controllers/SchoolController');
+9: router.post('/:id/classes', SchoolController.createClass);
+11: router.post('/', SchoolController.createSchool);
+13: router.patch('/:id', SchoolController.updateSchool);
+15: router.delete('/:id', SchoolController.deleteSchool);
+
+src/routers/sectorsRouter.js — trechos conferidos no commit atual
+1: const router = require('express').Router();
+3: const SectorController = require('../controllers/SectorController');
+
+src/schemas/classListSchema.js — trechos conferidos no commit atual
+1: const Joi = require('joi');
+2: const { STATUSES } = require('../constants/classOptions');
+3: const validationMessages = require('./validationMessages');
+6:   status: Joi.string().valid(...STATUSES, 'all').required(),
+
+src/schemas/classSchema.js — trechos conferidos no commit atual
+1: const Joi = require('joi');
+2: const { GRADES_BY_SEGMENT, SHIFTS, STATUSES } = require('../constants/classOptions');
+3: const validationMessages = require('./validationMessages');
+8:   segment: Joi.string().valid(...Object.keys(GRADES_BY_SEGMENT)).required(),
+9:   shift: Joi.string().valid(...SHIFTS).required(),
+10:   status: Joi.string().valid(...STATUSES).required(),
+11:   maxOccupancy: Joi.number().integer().min(0).max(2147483647).required(),
+19: const patch = post.fork(['name', 'grade', 'segment', 'shift', 'status', 'maxOccupancy'], (field) => field.optional())
+
+src/schemas/schoolSchema.js — trechos conferidos no commit atual
+1: const Joi = require('joi');
+2: const validationMessages = require('./validationMessages');
+
+src/services/ClassService.js — trechos conferidos no commit atual
+1: const ClassRepository = require('../repositories/ClassRepository');
+2: const SchoolRepository = require('../repositories/SchoolRepository');
+3: const classSchema = require('../schemas/classSchema');
+4: const { GRADES_BY_SEGMENT } = require('../constants/classOptions');
+5: const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
+6: const { sanitiseObj } = require('../utils/generalFunctions');
+7: const normaliseName = require('../utils/normaliseName');
+8: const validateId = require('../utils/validateId');
+11:   async getClassById (id) {
+12:     id = validateId(id);
+18:   validateGrade (segment, grade) {
+19:     const grades = GRADES_BY_SEGMENT[segment];
+25:   async createClass (schoolId, classData) {
+26:     schoolId = validateId(schoolId);
+27:     const sanitised = sanitiseObj(classData);
+28:     if (sanitised && !Array.isArray(sanitised)) sanitised.name = normaliseName(sanitised.name);
+30:     const { error, value: data } = classSchema.post.validate(sanitised);
+33:     this.validateGrade(data.segment, data.grade);
+35:     const school = await SchoolRepository.findById(schoolId);
+38:     if (data.status === 'current') {
+39:       const duplicate = await ClassRepository.findCurrentByName(schoolId, data.name);
+43:     return ClassRepository.create({ ...data, schoolId });
+46:   async updateClass (id, classData) {
+47:     id = validateId(id);
+48:     const sanitised = sanitiseObj(classData);
+49:     if (sanitised && !Array.isArray(sanitised) && sanitised.name !== undefined) {
+50:       sanitised.name = normaliseName(sanitised.name);
+52:     const { error, value: changes } = classSchema.patch.validate(sanitised);
+55:     const classRecord = await ClassRepository.findById(id);
+63:       status: classRecord.status,
+64:       maxOccupancy: classRecord.maxOccupancy,
+66:     const { error: stateError, value: result } = classSchema.post.validate({ ...current, ...changes });
+68:     this.validateGrade(result.segment, result.grade);
+70:     if (result.status === 'current') {
+71:       const duplicate = await ClassRepository.findCurrentByName(classRecord.schoolId, result.name);
+77:     let updated;
+79:       updated = await ClassRepository.update(classRecord, changes);
+80:     } catch (updateError) {
+81:       if (updateError instanceof ConflictError) throw updateError;
+82:       throw new UpdateError('Não foi possível atualizar a turma. Tente novamente.', updateError);
+84:     if (!updated) throw new UpdateError('Não foi possível atualizar a turma. Tente novamente.');
+85:     return updated;
+88:   async deleteClass (id) {
+89:     id = validateId(id);
+90:     const classRecord = await ClassRepository.findById(id);
+93:     let deleted;
+95:       deleted = await ClassRepository.delete(id);
+99:     if (!deleted) throw new DeleteError('Não foi possível excluir a turma. Tente novamente.');
+
+src/services/SchoolService.js — trechos conferidos no commit atual
+1: const SchoolRepository = require('../repositories/SchoolRepository');
+2: const SectorRepository = require('../repositories/SectorRepository');
+3: const ClassRepository = require('../repositories/ClassRepository');
+4: const schoolSchema = require('../schemas/schoolSchema');
+5: const { ConflictError, InvalidDataError, NotFoundError, UpdateError, DeleteError } = require('../errors');
+6: const { sanitiseObj } = require('../utils/generalFunctions');
+7: const validateId = require('../utils/validateId');
+8: const normaliseName = require('../utils/normaliseName');
+9: const classListSchema = require('../schemas/classListSchema');
+12:   async getSchoolById (id) {
+13:     id = validateId(id);
+21:   async getClassesBySchool (id, status = 'current') {
+22:     id = validateId(id);
+23:     const { error } = classListSchema.validate({ status });
+25:     const schoolExists = await SchoolRepository.findById(id);
+28:     return ClassRepository.findBySchoolId(id, status);
+31:   async createSchool (schoolData) {
+32:     const sanitisedData = sanitiseObj(schoolData);
+33:     if (sanitisedData && !Array.isArray(sanitisedData)) {
+34:       sanitisedData.name = normaliseName(sanitisedData.name);
+35:       if (sanitisedData.headteacher === undefined || sanitisedData.headteacher === '') sanitisedData.headteacher = null;
+36:       if (sanitisedData.phone === undefined) sanitisedData.phone = null;
+38:     const { error, value: validatedData } = schoolSchema.post.validate(sanitisedData);
+41:     const schoolExists = await SchoolRepository.findByName(validatedData.name);
+44:     const sectorExists = await SectorRepository.findById(validatedData.sectorId);
+49:     const newSchool = await SchoolRepository.create(validatedData);
+54:   async validateSectorChange (sectorId, name, schoolId) {
+55:     const sector = await SectorRepository.findById(sectorId);
+60:     const duplicate = await SchoolRepository.findByName(name);
+61:     if (duplicate && duplicate.id !== schoolId && duplicate.sectorId === sectorId) {
+66:   async updateSchool (id, schoolData) {
+67:     id = validateId(id);
+68:     const sanitisedData = sanitiseObj(schoolData);
+69:     if (sanitisedData && !Array.isArray(sanitisedData)) {
+70:       if (sanitisedData.name !== undefined) sanitisedData.name = normaliseName(sanitisedData.name);
+71:       if (sanitisedData.headteacher === '') sanitisedData.headteacher = null;
+73:     const { error, value: changes } = schoolSchema.patch.validate(sanitisedData);
+76:     const school = await SchoolRepository.findById(id);
+86:     const { error: stateError, value: result } = schoolSchema.post.validate({ ...current, ...changes });
+90:       await this.validateSectorChange(result.sectorId, result.name, id);
+93:       const duplicate = await SchoolRepository.findByName(result.name);
+97:     let updated;
+99:       updated = await SchoolRepository.update(id, changes);
+100:     } catch (updateError) {
+101:       if (updateError instanceof ConflictError) {
+103:           await this.validateSectorChange(result.sectorId, result.name, id);
+105:         throw updateError;
+107:       throw new UpdateError('Não foi possível atualizar a escola. Tente novamente.', updateError);
+109:     if (!updated) throw new UpdateError('Não foi possível atualizar a escola. Tente novamente.');
+110:     return updated;
+113:   async validateSchoolDeletion (id) {
+120:   async deleteSchool (id) {
+121:     id = validateId(id);
+122:     const school = await SchoolRepository.findById(id);
+125:     await this.validateSchoolDeletion(id);
+127:     let deleted;
+129:       deleted = await SchoolRepository.delete(id);
+134:     if (!deleted) throw new DeleteError('Não foi possível excluir a escola. Tente novamente.');
+
+src/services/SectorService.js — trechos conferidos no commit atual
+1: const SectorRepository = require('../repositories/SectorRepository');
+2: const SchoolRepository = require('../repositories/SchoolRepository');
+3: const { NotFoundError } = require('../errors');
+4: const validateId = require('../utils/validateId');
+11:   async getSchoolsBySector (id) {
+12:     id = validateId(id);
+13:     const sectorExists = await SectorRepository.findById(id);
+16:     return SchoolRepository.findBySectorId(id);
+
+src/utils/database.js — trechos conferidos no commit atual
+1: const { Sequelize } = require('sequelize');
+2: require('dotenv').config();
+
+src/utils/generalFunctions.js — trechos conferidos no commit atual
+1: const { stripHtml } = require('string-strip-html');
+3: function sanitiseObj (obj) {
+5:   const newObj = Array.isArray(obj) ? [] : Object.create(null);
+11:       const sanitisedString = stripHtml(value).result;
+12:       newObj[key] = sanitisedString;
+14:       newObj[key] = sanitiseObj(value);
+23: module.exports = { sanitiseObj };
+
+src/utils/normaliseName.js — trechos conferidos no commit atual
+1: function normaliseName (value) {
+5: module.exports = normaliseName;
+
+src/utils/validateId.js — trechos conferidos no commit atual
+1: const Joi = require('joi');
+2: const { InvalidDataError } = require('../errors');
+3: const validationMessages = require('../schemas/validationMessages');
+9: function validateId (id) {
+10:   const { error, value } = schema.validate({ id });
+15: module.exports = validateId;
+
+tests/auxiliarFunctions.js — trechos conferidos no commit atual
+1: /* global beforeAll, beforeEach, afterAll */
+3: require('dotenv').config();
+5: const { readdirSync } = require('fs');
+6: const path = require('path');
+7: const { Pool } = require('pg');
+8: const { Sequelize } = require('sequelize');
+11: const sequelize = require('../src/utils/database');
+15: sequelize.addHook('afterConnect', async (connection) => {
+25: const connectionsClosed = [];
+27:   connectionsClosed.push(new Promise((resolve) => client.once('end', resolve)));
+33: beforeAll(async () => {
+38:   const scopedInterface = Object.assign(Object.create(queryInterface), {
+39:     createTable (tableName, attributes, options) {
+50:       return queryInterface.createTable({ tableName, schema }, scopedAttributes, options);
+56:     await require(path.join(migrationsPath, filename)).up(scopedInterface, Sequelize);
+60: beforeEach(async () => {
+67: afterAll(async () => {
+69:     await sequelize.close();
+73:         await db.query(`DROP SCHEMA "${schema}" CASCADE`);
+76:       await db.end();
+77:       await Promise.all(connectionsClosed);
+82: async function insert (table, values) {
+117: function insertClass (schoolId, overrides = {}) {
+120:     schoolId,
+125:     status: 'current',
+126:     maxOccupancy: 20,
+
+Limites: rejeição de transferência schoolId é exigida na API por CT01, não por trigger SQL; edições concorrentes da mesma turma permanecem no trabalho futuro da seção 7.1; DEC01 mantém o caso concorrente de setor fora do recorte. Não se executou frontend/NVDA nem preparação do banco de uso.

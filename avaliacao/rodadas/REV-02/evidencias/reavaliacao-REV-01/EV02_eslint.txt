@@ -1,0 +1,13 @@
+REV-02 — reavaliação dos achados REV-01-BE-A001 a REV-01-BE-A012.
+Data de referência da autora: 2026-11-07.
+Commit verificado: bf5acdd54c9370963370db922a4750378414af17
+Alteração local preexistente: package-lock.json; dependências não instaladas/modificadas nesta execução.
+Ambiente: win32 x64; Node v24.16.0
+Ferramentas: {"jest":"26.6.3","supertest":"6.1.3","sequelize":"6.5.0","pg":"8.5.1","joi":"17.4.0","eslint":"7.20.0"}
+Dados fictícios; PostgreSQL real em schemas exclusivos eleva_test_*; migrations reais por suíte.
+Limpeza de classes antes de schools/sectors; fechamento de Sequelize/pg e remoção somente do schema da suíte.
+Comando: node node_modules/eslint/bin/eslint.js src tests
+Início UTC do sistema: 2026-11-07T23:55:21.229Z
+Fim UTC do sistema: 2026-11-07T23:55:21.773Z
+Código de saída: 0; sinal: null
+
