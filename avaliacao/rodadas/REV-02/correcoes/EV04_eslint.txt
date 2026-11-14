@@ -1,3 +1,0 @@
-Command: node node_modules/eslint/bin/eslint.js src/utils/generalFunctions.js tests/utils/generalFunctions.test.js tests/integration/sanitisation.contract.test.js
-Exit code: 0
-
