@@ -2,25 +2,16 @@ const router = require('express').Router();
 
 const SchoolController = require('../controllers/SchoolController');
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/:id', SchoolController.getSchoolById);
 
-  const schoolData = await SchoolController.getSchoolById(id);
-  res.status(200).send(schoolData);
-});
+router.get('/:id/classes', SchoolController.getClassesBySchool);
 
-router.get('/:id/classes', async (req, res) => {
-  const { id } = req.params;
+router.post('/:id/classes', SchoolController.createClass);
 
-  const classesList = await SchoolController.getClassesBySchool(id);
-  res.status(200).send(classesList);
-});
+router.post('/', SchoolController.createSchool);
 
-router.post('/', async (req, res) => {
-  const schoolData = req.body;
+router.patch('/:id', SchoolController.updateSchool);
 
-  const newSchool = await SchoolController.createSchool(schoolData);
-  res.status(201).send(newSchool);
-});
+router.delete('/:id', SchoolController.deleteSchool);
 
 module.exports = router;

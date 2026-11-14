@@ -2,7 +2,7 @@ const { stripHtml } = require('string-strip-html');
 
 function sanitiseObj (obj) {
   if (obj === null || typeof (obj) !== 'object') return null;
-  const newObj = Array.isArray(obj) ? [] : {};
+  const newObj = Array.isArray(obj) ? [] : Object.create(null);
 
   const objEntries = Object.entries(obj);
   objEntries.forEach((entry) => {
